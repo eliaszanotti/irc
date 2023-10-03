@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:00:01 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/03 17:36:35 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Server
 		Server(int port, std::string password);
 
 		// Methods
-		
+		void	init(void);	
 };
 
 #endif
