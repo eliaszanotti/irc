@@ -6,11 +6,12 @@
 #    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/03 16:58:02 by elias            ###   ########.fr        #
+#    Updated: 2023/10/03 17:32:58 by elias            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-S_SRC		= main.cpp			\
+S_SRC		= main.cpp	\
+			Server.cpp	\
 
 S_TMP		= ${addprefix ${D_SRC}, ${S_SRC}}
 O_SRC		= $(patsubst %.cpp, ${D_OBJS}%.o, $(S_TMP))
