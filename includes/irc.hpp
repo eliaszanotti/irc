@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:59:12 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:08:26 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/03 17:13:45 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <iostream>
 # include <sys/socket.h>
 # include <map>
+# include <vector>
+# include <string>
+# include <stdlib.h>
+# include "Server.hpp"
+# include "User.hpp"
+# include "Channel.hpp"
 
 enum {
 	ADMIN,
