@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/03 12:33:18 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:08:31 by elias            ###   ########.fr       */
+/*   Created: 2023/10/03 16:59:12 by elias             #+#    #+#             */
+/*   Updated: 2023/10/03 17:08:26 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc.hpp"
+#ifndef IRC_HPP
+# define IRC_HPP
 
-int main(int argc, char **argv)
-{
-    (void)argv;
-    if (argc != 3)
-        return (std::cout << ERROR_STRING "Wrong number of arguments (usage: ./ircserv <port> <password>)" << std::endl, 1);
-    return (0);
-}
+# define ERROR_STRING "\e[31m[Error]\e[0m "
+
+# include <iostream>
+# include <sys/socket.h>
+# include <map>
+
+enum {
+	ADMIN,
+	USER
+}; 
+
+#endif
