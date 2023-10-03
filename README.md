@@ -63,3 +63,4 @@ Methods:
 
 ### IDEAS
 - Create an admin user with all the access ?
+- Each client is distinguished from other clients by a unique nickname having a maximum length of nine (9) characters

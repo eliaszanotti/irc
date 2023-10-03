@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 13:08:29 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/03 16:43:49 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 class Server
 {
 	private:
+		int			_port;
+		std::string	_password;
 
 	public:
 		// Constructors
 		Server();
-		Server(Server const &copy);
-		Server const	&operator=(Server const &copy);
 		~Server();
+		Server(int port, std::string password);
 
 		// Methods
 		
