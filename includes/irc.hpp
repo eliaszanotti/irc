@@ -6,14 +6,21 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:59:12 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:13:45 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/03 17:39:44 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IRC_HPP
 # define IRC_HPP
 
-# define ERROR_STRING "\e[31m[Error]\e[0m "
+# define RED "\e[31m"
+# define GREEN "\e[32m"
+# define YELLOW "\e[33m"
+# define BLUE "\e[34m"
+# define MAGENTA "\e[35m"
+# define CYAN "\e[36m"
+# define RST "\e[0m"
+# define ERROR_STRING RED "[Error] " RST
 
 # include <iostream>
 # include <sys/socket.h>
@@ -28,6 +35,11 @@
 enum {
 	ADMIN,
 	USER
+}; 
+
+enum {
+	OPEN,
+	INVITE
 }; 
 
 #endif
