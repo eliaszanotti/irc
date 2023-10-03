@@ -6,7 +6,7 @@
 #    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/03 12:35:30 by elias            ###   ########.fr        #
+#    Updated: 2023/10/03 16:58:02 by elias            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC			= c++ -std=c++98
 
 # FLAGS
 MAKEFLAGS	+= --no-print-directory -s
-CFLAGS		= -Wall -Wextra -Werror -g3
+CFLAGS		= -Wall -Wextra -Werror -g3 -lsocket
 
 # COMMANDS
 RM			= rm -rf
