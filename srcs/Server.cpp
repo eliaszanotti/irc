@@ -20,7 +20,9 @@ Server::Server(int port, std::string password)
 	this->_port = port;
 	this->_password = password;
 	this->_serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-	
+	if (this->_serverSocket < 0)	
+		throw (std::runtime_error("Socket initialization failed"));
+
 	std::memset(&this->_serverAddress, 0, sizeof(this->_serverAddress));
 	this->_serverAddress.sin_family = AF_INET;
 	std::memcpy(&this->_serverAddress.sin_addr, &in6addr_any, sizeof(in6addr_any));
@@ -33,40 +35,29 @@ void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
 {
 	std::cout << "Waiting poll" << std::endl;
 	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
-	if (returnValue > 0)
+	if (returnValue < 0)
 		throw (std::runtime_error("Poll failed"));
 	if (returnValue == 0)
 		throw (std::runtime_error("Poll timeout"));
 }
 
+// GETTERS
+int Server::getServerSocket(void) const {return (this->_serverSocket);}
+
 // METHODS
 void	Server::init(void)
 {
-	if (this->_serverSocket < 0)
-		throw(std::runtime_error("Socket initialization failed"));
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
 	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
-	{
-		close(this->_serverSocket);
 		throw(std::runtime_error("Set socket option failed"));
-	}
 	if (ioctl(this->_serverSocket, FIONBIO, &socketOptionValue))
-	{
-		close(this->_serverSocket);
 		throw(std::runtime_error("Ioctl failed"));
-	}
 	if (bind(this->_serverSocket, (struct sockaddr*)&this->_serverAddress, sizeof(this->_serverAddress)) < 0)
-	{
-		close(this->_serverSocket);
 		throw(std::runtime_error("Bind failed"));
-	}
 	if (listen(this->_serverSocket, 3) < 0)
-	{
-		close(this->_serverSocket);
 		throw(std::runtime_error("Listen failed"));
-	}
 }
 
 void	Server::waitingForNewUsers(void)

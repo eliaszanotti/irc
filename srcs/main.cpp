@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:33:18 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 13:55:27 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:27:11 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,23 @@ int main(int argc, char **argv)
 	{
 		return (std::cerr << ERROR_STRING << error.what() << std::endl, 1);
 	}
+	Server server(port, password);
 	try
 	{
-		Server server(port, password);
 		server.init();
+	}
+	catch(const std::exception& error)
+	{
+		close(server.getServerSocket());
+		return (std::cerr << ERROR_STRING << error.what() << std::endl, 1);
+	}
+	try
+	{
 		server.waitingForNewUsers();
 	}
 	catch(const std::exception& error)
 	{
-		std::cerr << ERROR_STRING << error.what() << std::endl;
+		return (std::cerr << ERROR_STRING << error.what() << std::endl, 1);
 	}
 	return (0);
 }
