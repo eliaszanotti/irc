@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 11:43:05 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:37:1 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-// Constructors
+// CONSTRUCTORS
 Server::Server() {}
-Server::~Server() { close(this->_serverSocket); }
+Server::~Server() {close(this->_serverSocket);}
 
 Server::Server(int port, std::string password)
 {
@@ -22,57 +22,73 @@ Server::Server(int port, std::string password)
 	this->_password = password;
 	this->_serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	
+	std::memset(&this->_serverAddress, 0, sizeof(this->_serverAddress));
 	this->_serverAddress.sin_family = AF_INET;
+	std::memcpy(&this->_serverAddress.sin_addr, &in6addr_any, sizeof(in6addr_any));
 	this->_serverAddress.sin_port = htons(port);
 	this->_serverAddress.sin_addr.s_addr = INADDR_ANY;
 }
 
-// Methods
-void Server::init(void)
+// PRIVATE METHODS
+// void	Server::_processPoll(struct pollfd *pollFD, int polFDSize)
+// {
+
+// }
+
+// METHODS
+void	Server::init(void)
 {
-	int timeout = 80 * 1000;
+	if (this->_serverSocket < 0)
+		throw(std::runtime_error("Socket initialization failed"));
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
-	// this->_serverSocket = -1;
-	if (this->_serverSocket < 0)
-		throw(std::runtime_error("socket failed"));
-
-	// Set options
-	int opt = 1;
-	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
+	int socketOptionValue = 1;
+	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
 	{
 		close(this->_serverSocket);
-		throw(std::runtime_error("setsockopt failed"));
+		throw(std::runtime_error("Set socket option failed"));
 	}
-
-	// Bind
+	if (ioctl(this->_serverSocket, FIONBIO, &socketOptionValue))
+	{
+		close(this->_serverSocket);
+		throw(std::runtime_error("Ioctl failed"));
+	}
 	if (bind(this->_serverSocket, (struct sockaddr*)&this->_serverAddress, sizeof(this->_serverAddress)) < 0)
 	{
 		close(this->_serverSocket);
-		throw(std::runtime_error("bind failed"));
+		throw(std::runtime_error("Bind failed"));
 	}
-
-	// Listen
 	if (listen(this->_serverSocket, 3) < 0)
 	{
 		close(this->_serverSocket);
-		throw(std::runtime_error("listen failed"));
+		throw(std::runtime_error("Listen failed"));
 	}
+}
+
+void	Server::waitingForNewUsers(void)
+{	
+	int timeout = 80 * 1000;
+	struct pollfd	pollFD[MAX_USERS];
 	
-	struct pollfd fds[MAX_USERS];
-	fds[0].fd = this->_serverSocket;
-	fds[0].events = POLLIN;
-	int nfds = 1;
-	int	current_size = 0;
-	bool end_server = false;
-	int		new_sd = 0;
-	int		close_conn;
-	char	buffer[MAX_CHAR];
-	bool	compress_array = false;
+	std::memset(pollFD, 0 , sizeof(pollFD));
+	pollFD[0].fd = this->_serverSocket;
+	pollFD[0].events = POLLIN;
+	int				pollFDSize = 1;
+	int				current_size = 0;
+	bool			end_server = false;
+	int				new_sd = 0;
+	int				close_conn;
+	char			buffer[MAX_CHAR];
+	bool			compress_array = false;
+	
+	int rv = 1;
 	while (end_server == false)
 	{
-		int rv;
-		rv = poll(fds, nfds, timeout);
+		// this->_processPoll(pollFD, pollFDSize);
+
+
+		std::cout << "Waiting poll" << std::endl;
+		rv = poll(pollFD, pollFDSize, timeout);
 		
 		if (rv < 0)
 		{
@@ -85,46 +101,52 @@ void Server::init(void)
 			close(this->_serverSocket);
 			std::cout << "poll timeout" << std::endl;
 		}
-		current_size = nfds;
+		current_size = pollFDSize;
 		for(int i = 0; i < current_size; i++)
 		{
-			if (fds[i].revents == 0)
+			if (pollFD[i].revents == 0)
 				continue;
-			if (fds[i].revents != POLLIN)
+			if (pollFD[i].revents != POLLIN)
 			{
-				std::cout << "Error revents = " << fds[i].revents << std::endl;
+				std::cout << "Error revents = " << pollFD[i].revents << std::endl;
 				end_server = true;
+				break ;
 			}
-			if (fds[i].fd == this->_serverSocket)
+			if (pollFD[i].fd == this->_serverSocket)
 			{
-				std::cout << "Listening socket is readable" << std::endl;
-				while (new_sd != -1)
+				do
 				{
 					new_sd = accept(this->_serverSocket, NULL, NULL);
 					if (new_sd < 0)
 					{
 						if (errno != EWOULDBLOCK)
 						{
-							std::cout << "accept failed" << std::endl;
-							end_server = true;
+						perror("  accept() failed");
+						end_server = true;
 						}
-						break ;
+						break;
 					}
-					std::cout << "New connection - " << new_sd << std::endl;
-					fds[nfds].fd = new_sd;
-					fds[nfds].events = POLLIN;
-					nfds++;
-					std::cout << "Ok" << std::endl;
+
+					printf("  New incoming connection - %d\n", new_sd);
+					pollFD[pollFDSize].fd = new_sd;
+					pollFD[pollFDSize].events = POLLIN;
+					pollFDSize++;
+
 				}
-				std::cout << "Ok1" << std::endl;
+				while (new_sd != -1);
 			}
 			else
 			{
-				std::cout << "Descriptor " << fds[i].fd << " is readable" << std::endl;
+				std::cout << "Descriptor " << pollFD[i].fd << " is readable" << std::endl;
 				close_conn = false;
-				while (true)
+				do
 				{
-					rv = recv(fds[i].fd, buffer, MAX_CHAR, 0);
+					for (int j = 0; j < pollFDSize; j++)
+					{
+						if (j == i)
+							continue;
+						rv = recv(pollFD[j].fd, buffer, sizeof(buffer), 0);
+					}
 					if (rv < 0)
 					{
 						if (errno != EWOULDBLOCK)
@@ -143,7 +165,7 @@ void Server::init(void)
 
 					int len = rv;
 					std::cout << len << "  bytes received" << std::endl;
-					rv = send(fds[i].fd, buffer, len, 0);
+					rv = send(pollFD[i].fd, buffer, len, 0);
 					if (rv < 0)
 					{
 						std::cout << "send failed" << std::endl;
@@ -151,33 +173,33 @@ void Server::init(void)
 						break ;
 					}
 				}
+				while(true);
 				if (close_conn)
 				{
-					close(fds[i].fd);
-					fds[i].fd = -1;
+					close(pollFD[i].fd);
+					pollFD[i].fd = -1;
 					compress_array = true;
 				}
 			}
-			std::cout << "Ok" << std::endl;
 		}
 		if (compress_array)
 		{
 			compress_array = false;
-			for (int i = 0; i < nfds; i++)
+			for (int i = 0; i < pollFDSize; i++)
 			{
-				if (fds[i].fd == -1)
+				if (pollFD[i].fd == -1)
 				{
-					for (int j = i; j < nfds; j++)
-						fds[j].fd = fds[j+1].fd;
+					for (int j = i; j < pollFDSize; j++)
+						pollFD[j].fd = pollFD[j+1].fd;
 					i--;
-					nfds--;
+					pollFDSize--;
 				}
 			}
 		}
 	}
-	for (int i = 0; i < nfds; i++)
+	for (int i = 0; i < pollFDSize; i++)
 	{
-		if (fds[i].fd >= 0)
-			close(fds[i].fd);
+		if (pollFD[i].fd >= 0)
+			close(pollFD[i].fd);
 	}
 }

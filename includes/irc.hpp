@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/03 16:59:12 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 11:32:12 by tgiraudo         ###   ########.fr       */
+/*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
+/*   Updated: 2023/10/04 14:17:41 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_HPP
+# ifndef IRC_HPP
 # define IRC_HPP
 
 # define RED "\e[31m"
@@ -22,18 +22,20 @@
 # define RST "\e[0m"
 # define ERROR_STRING RED "[Error] " RST
 
-# include <iostream>
-# include <sys/socket.h>
-# include <netinet/in.h>
 # include <arpa/inet.h>
-# include <sys/poll.h>
-# include <map>
-# include <vector>
-# include <string>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
+# include <cstring>
 # include <errno.h>
+# include <iostream>
+# include <map>
+# include <netinet/in.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string>
+# include <sys/ioctl.h>
+# include <sys/poll.h>
+# include <sys/socket.h>
+# include <vector>
+# include <unistd.h>
 # include "Server.hpp"
 # include "User.hpp"
 # include "Channel.hpp"
