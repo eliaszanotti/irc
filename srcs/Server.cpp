@@ -81,7 +81,6 @@ void	Server::waitingForNewUsers(void)
 		}
 		catch(const std::exception& error)
 		{
-			close(this->_serverSocket);
 			throw (std::runtime_error(error.what()));
 		}
 
@@ -99,7 +98,7 @@ void	Server::waitingForNewUsers(void)
 				break;
 			}
 
-			printf("New incoming connection - %d\n", new_sd);
+			std::cout << "[+] Incoming connection by " << new_sd << std::endl;
 			pollFD[pollFDSize].fd = new_sd;
 			pollFD[pollFDSize].events = POLLIN;
 			pollFDSize++;
@@ -124,21 +123,25 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "Connection closed by " << pollFD[i].fd << std::endl;
+					std::cout << "[-] Connection closed by " << pollFD[i].fd << std::endl;
 					closeConnection = true;
 				}
 				else
 				{
-					// The message if correctly readable
-					for (int j = 1; j < pollFDSize; j++)
+					// Empty message
+					if (returnValue == 1)
+						continue ;
+
+					if (!this->_checkCommandInsideMessage(pollFD[i].fd, buffer))
 					{
-						if (j == i)
-							continue ;
-						send(pollFD[j].fd, buffer, returnValue, 0);
+						for (int j = 1; j < pollFDSize; j++)
+						{
+							if (j == i)
+								continue ;
+							send(pollFD[j].fd, buffer, returnValue, 0);
+						}
 					}
-				
 				}
-		
 			}
 			
 			// If there is a problem with the user
@@ -159,7 +162,6 @@ void	Server::waitingForNewUsers(void)
 				break ;
 			}
 		}
-
 	}
 
 	// Close all the clients if the server is down
@@ -168,4 +170,67 @@ void	Server::waitingForNewUsers(void)
 		if (pollFD[i].fd >= 0)
 			close(pollFD[i].fd);
 	}
+}
+
+bool	Server::_checkCommandInsideMessage(int fd, std::string message)
+{
+	std::string	command;
+	size_t		stop_idx;
+	int			i;
+
+	if (message.find(' ') == std::string::npos)
+		stop_idx = message.length() - 1;
+	else
+		stop_idx = message.find(' ');
+	command = message.substr(0, stop_idx);
+
+	std::string		commands[]	= {
+									"KICK",
+									"INVITE",
+									"TOPIC",
+									"MODE"
+	};
+
+	(void)fd; // A ENLEVER
+
+	for (i = 0; i < 4; i++)
+	{
+		if (!commands[i].compare(command))
+			break ;
+	}
+
+	switch (i)
+	{
+		case KICK:		return this->_kick();
+		case INVITE:	return this->_invite();
+		case TOPIC:		return this->_topic();
+		case MODE:		return this->_mode();
+	}
+
+	return (false);
+}
+
+// COMMANDS
+bool	Server::_kick()
+{
+	std::cout << "kick() called" << std::endl;
+	return (true);
+}
+
+bool	Server::_invite()
+{
+	std::cout << "invite() called" << std::endl;
+	return (true);
+}
+
+bool	Server::_topic()
+{
+	std::cout << "topic() called" << std::endl;
+	return (true);
+}
+
+bool	Server::_mode()
+{
+	std::cout << "mode() called" << std::endl;
+	return (true);
 }
