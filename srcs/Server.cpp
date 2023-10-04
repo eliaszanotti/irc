@@ -31,7 +31,6 @@ Server::Server(int port, std::string password)
 // PRIVATE METHODS
 void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
 {
-	std::cout << "Waiting poll" << std::endl;
 	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
 	if (returnValue < 0)
 		throw (std::runtime_error("Poll failed"));
