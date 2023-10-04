@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:23:07 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/04 09:31:15 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,19 @@ class User
 		std::string				_name;
 		std::string				_nickname;
 		std::map<int, int>		_permission;
+	
 	public:
-		//  CONSTRUCTORS
+		// CONSTRUCTORS
 		User();
 		User(std::string nickname);
 		~User();
-		//	SETTERS & GETTERS
+		
+		// GETTERS
 		std::string			getName(void);
 		std::string			getNickname(void);
 		std::map<int, int>	getPermission(void);
+		
+		// SETTERS
 		void				setName(std::string);
 		void				setNickname(std::string);
 		void				setPermission(std::map<int, int>);

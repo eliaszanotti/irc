@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/03 17:36:35 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/04 09:30:56 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ class Server
 		int			_serverSocket;
 
 	public:
-		// Constructors
+		// CONSTRUCTORS
 		Server();
 		~Server();
 		Server(int port, std::string password);
 
-		// Methods
+		// METHODS
 		void	init(void);	
 };
 
