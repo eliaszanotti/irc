@@ -149,7 +149,16 @@ void	Server::waitingForNewUsers(void)
 				else
 				{
 					// The message if correctly readable
-					std::cout << returnValue << "  bytes received" << std::endl;
+					std::cout << returnValue << " bytes received" << std::endl;
+				
+					for (int j = 1; j < pollFDSize; j++)
+					{
+						if (j == i)
+							continue ;
+						std::cout << buffer << std::endl;
+						send(pollFD[j].fd, buffer, returnValue, 0);
+					}
+				
 				}
 		
 			}
