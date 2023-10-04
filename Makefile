@@ -3,70 +3,92 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
+#    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/04 09:09:30 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/10/04 09:45:08 by lpupier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-S_SRC		= main.cpp	\
-			Server.cpp	\
+# VARIABLE
 
-S_TMP		= ${addprefix ${D_SRC}, ${S_SRC}}
-O_SRC		= $(patsubst %.cpp, ${D_OBJS}%.o, $(S_TMP))
+NAME			=	ircserv
 
-# VARIABLES
-NAME		= ircserv
-CC			= c++ -std=c++98
+LIST_SRCS		=	main.cpp	\
+					Server.cpp	\
+					Channel.cpp	\
+					User.cpp
 
-# FLAGS
-MAKEFLAGS	+= --no-print-directory -s
-CFLAGS		= -Wall -Wextra -Werror -g3 #-lsocket
+LIST_INCS		=	irc.hpp		\
+					Server.hpp	\
+					Channel.hpp	\
+					User.hpp
 
-# COMMANDS
-RM			= rm -rf
-PRINT		= printf
+# DIRECTORY
+DIR_OBJS		=	.objs/
 
-# DIRECTORIES
-D_OBJS		= .objs/
-D_SRC		= srcs/
-D_INC		= includes/
+DIR_SRCS		=	srcs/
 
-# COLORS
-C_R			= \033[1;31m
-C_G			= \033[1;32m
-C_B			= \033[1;34m
-C_Y			= \033[1;33m
-C_C			= \033[1;36m
-C_RST		= \033[0m
-C_DEL		= \r\033[2K
+DIR_INCS		=	includes/
 
-all:		ascii ${NAME}
+# CONSTANT
 
-${D_OBJS}%.o:%.cpp		Makefile
-			@mkdir		-p $(shell dirname $@)
-			@${PRINT}	"${C_Y}${C_DEL}Creating ${NAME}'s objects : $@"
-			@${CC}		${CFLAGS} -I${D_INC} -c $< -o $@
+PRINT 			= 	@printf
 
-${NAME}:	${O_SRC}
-			@${PRINT}	"${C_G}${C_DEL}Creating ${NAME}'s objects : DONE\n"
-			@${PRINT}	"${C_Y}Compiling ${NAME}...${C_RST}"
-			@${CC}		${O_SRC} -o ${NAME}
-			@${PRINT}	"${C_G}${C_DEL}Compiling ${NAME} : DONE ${C_RST}\n\n"
+FLAGS			=	-Wall -Wextra -Werror -g3
 
-ascii:
-			@${PRINT}	"$$ASCII\n"
+STD				=	-std=c++98
 
-clean:		ascii
-			@${PRINT}	"${C_R}Deleting objects : DONE\n"
-			@${RM}		${D_OBJS}
+MAKEFLAGS		+=	--no-print-directory
 
-fclean:		clean
-			@${PRINT}	"${C_R}Deleting executable : DONE${C_RST}\n\n"
-			@${RM}		${NAME}
+CC 				=	c++
 
-re:			fclean all
+OBJS 			=	$(patsubst %.cpp, $(DIR_OBJS)%.o, $(SRCS))
+
+SRCS			=	${addprefix ${DIR_SRCS}, ${LIST_SRCS}}
+
+INCLUDES		=	${addprefix ${DIR_INCS}, ${LIST_INCS}}
+
+# COLOR
+
+RED 			=	\033[1;31m
+GREEN 			=	\033[1;32m
+YELLOW 			=	\033[1;33m
+SUPPR   		=	\r\033[2K
+DEFAULT 		=	\033[0m
+
+# RULES
+
+${DIR_OBJS}%.o 	:	%.cpp Makefile  ${INCLUDES}
+				@mkdir -p $(shell dirname $@)
+				@${PRINT} "${YELLOW}${SUPPR}Creating ${NAME}'s objects : $@${DEFAULT}"
+				@${CC} ${FLAGS} ${STD} -I ${DIR_INCS} -c $< -o $@ 
+
+${NAME}			:	${OBJS} ${INCLUDES}
+				@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE${DEFAULT}"
+				@${PRINT} "\n${YELLOW}Compiling ${NAME}...${DEFAULT}"
+				@${CC} ${OBJS} -o ${NAME} # -fsanitize=address
+				@${PRINT} "\r${GREEN}Compiling ${NAME} : DONE${DEFAULT}\n\n"
+
+all				:	ascii ${NAME}
+
+ascii			:
+				@${PRINT} "$$ASCII"
+
+clean			:
+				@${PRINT} "${RED}Deleting objects : DONE\n"
+				@rm -rf ${DIR_OBJS}
+
+fclean			:	clean
+				@${PRINT} "${RED}Deleting executable : DONE\n\n${DEFAULT}"
+				@rm -f ${NAME}
+
+re				:	fclean all
+
+${DIR_OBJS}		:
+				mkdir -p ${DIR_OBJS}
+
+.PHONY		: all clean fclean re
 
 define		ASCII
 ${C_C}
@@ -81,5 +103,3 @@ ${C_RST}
 endef
 
 export		ASCII
-
-.PHONY:		all re clean fclean ascii

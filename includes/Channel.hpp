@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 09:30:30 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 09:42:44 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,23 @@
 
 # include "irc.hpp"
 
+class User;
+
 class Channel
 {
 	private:
 		std::vector<User>			_users;
 		std::vector<std::string>	_messages;
 		std::string					_password;
+		std::string const			_name;
 		int							_mode;
-		int const					_id;
 		int							_max_users;
 		std::string					_topic;
 	
 	public:
 		// CONSTRUCTOR
 		Channel();
-		Channel(int);
+		Channel(std::string);
 		~Channel();
 		
 		// GETTERS
@@ -37,7 +39,7 @@ class Channel
 		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);
 		int							getMode(void);
-		int							getId(void);
+		std::string					getName(void);
 		int							getMaxUsers(void);
 		std::string					getTopic(void);
 		

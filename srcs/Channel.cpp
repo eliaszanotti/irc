@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 09:28:33 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 09:35:16 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 Channel::Channel() {}
 Channel::~Channel() {}
 
-Channel::Channel(int id): _id(id)
+Channel::Channel(std::string name): _name(name)
 {
 	this->_mode = OPEN;
 	this->_password = "";
@@ -27,7 +27,7 @@ std::vector<User>			Channel::getUsers(void) { return this->_users; }
 std::vector<std::string>	Channel::getMessages(void) { return this->_messages; }
 std::string					Channel::getPassword(void) { return this->_password; }
 int							Channel::getMode(void) { return this->_mode; }
-int							Channel::getId(void) { return this->_id; }
+std::string					Channel::getName(void) { return this->_name; }
 int							Channel::getMaxUsers(void) { return this->_max_users; }
 std::string					Channel::getTopic(void) { return this->_topic; }
 
