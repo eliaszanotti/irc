@@ -49,7 +49,7 @@ void	Server::init(void)
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
-	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
+	if (!setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
 		throw(std::runtime_error("Set socket option failed"));
 	if (ioctl(this->_serverSocket, FIONBIO, &socketOptionValue))
 		throw(std::runtime_error("Ioctl failed"));
@@ -57,6 +57,18 @@ void	Server::init(void)
 		throw(std::runtime_error("Bind failed"));
 	if (listen(this->_serverSocket, 3) < 0)
 		throw(std::runtime_error("Listen failed"));
+}
+
+void	Server::sendNewUserMsg(int fd)
+{
+	send(fd, "Welcome to the server\n", 22, 0);
+	send(fd, "Use CAP to login\n", 18, 0);
+}
+
+void	Server::createNewUser(pollfd pollfd)
+{
+	User	newUser = User(pollfd);
+	this->_users[pollfd.fd] = newUser;
 }
 
 void	Server::waitingForNewUsers(void)
@@ -99,8 +111,10 @@ void	Server::waitingForNewUsers(void)
 			}
 
 			std::cout << "[+] Incoming connection by " << new_sd << std::endl;
+			this->sendNewUserMsg(new_sd);
 			pollFD[pollFDSize].fd = new_sd;
 			pollFD[pollFDSize].events = POLLIN;
+			this->createNewUser(pollFD[pollFDSize]);
 			pollFDSize++;
 		}
 

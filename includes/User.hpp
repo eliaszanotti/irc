@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 09:31:15 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 17:23:17 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 class User 
 {
 	private:
+		struct pollfd			_pollFD;
+		int						_fd;
 		std::string				_name;
 		std::string				_nickname;
 		std::map<int, int>		_permission;
@@ -25,7 +27,7 @@ class User
 	public:
 		// CONSTRUCTORS
 		User();
-		User(std::string nickname);
+		User(pollfd	pollfd);
 		~User();
 		
 		// GETTERS
