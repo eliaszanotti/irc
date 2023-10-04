@@ -68,14 +68,12 @@ void	Server::waitingForNewUsers(void)
 	pollFD[0].fd = this->_serverSocket;
 	pollFD[0].events = POLLIN;
 	int				pollFDSize = 1;
-	int				current_size = 0;
 	bool			serverIsRunning = true;
 	int				new_sd = 0;
 	int				closeConnection;
 	char			buffer[MAX_CHAR];
-	bool			compress_array = false;
-	
-	int returnValue = 1;
+	int				returnValue;
+
 	while (serverIsRunning)
 	{
 		try
@@ -88,105 +86,84 @@ void	Server::waitingForNewUsers(void)
 			throw (std::runtime_error(error.what()));
 		}
 
-
-		current_size = pollFDSize;
-		for (int i = 0; i < current_size; i++)
+		// Add a new user
+		if (pollFD[0].revents & POLLIN)
 		{
-			if (pollFD[i].revents == 0)
-				continue;
-			if (pollFD[i].revents != POLLIN)
+			new_sd = accept(this->_serverSocket, NULL, NULL);
+			if (new_sd < 0)
 			{
-				std::cout << "Error revents = " << pollFD[i].revents << std::endl;
+				if (errno != EWOULDBLOCK)
+				{
+				std::cout << "accept failed" << std::endl;
 				serverIsRunning = false;
-				break ;
-			}
-			if (pollFD[i].fd == this->_serverSocket)
-			{
-				do
-				{
-					new_sd = accept(this->_serverSocket, NULL, NULL);
-					if (new_sd < 0)
-					{
-						if (errno != EWOULDBLOCK)
-						{
-						std::cout << "accept failed" << std::endl;
-						serverIsRunning = false;
-						}
-						break;
-					}
-
-					printf("  New incoming connection - %d\n", new_sd);
-					pollFD[pollFDSize].fd = new_sd;
-					pollFD[pollFDSize].events = POLLIN;
-					pollFDSize++;
-
 				}
-				while (new_sd != -1);
+				break;
 			}
-			else
+
+			printf("New incoming connection - %d\n", new_sd);
+			pollFD[pollFDSize].fd = new_sd;
+			pollFD[pollFDSize].events = POLLIN;
+			pollFDSize++;
+		}
+
+		// Gestion for each client
+		for (int i = 1; i < pollFDSize; i++)
+		{
+			closeConnection = false;
+			if (pollFD[i].revents & POLLIN)
 			{
-				std::cout << "Descriptor " << pollFD[i].fd << " is readable" << std::endl;
-				closeConnection = false;
-				do
+				// Receive the message from the user
+				memset(&buffer, 0, MAX_CHAR);
+				returnValue = recv(pollFD[i].fd, buffer, sizeof(buffer), 0);
+				if (returnValue < 0)
 				{
-					for (int j = 0; j < pollFDSize; j++)
+					if (errno != EWOULDBLOCK)
+					{
+						std::cout << "recv failed" << std::endl;
+						closeConnection = true;
+					}
+				}
+				else if (returnValue == 0)
+				{
+					std::cout << "Connection closed by " << pollFD[i].fd << std::endl;
+					closeConnection = true;
+				}
+				else
+				{
+					// The message if correctly readable
+					for (int j = 1; j < pollFDSize; j++)
 					{
 						if (j == i)
-							continue;
-						returnValue = recv(pollFD[j].fd, buffer, sizeof(buffer), 0);
+							continue ;
+						send(pollFD[j].fd, buffer, returnValue, 0);
 					}
-					if (returnValue < 0)
-					{
-						if (errno != EWOULDBLOCK)
-						{
-							std::cout << "recv failed" << std::endl;
-							closeConnection = true;
-						}
-						break ;
-					}
-					if (returnValue == 0)
-					{
-						std::cout << " Connection closed" << std::endl;
-						closeConnection = true;
-						break ;
-					}
-
-					int len = returnValue;
-					std::cout << len << "  bytes received" << std::endl;
-					
-					returnValue = send(pollFD[i].fd, buffer, len, 0);
-					if (returnValue < 0)
-					{
-						std::cout << "send failed" << std::endl;
-						closeConnection = true;
-						break ;
-					}
+				
 				}
-				while(true);
-
-				if (closeConnection)
-				{
-					close(pollFD[i].fd);
-					pollFD[i].fd = -1;
-					compress_array = true;
-				}
+		
 			}
-		}
-		if (compress_array)
-		{
-			compress_array = false;
-			for (int i = 0; i < pollFDSize; i++)
+			
+			// If there is a problem with the user
+			if (closeConnection)
 			{
-				if (pollFD[i].fd == -1)
+				close(pollFD[i].fd);
+				pollFD[i].fd = -1;
+				for (int i = 0; i < pollFDSize; i++)
 				{
-					for (int j = i; j < pollFDSize; j++)
-						pollFD[j].fd = pollFD[j+1].fd;
-					i--;
-					pollFDSize--;
+					if (pollFD[i].fd == -1)
+					{
+						for (int j = i; j < pollFDSize; j++)
+							pollFD[j].fd = pollFD[j+1].fd;
+						i--;
+						pollFDSize--;
+					}
 				}
+				break ;
 			}
 		}
+
 	}
+
+	// Close all the clients if the server is down
 	for (int i = 0; i < pollFDSize; i++)
 	{
 		if (pollFD[i].fd >= 0)
