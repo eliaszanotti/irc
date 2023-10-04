@@ -6,7 +6,7 @@
 #    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/04 09:45:08 by lpupier          ###   ########.fr        #
+#    Updated: 2023/10/04 09:46:33 by lpupier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,8 @@ DEFAULT 		=	\033[0m
 
 # RULES
 
+all				:	ascii ${NAME}
+
 ${DIR_OBJS}%.o 	:	%.cpp Makefile  ${INCLUDES}
 				@mkdir -p $(shell dirname $@)
 				@${PRINT} "${YELLOW}${SUPPR}Creating ${NAME}'s objects : $@${DEFAULT}"
@@ -69,8 +71,6 @@ ${NAME}			:	${OBJS} ${INCLUDES}
 				@${PRINT} "\n${YELLOW}Compiling ${NAME}...${DEFAULT}"
 				@${CC} ${OBJS} -o ${NAME} # -fsanitize=address
 				@${PRINT} "\r${GREEN}Compiling ${NAME} : DONE${DEFAULT}\n\n"
-
-all				:	ascii ${NAME}
 
 ascii			:
 				@${PRINT} "$$ASCII"
