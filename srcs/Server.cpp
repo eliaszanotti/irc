@@ -163,11 +163,7 @@ void	Server::waitingForNewUsers(void)
 					}
 				}
 				while(true);
-			
-			
-			// If there is a problem with the user
 
-			// If there is a problem with the user
 				if (closeConnection)
 				{
 					close(pollFD[i].fd);
@@ -187,13 +183,7 @@ void	Server::waitingForNewUsers(void)
 						pollFD[j].fd = pollFD[j+1].fd;
 					i--;
 					pollFDSize--;
-					}
-					}
 				}
-				break ;
-				}
-				}
-				break ;
 			}
 		}
 	}
