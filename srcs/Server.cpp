@@ -13,7 +13,6 @@
 #include "Server.hpp"
 
 // CONSTRUCTORS
-Server::Server() {}
 Server::~Server() {close(this->_serverSocket);}
 
 Server::Server(int port, std::string password)
@@ -35,15 +34,9 @@ void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
 	std::cout << "Waiting poll" << std::endl;
 	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
 	if (returnValue > 0)
-	{
-		close(this->_serverSocket);
 		throw (std::runtime_error("Poll failed"));
-	}
 	if (returnValue == 0)
-	{
-		close(this->_serverSocket);
 		throw (std::runtime_error("Poll timeout"));
-	}
 }
 
 // METHODS
@@ -91,7 +84,7 @@ void	Server::waitingForNewUsers(void)
 	char			buffer[MAX_CHAR];
 	bool			compress_array = false;
 	
-	int rv = 1;
+	int returnValue = 1;
 	while (serverIsRunning)
 	{
 		try
@@ -100,6 +93,7 @@ void	Server::waitingForNewUsers(void)
 		}
 		catch(const std::exception& error)
 		{
+			close(this->_serverSocket);
 			throw (std::runtime_error(error.what()));
 		}
 
@@ -148,9 +142,9 @@ void	Server::waitingForNewUsers(void)
 					{
 						if (j == i)
 							continue;
-						rv = recv(pollFD[j].fd, buffer, sizeof(buffer), 0);
+						returnValue = recv(pollFD[j].fd, buffer, sizeof(buffer), 0);
 					}
-					if (rv < 0)
+					if (returnValue < 0)
 					{
 						if (errno != EWOULDBLOCK)
 						{
@@ -159,18 +153,18 @@ void	Server::waitingForNewUsers(void)
 						}
 						break ;
 					}
-					if (rv == 0)
+					if (returnValue == 0)
 					{
 						std::cout << " Connection closed" << std::endl;
 						closeConnection = true;
 						break ;
 					}
 
-					int len = rv;
+					int len = returnValue;
 					std::cout << len << "  bytes received" << std::endl;
 					
-					rv = send(pollFD[i].fd, buffer, len, 0);
-					if (rv < 0)
+					returnValue = send(pollFD[i].fd, buffer, len, 0);
+					if (returnValue < 0)
 					{
 						std::cout << "send failed" << std::endl;
 						closeConnection = true;

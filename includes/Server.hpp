@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 14:23:26 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/04 15:00:09 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ class Server
 
 	public:
 		// CONSTRUCTORS
-		Server();
 		~Server();
 		Server(int port, std::string password);
 
