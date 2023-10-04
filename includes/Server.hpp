@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 17:58:51 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 18:19:56 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ enum {
 	KICK,
 	INVITE,
 	TOPIC,
-	MODE
+	MODE,
+	CAP
 };
 
 class Channel;
+
+class User;
 
 class Server
 {
@@ -32,7 +35,7 @@ class Server
 		int						_serverSocket;
 		struct sockaddr_in	 	_serverAddress;
 		std::vector<Channel>	_channels;
-		std::map<int, User>		_users;
+		std::map<int, User *>		_users;
 		
 		// PRIVATE METHODS
 		void	_processPoll(struct pollfd *pollFD, int pollFDSize);
@@ -44,6 +47,7 @@ class Server
 		bool	_invite();
 		bool	_topic();
 		bool	_mode();
+		bool	_cap(int);
 
 	public:
 		// CONSTRUCTORS

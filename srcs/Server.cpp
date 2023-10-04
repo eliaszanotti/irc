@@ -67,7 +67,7 @@ void	Server::sendNewUserMsg(int fd)
 
 void	Server::createNewUser(pollfd pollfd)
 {
-	User	newUser = User(pollfd);
+	User	*newUser = new User(pollfd);
 	this->_users[pollfd.fd] = newUser;
 }
 
@@ -202,7 +202,8 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 									"KICK",
 									"INVITE",
 									"TOPIC",
-									"MODE"
+									"MODE",
+									"CAP"
 	};
 
 	(void)fd; // A ENLEVER
@@ -219,6 +220,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 		case INVITE:	return this->_invite();
 		case TOPIC:		return this->_topic();
 		case MODE:		return this->_mode();
+		case CAP:		return this->_cap(fd);
 	}
 
 	return (false);
@@ -228,6 +230,18 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 bool	Server::_kick()
 {
 	std::cout << "kick() called" << std::endl;
+	return (true);
+}
+
+bool	Server::_cap(int fd)
+{
+	if (!this->_users[fd]->getConnected())
+	{
+		this->_users[fd]->setConnected(1);
+		send(fd, "You are connected, now use PASS, NICK and USER\n", 48, 0);
+	}
+	else
+		send(fd, "You are already connected\n", 27, 0);
 	return (true);
 }
 
