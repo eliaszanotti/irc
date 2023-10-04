@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:59:12 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 09:42:35 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 11:32:12 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,22 @@
 
 # include <iostream>
 # include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <sys/poll.h>
 # include <map>
 # include <vector>
 # include <string>
 # include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <errno.h>
 # include "Server.hpp"
 # include "User.hpp"
 # include "Channel.hpp"
+
+# define MAX_USERS	42
+# define MAX_CHAR	1024
 
 enum {
 	ADMIN,
