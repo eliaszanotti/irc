@@ -31,7 +31,6 @@ Server::Server(int port, std::string password)
 // PRIVATE METHODS
 void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
 {
-	std::cout << "Waiting poll" << std::endl;
 	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
 	if (returnValue < 0)
 		throw (std::runtime_error("Poll failed"));
@@ -47,7 +46,7 @@ void	Server::init(void)
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
-	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
+	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)) == -1)
 	{
 		close(this->_serverSocket);
 		throw(std::runtime_error("Set socket option failed"));
@@ -115,14 +114,6 @@ void	Server::waitingForNewUsers(void)
 			pollFDSize++;
 		}
 
-		// Errors to manage...
-		//if (pollFD[0].revents != POLLIN)
-		//{
-		//	std::cout << "Error revents = " << pollFD[0].revents << std::endl;
-		//	serverIsRunning = false;
-		//	return ;
-		//}
-
 		// Gestion for each client
 		for (int i = 1; i < pollFDSize; i++)
 		{
@@ -130,7 +121,6 @@ void	Server::waitingForNewUsers(void)
 			if (pollFD[i].revents & POLLIN)
 			{
 				// Receive the message from the user
-				std::cout << "Descriptor " << pollFD[i].fd << " is readable" << std::endl;
 				memset(&buffer, 0, MAX_CHAR);
 				returnValue = recv(pollFD[i].fd, buffer, sizeof(buffer), 0);
 				if (returnValue < 0)
@@ -143,19 +133,16 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << " Connection closed" << std::endl;
+					std::cout << "Connection closed by " << pollFD[i].fd << std::endl;
 					closeConnection = true;
 				}
 				else
 				{
 					// The message if correctly readable
-					std::cout << returnValue << " bytes received" << std::endl;
-				
 					for (int j = 1; j < pollFDSize; j++)
 					{
 						if (j == i)
 							continue ;
-						std::cout << buffer << std::endl;
 						send(pollFD[j].fd, buffer, returnValue, 0);
 					}
 				
