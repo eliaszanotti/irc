@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 14:17:40 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:23:26 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Server
 		struct sockaddr_in	 	_serverAddress;
 		std::vector<Channel>	_channels;
 		// PRIVATE METHODS
-		// void	_processPoll(struct pollfd *pollFD, int polFDSize);
+		void	_processPoll(struct pollfd *pollFD, int pollFDSize);
 
 	public:
 		// CONSTRUCTORS

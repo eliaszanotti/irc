@@ -30,10 +30,21 @@ Server::Server(int port, std::string password)
 }
 
 // PRIVATE METHODS
-// void	Server::_processPoll(struct pollfd *pollFD, int polFDSize)
-// {
-
-// }
+void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
+{
+	std::cout << "Waiting poll" << std::endl;
+	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
+	if (returnValue < 0)
+	{
+		close(this->_serverSocket);
+		std::cout << "Poll failed" << std::endl;
+	}
+	if (returnValue == 0)
+	{
+		close(this->_serverSocket);
+		std::cout << "Poll timeout" << std::endl;
+	}
+}
 
 // METHODS
 void	Server::init(void)
@@ -67,7 +78,6 @@ void	Server::init(void)
 
 void	Server::waitingForNewUsers(void)
 {	
-	int timeout = 80 * 1000;
 	struct pollfd	pollFD[MAX_USERS];
 	
 	std::memset(pollFD, 0 , sizeof(pollFD));
@@ -77,32 +87,18 @@ void	Server::waitingForNewUsers(void)
 	int				current_size = 0;
 	bool			end_server = false;
 	int				new_sd = 0;
-	int				close_conn;
+	int				closeConnection;
 	char			buffer[MAX_CHAR];
 	bool			compress_array = false;
 	
 	int rv = 1;
 	while (end_server == false)
 	{
-		// this->_processPoll(pollFD, pollFDSize);
+		this->_processPoll(pollFD, pollFDSize);
 
 
-		std::cout << "Waiting poll" << std::endl;
-		rv = poll(pollFD, pollFDSize, timeout);
-		
-		if (rv < 0)
-		{
-			close(this->_serverSocket);
-			std::cout << "poll failed" << std::endl;
-		}
-		
-		if (rv == 0)
-		{
-			close(this->_serverSocket);
-			std::cout << "poll timeout" << std::endl;
-		}
 		current_size = pollFDSize;
-		for(int i = 0; i < current_size; i++)
+		for (int i = 0; i < current_size; i++)
 		{
 			if (pollFD[i].revents == 0)
 				continue;
@@ -121,7 +117,7 @@ void	Server::waitingForNewUsers(void)
 					{
 						if (errno != EWOULDBLOCK)
 						{
-						perror("  accept() failed");
+						std::cout << "accept failed" << std::endl;
 						end_server = true;
 						}
 						break;
@@ -138,7 +134,7 @@ void	Server::waitingForNewUsers(void)
 			else
 			{
 				std::cout << "Descriptor " << pollFD[i].fd << " is readable" << std::endl;
-				close_conn = false;
+				closeConnection = false;
 				do
 				{
 					for (int j = 0; j < pollFDSize; j++)
@@ -152,29 +148,31 @@ void	Server::waitingForNewUsers(void)
 						if (errno != EWOULDBLOCK)
 						{
 							std::cout << "recv failed" << std::endl;
-							close_conn = true;
+							closeConnection = true;
 						}
 						break ;
 					}
 					if (rv == 0)
 					{
 						std::cout << " Connection closed" << std::endl;
-						close_conn = true;
+						closeConnection = true;
 						break ;
 					}
 
 					int len = rv;
 					std::cout << len << "  bytes received" << std::endl;
+					
 					rv = send(pollFD[i].fd, buffer, len, 0);
 					if (rv < 0)
 					{
 						std::cout << "send failed" << std::endl;
-						close_conn = true;
+						closeConnection = true;
 						break ;
 					}
 				}
 				while(true);
-				if (close_conn)
+
+				if (closeConnection)
 				{
 					close(pollFD[i].fd);
 					pollFD[i].fd = -1;
