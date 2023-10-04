@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 09:26:45 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/04 17:23:53 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 User::User() {}
 User::~User() {}
 
-User::User(std::string nickname)
+User::User(pollfd pollfd)
 {
-	this->_nickname = nickname;
+	this->_pollfd = pollfd;
 	this->_name = "";
 }
 
