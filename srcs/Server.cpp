@@ -34,15 +34,15 @@ void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
 {
 	std::cout << "Waiting poll" << std::endl;
 	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
-	if (returnValue < 0)
+	if (returnValue > 0)
 	{
 		close(this->_serverSocket);
-		std::cout << "Poll failed" << std::endl;
+		throw (std::runtime_error("Poll failed"));
 	}
 	if (returnValue == 0)
 	{
 		close(this->_serverSocket);
-		std::cout << "Poll timeout" << std::endl;
+		throw (std::runtime_error("Poll timeout"));
 	}
 }
 
@@ -85,16 +85,23 @@ void	Server::waitingForNewUsers(void)
 	pollFD[0].events = POLLIN;
 	int				pollFDSize = 1;
 	int				current_size = 0;
-	bool			end_server = false;
+	bool			serverIsRunning = true;
 	int				new_sd = 0;
 	int				closeConnection;
 	char			buffer[MAX_CHAR];
 	bool			compress_array = false;
 	
 	int rv = 1;
-	while (end_server == false)
+	while (serverIsRunning)
 	{
-		this->_processPoll(pollFD, pollFDSize);
+		try
+		{
+			this->_processPoll(pollFD, pollFDSize);
+		}
+		catch(const std::exception& error)
+		{
+			throw (std::runtime_error(error.what()));
+		}
 
 
 		current_size = pollFDSize;
@@ -105,7 +112,7 @@ void	Server::waitingForNewUsers(void)
 			if (pollFD[i].revents != POLLIN)
 			{
 				std::cout << "Error revents = " << pollFD[i].revents << std::endl;
-				end_server = true;
+				serverIsRunning = false;
 				break ;
 			}
 			if (pollFD[i].fd == this->_serverSocket)
@@ -118,7 +125,7 @@ void	Server::waitingForNewUsers(void)
 						if (errno != EWOULDBLOCK)
 						{
 						std::cout << "accept failed" << std::endl;
-						end_server = true;
+						serverIsRunning = false;
 						}
 						break;
 					}
