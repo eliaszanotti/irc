@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
+#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/03 17:32:58 by elias            ###   ########.fr        #
+#    Updated: 2023/10/04 09:09:30 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC			= c++ -std=c++98
 
 # FLAGS
 MAKEFLAGS	+= --no-print-directory -s
-CFLAGS		= -Wall -Wextra -Werror -g3 -lsocket
+CFLAGS		= -Wall -Wextra -Werror -g3 #-lsocket
 
 # COMMANDS
 RM			= rm -rf
@@ -69,11 +69,14 @@ fclean:		clean
 re:			fclean all
 
 define		ASCII
-${C_C} _  ____  ____ 
-/ \/  __\/   _\\
-| ||  \/||  /  
-| ||    /|  \__
-\_/\_/\_\\\\____/
+${C_C}
+       .-"-.            .-"-.            .-"-.           .-"-.
+     _/_-.-_\_        _/.-.-.\_        _/.-.-.\_       _/.-.-.\_
+    / __} {__ \      /|( o o )|\      ( ( o o ) )     ( ( o o ) )
+   / //  "  \\\ \    | //  "  \\\ |      |/  "  \|       |/  "  \|
+  / / \'---'/ \ \  / / \'---'/ \ \      \'/^\'/         \ .-. /
+  \ \_/`"""`\_/ /  \ \_/`"""`\_/ /      /`\ /`\         /`"""`\\
+   \           /    \           /      /  /|\  \       /       \\ 
 ${C_RST}
 endef
 
