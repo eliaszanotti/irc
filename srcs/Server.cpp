@@ -146,7 +146,7 @@ void	Server::waitingForNewUsers(void)
 					split_message = split(erasechar(buffer, '\r'), "\n");
 					for (size_t idx = 0; idx < split_message.size(); idx++)
 					{
-						if (split_message.empty())
+						if (split_message[idx].empty())
 							continue;
 						if (!this->_checkCommandInsideMessage(this->_pollFD[i].fd, split_message[idx]))
 						{
@@ -195,7 +195,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 	size_t			i;
 
 	std::cout << "Message received: [" << message << "]" << std::endl;
-	// message.erase(message.size() -1);
+
 	command = split(message, " ");
 	std::string		commands[]	= {
 									"KICK",
