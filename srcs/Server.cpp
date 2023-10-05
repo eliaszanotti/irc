@@ -52,7 +52,7 @@ void Server::_addNewUser(void)
 		newFD = accept(this->_serverSocket, NULL, NULL);
 		if (newFD < 0 && errno != EWOULDBLOCK)
 			throw (std::runtime_error("Error when trying to add new user"));
-		std::cout << "[+] Incoming connection by " << newFD << std::endl;
+		std::cout << GREEN "[+] " << RST << "Incoming connection by " << newFD << std::endl;
 		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
 		User *newUser = new User(this->_pollFD[this->_pollFDSize]);
@@ -70,7 +70,7 @@ void	Server::init(void)
 	if (this->_serverSocket < 0)	
 		throw (std::runtime_error("Socket initialization failed"));
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
-	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
+	std::cout << CYAN "[PASSWORD: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
 	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)) == -1)
 		throw(std::runtime_error("Set socket option failed"));
@@ -134,7 +134,7 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "[-] " << this->_users[this->_pollFD[i].fd]->getNickname() << " leaved the server" << std::endl;
+					std::cout << RED << "[-] " << RST << this->_users[this->_pollFD[i].fd]->getNickname() << " leaved the server" << std::endl;
 					closeConnection = true;
 				}
 				else
@@ -193,7 +193,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 	std::vector<std::string>	command;
 	size_t						i;
 
-	std::cout << "Message received: [" << message << "]" << std::endl;
+	std::cout << YELLOW << "[←] " << RST << "Received from " << fd << ": [" << message << "]" << std::endl;
 
 	command = split(message, " ");
 	std::string		commands[]	= {

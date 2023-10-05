@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:42:04 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:42:32 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:01:54 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 bool	Server::_invite(void)
 {
-	std::cout << "invite() called" << std::endl;
 	return (true);
 }

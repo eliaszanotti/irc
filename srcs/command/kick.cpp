@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:41:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:42:40 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:02:02 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 bool	Server::_kick(void)
 {
-	std::cout << "kick() called" << std::endl;
 	return (true);
 }
