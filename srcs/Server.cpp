@@ -141,11 +141,17 @@ void	Server::waitingForNewUsers(void)
 
 					if (!this->_checkCommandInsideMessage(this->_pollFD[i].fd, buffer))
 					{
-						for (int j = 1; j < this->_pollFDSize; j++)
+						if (!this->_users[this->_pollFD[i].fd]->getLogged())
+							send(this->_pollFD[i].fd, "Client isn't connected\n", 23, 0);
+						else
 						{
-							if (j == i)
-								continue ;
-							send(this->_pollFD[j].fd, buffer, returnValue, 0);
+							for (int j = 1; j < this->_pollFDSize; j++)
+							{
+								if (j == i)
+									continue ;
+								if (this->_users[this->_pollFD[j].fd]->getConnected())
+									send(this->_pollFD[j].fd, buffer, returnValue, 0);
+							}
 						}
 					}
 				}
@@ -196,10 +202,11 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 									"PASS",
 									"NICK",
 									"USER",
-									"JOIN"
+									"JOIN",
+									"PRIVMSG"
 	};
 
-	for (i = 0; i < 9; i++)
+	for (i = 0; i < 10; i++)
 	{
 		if (!commands[i].compare(command[0]))
 			break ;
@@ -215,6 +222,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 		case NICK:		return this->_nick(fd, command);
 		case USER:		return this->_user(fd, command);
 		case JOIN:		return this->_join(fd, command);
+		case PRIVMSG:	return this->_privmsg(fd, command);
 	}
 
 	return (false);

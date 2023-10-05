@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 11:49:48 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 12:31:23 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ enum {
 	PASS,
 	NICK,
 	USER,
-	JOIN
+	JOIN,
+	PRIVMSG
 };
 
 class Channel;
@@ -60,6 +61,7 @@ class Server
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_user(int fd, std::vector<std::string> command);
 		bool	_join(int, std::vector<std::string>);
+		bool	_privmsg(int, std::vector<std::string>);
 
 	public:
 		// CONSTRUCTORS
