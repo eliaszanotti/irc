@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 10:06:19 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:55:59 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ User::User(pollfd pollfd)
 }
 
 // Getters
-std::string			User::getName(void) { return this->_name; }
-std::string			User::getRealName(void) { return this->_name; }
-std::string			User::getNickname(void) { return this->_nickname; }
-std::map<int, int>	User::getPermission(void) { return this->_permission; }
-int					User::getLogged(void) { return this->_logged; }
-int					User::getConnected(void) { return this->_connected; }
+std::string			User::getName(void) const { return this->_name; }
+std::string			User::getRealName(void) const { return this->_name; }
+std::string			User::getNickname(void) const { return this->_nickname; }
+std::map<int, int>	User::getPermission(void) const { return this->_permission; }
+int					User::getLogged(void) const { return this->_logged; }
+int					User::getConnected(void) const { return this->_connected; }
+pollfd				User::getPollFd(void) const { return this->_pollfd; }
+int					User::getFd(void) const { return this->_pollfd.fd; }
 
 // Setters
 void	User::setName(std::string name) { this->_name = name; }

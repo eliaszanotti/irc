@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 10:22:01 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/05 11:45:06 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include "Server.hpp"
 # include "User.hpp"
 # include "Channel.hpp"
+# include "numerics.hpp"
 
 # define MAX_USERS		42
 # define MAX_CHAR		1024
