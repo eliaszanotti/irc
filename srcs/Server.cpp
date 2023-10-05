@@ -49,7 +49,7 @@ void	Server::init(void)
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
-	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
+	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)) == -1)
 		throw(std::runtime_error("Set socket option failed"));
 	if (ioctl(this->_serverSocket, FIONBIO, &socketOptionValue))
 		throw(std::runtime_error("Ioctl failed"));
@@ -195,7 +195,8 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 									"CAP",
 									"PASS",
 									"NICK",
-									"USER"
+									"USER",
+									"JOIN"
 	};
 
 	for (i = 0; i < 8; i++)
@@ -213,6 +214,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 		case PASS:		return this->_pass(fd, command);
 		case NICK:		return this->_nick(fd, command);
 		case USER:		return this->_user(fd, command);
+		case JOIN:		return this->_join(fd, command);
 	}
 
 	return (false);
@@ -240,5 +242,73 @@ bool	Server::_topic()
 bool	Server::_mode()
 {
 	std::cout << "mode() called" << std::endl;
+	return (true);
+}
+
+bool	Server::_join(int fd, std::vector<std::string> command)
+{
+	std::vector<std::string>	channels;
+	std::vector<std::string>	passwords;
+	size_t						j;
+	std::string					output;
+	
+	std::cout << "join() called" << std::endl;
+
+	if (command.size() > 3)
+		return (false);
+	if (command.size() < 2)
+	{
+		send(fd, "Usage: JOIN <channel>, joins the channel", 41, 0);
+		return (false);
+	}
+	if (command[1][0] != '#')
+	{
+		send(fd, " :Invalid channel name", 23, 0);
+		return (false);
+	}
+
+	// Names and passwords
+	channels = split(command[1], ',');
+	if (command.size() == 3)
+		passwords = split(command[2], ',');
+	
+	for (size_t i = 0; i < channels.size(); i++)
+	{
+		if (command[i][0] != '#')
+			return (false);
+
+		// Connection to an existing channel
+		for (j = 0; j < this->_channels.size(); j++)
+		{
+			if (command[i] == this->_channels[j]->getName())
+			{
+				if (!this->_channels[j]->getPassword().empty())
+				{
+					if (i < passwords.size())
+					{
+						// Password gestion
+						if (this->_channels[j]->getPassword() == passwords[i])
+						{
+							output = "JOIN " + command[i];
+							send(fd, output.c_str(), output.size(), 0);
+						}
+						else
+						{
+							output = "Cannot join " + command[i] + " (Requires keyword)";
+							send(fd, output.c_str(), output.size(), 0);
+						}
+					}
+				}
+				break ;
+			}
+		}
+
+		// Create the channel and join it
+		if (j == this->_channels.size())
+		{
+			Channel	*channel = new Channel(command[i]);
+			this->_channels.push_back(channel);
+		}
+	}
 	return (true);
 }

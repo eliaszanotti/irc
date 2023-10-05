@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 09:23:53 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:22:18 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ enum {
 	CAP,
 	PASS,
 	NICK,
-	USER
+	USER,
+	JOIN
 };
 
 class Channel;
@@ -37,8 +38,8 @@ class Server
 		std::string				_password;
 		int						_serverSocket;
 		struct sockaddr_in	 	_serverAddress;
-		std::vector<Channel>	_channels;
-		std::map<int, User *>		_users;
+		std::vector<Channel *>	_channels;
+		std::map<int, User *>	_users;
 		
 		// PRIVATE METHODS
 		void	_processPoll(struct pollfd *pollFD, int pollFDSize);
@@ -54,6 +55,7 @@ class Server
 		bool	_cap(int);
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_user(int fd, std::vector<std::string> command);
+		bool	_join(int, std::vector<std::string>);
 
 	public:
 		// CONSTRUCTORS
