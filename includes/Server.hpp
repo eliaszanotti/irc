@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 10:22:18 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/05 11:32:13 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ enum {
 	PASS,
 	NICK,
 	USER,
-	JOIN
+	JOIN,
+	PRIVMSG
 };
 
 class Channel;
@@ -56,6 +57,7 @@ class Server
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_user(int fd, std::vector<std::string> command);
 		bool	_join(int, std::vector<std::string>);
+		bool	_privmsg(int, std::vector<std::string>);
 
 	public:
 		// CONSTRUCTORS

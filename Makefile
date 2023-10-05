@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/05 10:14:42 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/10/05 11:33:01 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,17 @@
 
 NAME			=	ircserv
 
-LIST_SRCS		=	main.cpp	\
-					Server.cpp	\
-					Channel.cpp	\
-					split.cpp	\
-					User.cpp	\
-					${DIR_COMMAND}cap.cpp	\
-					${DIR_COMMAND}pass.cpp	\
-					${DIR_COMMAND}nick.cpp	\
-					${DIR_COMMAND}user.cpp	\
+LIST_SRCS		=	main.cpp					\
+					Server.cpp					\
+					Channel.cpp					\
+					split.cpp					\
+					send.cpp					\
+					User.cpp					\
+					${DIR_COMMAND}cap.cpp		\
+					${DIR_COMMAND}pass.cpp		\
+					${DIR_COMMAND}nick.cpp		\
+					${DIR_COMMAND}user.cpp		\
+					${DIR_COMMAND}privmsg.cpp	\
 					
 
 LIST_INCS		=	irc.hpp		\

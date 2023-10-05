@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 10:06:19 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:05:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@ User::~User() {}
 User::User(pollfd pollfd)
 {
 	this->_pollfd = pollfd;
+	this->_connected = 0;
+	this->_logged = 0;
+	this->_nickname = "";
+	this->_realname = "";
+	this->_name = "";
+}
+
+// METHODS
+void	User::newConnection(void)
+{
+	if (this->getConnected() && !this->getNickname().empty() && !this->getName().empty() && !this->getRealName().empty())
+	{
+		this->_logged = 1;
+		send(this->_pollfd.fd, GREEN"----- You are now connected -----\n"RST);
+	}
 }
 
 // Getters

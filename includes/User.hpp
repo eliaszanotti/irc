@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 10:05:13 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:50:59 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ class User
 		User();
 		User(pollfd	pollfd);
 		~User();
+		
+		// METHODS
+		void				newConnection(void);
 		
 		// GETTERS
 		std::string			getName(void);
