@@ -46,22 +46,20 @@ void	Server::_processPoll(void)
 
 void Server::_addNewUser(void)
 {		
-	int				newSd = 0;
+	int				newFD = 0;
 	if (this->_pollFD[0].revents & POLLIN)
 	{
-		newSd = accept(this->_serverSocket, NULL, NULL);
-		if (newSd < 0)
+		newFD = accept(this->_serverSocket, NULL, NULL);
+		if (newFD < 0)
 		{
 			if (errno != EWOULDBLOCK)
 			{
 				std::cout << "accept failed" << std::endl;
 				this->_serverIsRunning = false;
 			}
-			// break;
 		}
-
-		std::cout << "[+] Incoming connection by " << newSd << std::endl;
-		this->_pollFD[this->_pollFDSize].fd = newSd;
+		std::cout << "[+] Incoming connection by " << newFD << std::endl;
+		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
 		this->createNewUser(this->_pollFD[this->_pollFDSize]);
 		this->_pollFDSize++;
@@ -97,8 +95,6 @@ void	Server::createNewUser(pollfd pollfd)
 
 void	Server::waitingForNewUsers(void)
 {	
-	// bool		this->_	serverIsRunning = true;
-	// int				new_sd = 0;
 	int				closeConnection;
 	char			buffer[MAX_CHAR];
 	int				returnValue;
@@ -106,37 +102,29 @@ void	Server::waitingForNewUsers(void)
 
 	while (this->_serverIsRunning)
 	{
+		// Wait for new connections
 		try
 		{
 			this->_processPoll();
-			this->_addNewUser();
 		}
 		catch(const std::exception& error)
 		{
 			throw (std::runtime_error(error.what()));
 		}
-
-
-		// Add a new user
-		// if (this->_pollFD[0].revents & POLLIN)
-		// {
-		// 	new_sd = accept(this->_serverSocket, NULL, NULL);
-		// 	if (new_sd < 0)
-		// 	{
-		// 		if (errno != EWOULDBLOCK)
-		// 		{
-		// 		std::cout << "accept failed" << std::endl;
-		// 	this->_	serverIsRunning = false;
-		// 		}
-		// 		break;
-		// 	}
-
-		// 	std::cout << "[+] Incoming connection by " << new_sd << std::endl;
-		// 	this->_pollFD[this->_pollFDSize].fd = new_sd;
-		// 	this->_pollFD[this->_pollFDSize].events = POLLIN;
-		// 	this->createNewUser(this->_pollFD[this->_pollFDSize]);
-		// 	this->_pollFDSize++;
-		// }
+		// Add new user
+		try
+		{
+			this->_addNewUser();
+		}
+		catch(const std::exception& error)
+		{
+			for (int i = 0; i < this->_pollFDSize; i++)
+			{
+				if (this->_pollFD[i].fd >= 0)
+					close(this->_pollFD[i].fd);
+			}
+			throw (std::runtime_error(error.what()));
+		}
 
 		// Gestion for each client
 		for (int i = 1; i < this->_pollFDSize; i++)
@@ -203,13 +191,6 @@ void	Server::waitingForNewUsers(void)
 			}
 		}
 	}
-
-	// Close all the clients if the server is down
-	for (int i = 0; i < this->_pollFDSize; i++)
-	{
-		if (this->_pollFD[i].fd >= 0)
-			close(this->_pollFD[i].fd);
-	}
 }
 
 bool	Server::_checkCommandInsideMessage(int fd, std::string message)
@@ -257,30 +238,6 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 }
 
 // COMMANDS
-bool	Server::_kick()
-{
-	std::cout << "kick() called" << std::endl;
-	return (true);
-}
-
-bool	Server::_invite()
-{
-	std::cout << "invite() called" << std::endl;
-	return (true);
-}
-
-bool	Server::_topic()
-{
-	std::cout << "topic() called" << std::endl;
-	return (true);
-}
-
-bool	Server::_mode()
-{
-	std::cout << "mode() called" << std::endl;
-	return (true);
-}
-
 void	Server::sendTo(const User *user, const std::string &message)
 {
 	size_t byteSent = 0;

@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cap.cpp                                            :+:      :+:    :+:   */
+/*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 09:45:50 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 13:41:48 by elias            ###   ########.fr       */
+/*   Created: 2023/10/05 13:41:13 by elias             #+#    #+#             */
+/*   Updated: 2023/10/05 13:42:40 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-bool	Server::_cap(int fd)
+bool	Server::_kick(void)
 {
-	std::cout << "cap() called" << std::endl;
-    send(fd, "Welcome to irc, to login use: "\
-		"\nPASS <password>\nNICK <nickname>\nUSER <name> 0 * : <realname>\n");
+	std::cout << "kick() called" << std::endl;
 	return (true);
 }
