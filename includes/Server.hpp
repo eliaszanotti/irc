@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:43:52 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:56:58 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,17 @@ class Server
 		void	_processPoll(void);
 		void	_addNewUser(void);
 		bool	_checkCommandInsideMessage(int fd, std::string message);
-		void	sendNewUserMsg(int);
-		void	createNewUser(pollfd);
 
-		bool	_kick(void);
-		bool	_invite(void);
-		bool	_topic(void);
-		bool	_mode(void);
-		bool	_pass(int fd, std::vector<std::string>);
 		bool	_cap(int fd);
-		bool	_nick(int fd, std::vector<std::string> command);
-		bool	_user(int fd, std::vector<std::string> command);
+		bool	_invite(void);
 		bool	_join(int fd, std::vector<std::string>);
+		bool	_kick(void);
+		bool	_mode(void);
+		bool	_nick(int fd, std::vector<std::string> command);
+		bool	_pass(int fd, std::vector<std::string>);
 		bool	_privmsg(int fd, std::vector<std::string>);
+		bool	_topic(void);
+        bool	_user(int fd, std::vector<std::string> command);
 
 	public:
 		// CONSTRUCTORS

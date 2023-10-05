@@ -61,7 +61,8 @@ void Server::_addNewUser(void)
 		std::cout << "[+] Incoming connection by " << newFD << std::endl;
 		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
-		this->createNewUser(this->_pollFD[this->_pollFDSize]);
+		User	*newUser = new User(this->_pollFD[this->_pollFDSize]);
+		this->_users[this->_pollFD[this->_pollFDSize].fd] = newUser;
 		this->_pollFDSize++;
 	}
 }
@@ -85,12 +86,6 @@ void	Server::init(void)
 		throw(std::runtime_error("Bind failed"));
 	if (listen(this->_serverSocket, 3) < 0)
 		throw(std::runtime_error("Listen failed"));
-}
-
-void	Server::createNewUser(pollfd pollfd)
-{
-	User	*newUser = new User(pollfd);
-	this->_users[pollfd.fd] = newUser;
 }
 
 void	Server::waitingForNewUsers(void)
