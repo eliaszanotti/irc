@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/05 11:33:01 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/10/05 12:40:30 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ NAME			=	ircserv
 LIST_SRCS		=	main.cpp					\
 					Server.cpp					\
 					Channel.cpp					\
-					split.cpp					\
-					send.cpp					\
 					User.cpp					\
+					${DIR_UTILS}split.cpp		\
+					${DIR_UTILS}send.cpp		\
 					${DIR_COMMAND}cap.cpp		\
 					${DIR_COMMAND}pass.cpp		\
 					${DIR_COMMAND}nick.cpp		\
@@ -38,6 +38,8 @@ DIR_OBJS		=	.objs/
 DIR_SRCS		=	srcs/
 
 DIR_COMMAND		=	command/
+
+DIR_UTILS		=	utils/
 
 DIR_INCS		=	includes/
 
