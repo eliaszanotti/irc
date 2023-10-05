@@ -49,7 +49,7 @@ void	Server::init(void)
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
 	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
-	if (!setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
+	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)))
 		throw(std::runtime_error("Set socket option failed"));
 	if (ioctl(this->_serverSocket, FIONBIO, &socketOptionValue))
 		throw(std::runtime_error("Ioctl failed"));
@@ -57,12 +57,6 @@ void	Server::init(void)
 		throw(std::runtime_error("Bind failed"));
 	if (listen(this->_serverSocket, 3) < 0)
 		throw(std::runtime_error("Listen failed"));
-}
-
-void	Server::sendNewUserMsg(int fd)
-{
-	send(fd, "Welcome to the server\n", 22, 0);
-	send(fd, "Use CAP to login\n", 18, 0);
 }
 
 void	Server::createNewUser(pollfd pollfd)
@@ -111,7 +105,6 @@ void	Server::waitingForNewUsers(void)
 			}
 
 			std::cout << "[+] Incoming connection by " << new_sd << std::endl;
-			this->sendNewUserMsg(new_sd);
 			pollFD[pollFDSize].fd = new_sd;
 			pollFD[pollFDSize].events = POLLIN;
 			this->createNewUser(pollFD[pollFDSize]);
@@ -137,7 +130,7 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "[-] Connection closed by " << pollFD[i].fd << std::endl;
+					std::cout << "[-] " << this->_users[pollFD[i].fd]->getNickname() << " leaved the server" << std::endl;
 					closeConnection = true;
 				}
 				else
@@ -188,32 +181,28 @@ void	Server::waitingForNewUsers(void)
 
 bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 {
-	std::string	command;
-	size_t		stop_idx;
-	int			i;
+	std::vector<std::string>	command;
+	// size_t		stop_idx;
+	size_t			i;
 
-	if (message.find(' ') == std::string::npos)
-		stop_idx = message.length() - 1;
-	else
-		stop_idx = message.find(' ');
-	command = message.substr(0, stop_idx);
-
+	message.erase(message.size() -1);
+	command = split(message, ' ');
 	std::string		commands[]	= {
 									"KICK",
 									"INVITE",
 									"TOPIC",
 									"MODE",
-									"CAP"
+									"CAP",
+									"PASS",
+									"NICK",
+									"USER"
 	};
 
-	(void)fd; // A ENLEVER
-
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 8; i++)
 	{
-		if (!commands[i].compare(command))
+		if (!commands[i].compare(command[0]))
 			break ;
 	}
-
 	switch (i)
 	{
 		case KICK:		return this->_kick();
@@ -221,6 +210,9 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 		case TOPIC:		return this->_topic();
 		case MODE:		return this->_mode();
 		case CAP:		return this->_cap(fd);
+		case PASS:		return this->_pass(fd, command);
+		case NICK:		return this->_nick(fd, command);
+		case USER:		return this->_user(fd, command);
 	}
 
 	return (false);
@@ -230,18 +222,6 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 bool	Server::_kick()
 {
 	std::cout << "kick() called" << std::endl;
-	return (true);
-}
-
-bool	Server::_cap(int fd)
-{
-	if (!this->_users[fd]->getConnected())
-	{
-		this->_users[fd]->setConnected(1);
-		send(fd, "You are connected, now use PASS, NICK and USER\n", 48, 0);
-	}
-	else
-		send(fd, "You are already connected\n", 27, 0);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/04 17:47:52 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/05 09:35:16 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@
 
 enum {
 	ADMIN,
-	USER
+	RW
 }; 
 
 enum {
 	OPEN,
 	INVITE_MODE
-}; 
+};
+
+std::vector<std::string> split(std::string s, char delimiter);
 
 #endif

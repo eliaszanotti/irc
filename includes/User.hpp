@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 18:20:31 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/10/05 10:05:13 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class User
 		int						_connected;
 		int						_logged;
 		std::string				_name;
+		std::string				_realname;
 		std::string				_nickname;
 		std::map<int, int>		_permission;
 	
@@ -33,6 +34,7 @@ class User
 		
 		// GETTERS
 		std::string			getName(void);
+		std::string			getRealName(void);
 		std::string			getNickname(void);
 		std::map<int, int>	getPermission(void);
 		int					getLogged(void);
@@ -40,6 +42,7 @@ class User
 		
 		// SETTERS
 		void				setName(std::string);
+		void				setRealName(std::string);
 		void				setNickname(std::string);
 		void				setPermission(std::map<int, int>);
 		void				setLogged(int);

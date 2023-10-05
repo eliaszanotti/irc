@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 18:19:56 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/10/05 09:23:53 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ enum {
 	INVITE,
 	TOPIC,
 	MODE,
-	CAP
+	CAP,
+	PASS,
+	NICK,
+	USER
 };
 
 class Channel;
@@ -47,7 +50,10 @@ class Server
 		bool	_invite();
 		bool	_topic();
 		bool	_mode();
+		bool	_pass(int, std::vector<std::string>);
 		bool	_cap(int);
+		bool	_nick(int fd, std::vector<std::string> command);
+		bool	_user(int fd, std::vector<std::string> command);
 
 	public:
 		// CONSTRUCTORS
