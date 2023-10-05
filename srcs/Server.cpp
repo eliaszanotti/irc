@@ -105,10 +105,10 @@ void	Server::waitingForNewUsers(void)
 			}
 
 			std::cout << "[+] Incoming connection by " << new_sd << std::endl;
-			this->pollFD[this->pollFDSize].fd = new_sd;
-			this->pollFD[this->pollFDSize].events = POLLIN;
-			this->createNewUser(this->pollFD[this->pollFDSize]);
-			pollFDSize++;
+			this->_pollFD[this->_pollFDSize].fd = new_sd;
+			this->_pollFD[this->_pollFDSize].events = POLLIN;
+			this->createNewUser(this->_pollFD[this->_pollFDSize]);
+			this->_pollFDSize++;
 		}
 
 		// Gestion for each client
@@ -130,7 +130,7 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "[-] " << this->_users[this->pollFD[i].fd]->getNickname() << " leaved the server" << std::endl;
+					std::cout << "[-] " << this->_users[this->_pollFD[i].fd]->getNickname() << " leaved the server" << std::endl;
 					closeConnection = true;
 				}
 				else
@@ -139,13 +139,13 @@ void	Server::waitingForNewUsers(void)
 					if (returnValue == 1)
 						continue ;
 
-					if (!this->_checkCommandInsideMessage(this->pollFD[i].fd, buffer))
+					if (!this->_checkCommandInsideMessage(this->_pollFD[i].fd, buffer))
 					{
-						for (int j = 1; j < this->pollFDSize; j++)
+						for (int j = 1; j < this->_pollFDSize; j++)
 						{
 							if (j == i)
 								continue ;
-							send(this->pollFD[j].fd, buffer, returnValue, 0);
+							send(this->_pollFD[j].fd, buffer, returnValue, 0);
 						}
 					}
 				}
