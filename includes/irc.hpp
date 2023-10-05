@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 12:32:01 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 12:38:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ enum {
 };
 
 std::vector<std::string>	split(std::string s, char delimiter);
+void						send(int, std::string);
 
 #endif
