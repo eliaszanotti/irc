@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 10:50:59 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:15:34 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ class User
 		void				newConnection(void);
 		
 		// GETTERS
-		std::string			getName(void);
-		std::string			getRealName(void);
-		std::string			getNickname(void);
-		std::map<int, int>	getPermission(void);
-		int					getLogged(void);
-		int					getConnected(void);
+		std::string			getName(void) const;
+		std::string			getRealName(void) const;
+		std::string			getNickname(void) const;
+		std::map<int, int>	getPermission(void) const;
+		int					getLogged(void) const;
+		int					getConnected(void) const;
+		pollfd				getPollFd(void) const;
+		int					getFd(void) const;
 		
 		// SETTERS
 		void				setName(std::string);

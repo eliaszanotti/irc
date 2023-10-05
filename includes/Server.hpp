@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 12:31:23 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:14:33 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,14 @@ class Server
 		Server(int port, std::string password);
 
 		// GETTERS
-		int	getServerSocket(void) const;
+		std::string	getName(void) const;
+		int			getServerSocket(void) const;
 
 		// METHODS
 		void	init(void);
 		void	waitingForNewUsers(void);
+
+		static void	sendTo(const User *user, const std::string &message);
 };
 
 #endif

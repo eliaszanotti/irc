@@ -44,7 +44,7 @@ void	Server::_processPoll(void)
 }
 
 // GETTERS
-int Server::getServerSocket(void) const {return (this->_serverSocket);}
+int			Server::getServerSocket(void) const {return (this->_serverSocket);}
 
 // METHODS
 void	Server::init(void)
@@ -191,6 +191,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 	// size_t		stop_idx;
 	size_t			i;
 
+	std::cout << "Message received: [" << message << "]" << std::endl;
 	message.erase(message.size() -1);
 	command = split(message, ' ');
 	std::string		commands[]	= {
@@ -257,8 +258,7 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 {
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwords;
-	size_t						j;
-	std::string					output;
+	size_t						j = 0;
 	
 	std::cout << "join() called" << std::endl;
 
@@ -266,12 +266,12 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		return (false);
 	if (command.size() < 2)
 	{
-		send(fd, "Usage: JOIN <channel>, joins the channel", 41, 0);
+		send(fd, "Usage: JOIN <channel>, joins the channel {DEBUG}", 41, 0);
 		return (false);
 	}
 	if (command[1][0] != '#')
 	{
-		send(fd, " :Invalid channel name", 23, 0);
+		send(fd, " :Invalid channel name {DEBUG}", 23, 0);
 		return (false);
 	}
 
@@ -282,13 +282,13 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 	
 	for (size_t i = 0; i < channels.size(); i++)
 	{
-		if (command[i][0] != '#')
+		if (channels[i][0] != '#')
 			return (false);
 
 		// Connection to an existing channel
 		for (j = 0; j < this->_channels.size(); j++)
 		{
-			if (command[i] == this->_channels[j]->getName())
+			if (channels[i] == this->_channels[j]->getName())
 			{
 				if (!this->_channels[j]->getPassword().empty())
 				{
@@ -297,13 +297,11 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 						// Password gestion
 						if (this->_channels[j]->getPassword() == passwords[i])
 						{
-							output = "JOIN " + command[i];
-							send(fd, output.c_str(), output.size(), 0);
+							
 						}
 						else
 						{
-							output = "Cannot join " + command[i] + " (Requires keyword)";
-							send(fd, output.c_str(), output.size(), 0);
+							
 						}
 					}
 				}
@@ -314,9 +312,39 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		// Create the channel and join it
 		if (j == this->_channels.size())
 		{
-			Channel	*channel = new Channel(command[i]);
+			Channel	*channel = new Channel(channels[i]);
 			this->_channels.push_back(channel);
+
+			std::string	output;
+			output = ":" + this->_users[fd]->getNickname() + "!" + this->_users[fd]->getName() + "@" + IP_ADDR + " JOIN " + channel->getName() + "\r\n";
+			for (size_t k = 0; k < this->_users.size(); k++)
+			{
+				if (this->_users[k]->getFd() != fd)
+					send(this->_users[k]->getFd(), output.c_str(), output.length(), 0);
+			}
+			// 353
+			output = ":" + SERVER("353") + this->_users[fd]->getNickname() + " " + "MODE" + " " + channel->getName() + " :" + "+nt" + this->_users[fd]->getNickname() + "\r\n";
+			send(fd, output.c_str(), output.length(), 0);
+			// 366
+			output = ":" + SERVER("366") + this->_users[fd]->getNickname() + " " + channel->getName() + " :End of /NAMES list\r\n";
+			send(fd, output.c_str(), output.length(), 0);
 		}
 	}
 	return (true);
+}
+
+void	Server::sendTo(const User *user, const std::string &message)
+{
+	size_t byteSent = 0;
+
+	while (byteSent < message.length())
+	{
+		long len = send(user->getFd(), message.c_str(), message.length(), 0);
+		if (len < 0)
+		{
+			std::cerr << "send() error: server to client" << std::endl;
+			break ;
+		}
+		byteSent += len;
+	}
 }
