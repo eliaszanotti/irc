@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/04 09:46:33 by lpupier          ###   ########.fr        #
+#    Updated: 2023/10/05 10:14:42 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,13 @@ NAME			=	ircserv
 LIST_SRCS		=	main.cpp	\
 					Server.cpp	\
 					Channel.cpp	\
-					User.cpp
+					split.cpp	\
+					User.cpp	\
+					${DIR_COMMAND}cap.cpp	\
+					${DIR_COMMAND}pass.cpp	\
+					${DIR_COMMAND}nick.cpp	\
+					${DIR_COMMAND}user.cpp	\
+					
 
 LIST_INCS		=	irc.hpp		\
 					Server.hpp	\
@@ -28,6 +34,8 @@ LIST_INCS		=	irc.hpp		\
 DIR_OBJS		=	.objs/
 
 DIR_SRCS		=	srcs/
+
+DIR_COMMAND		=	command/
 
 DIR_INCS		=	includes/
 
@@ -69,7 +77,7 @@ ${DIR_OBJS}%.o 	:	%.cpp Makefile  ${INCLUDES}
 ${NAME}			:	${OBJS} ${INCLUDES}
 				@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE${DEFAULT}"
 				@${PRINT} "\n${YELLOW}Compiling ${NAME}...${DEFAULT}"
-				@${CC} ${OBJS} -o ${NAME} # -fsanitize=address
+				@${CC} ${OBJS} -o ${NAME} -fsanitize=address
 				@${PRINT} "\r${GREEN}Compiling ${NAME} : DONE${DEFAULT}\n\n"
 
 ascii			:
