@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:14:33 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:32:24 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ class Server
 		std::map<int, User *>	_users;
 		struct pollfd			_pollFD[MAX_CHAR];
 		int						_pollFDSize;
+		bool					_serverIsRunning;
 		
-
 		// PRIVATE METHODS
 		void	_processPoll(void);
+		void	_addNewUser(void);
 		bool	_checkCommandInsideMessage(int fd, std::string message);
 		void	sendNewUserMsg(int);
 		void	createNewUser(pollfd);

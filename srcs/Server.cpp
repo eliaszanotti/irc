@@ -31,6 +31,7 @@ Server::Server(int port, std::string password)
 	this->_pollFD[0].fd = this->_serverSocket;
 	this->_pollFD[0].events = POLLIN;
 	this->_pollFDSize = 1;
+	this->_serverIsRunning = true;
 }
 
 // PRIVATE METHODS
@@ -41,6 +42,30 @@ void	Server::_processPoll(void)
 		throw (std::runtime_error("Poll failed"));
 	if (returnValue == 0)
 		throw (std::runtime_error("Poll timeout"));
+}
+
+void Server::_addNewUser(void)
+{		
+	int				newSd = 0;
+	if (this->_pollFD[0].revents & POLLIN)
+	{
+		newSd = accept(this->_serverSocket, NULL, NULL);
+		if (newSd < 0)
+		{
+			if (errno != EWOULDBLOCK)
+			{
+				std::cout << "accept failed" << std::endl;
+				this->_serverIsRunning = false;
+			}
+			// break;
+		}
+
+		std::cout << "[+] Incoming connection by " << newSd << std::endl;
+		this->_pollFD[this->_pollFDSize].fd = newSd;
+		this->_pollFD[this->_pollFDSize].events = POLLIN;
+		this->createNewUser(this->_pollFD[this->_pollFDSize]);
+		this->_pollFDSize++;
+	}
 }
 
 // GETTERS
@@ -72,44 +97,46 @@ void	Server::createNewUser(pollfd pollfd)
 
 void	Server::waitingForNewUsers(void)
 {	
-	bool			serverIsRunning = true;
-	int				new_sd = 0;
+	// bool		this->_	serverIsRunning = true;
+	// int				new_sd = 0;
 	int				closeConnection;
 	char			buffer[MAX_CHAR];
 	int				returnValue;
 
 
-	while (serverIsRunning)
+	while (this->_serverIsRunning)
 	{
 		try
 		{
 			this->_processPoll();
+			this->_addNewUser();
 		}
 		catch(const std::exception& error)
 		{
 			throw (std::runtime_error(error.what()));
 		}
 
-		// Add a new user
-		if (this->_pollFD[0].revents & POLLIN)
-		{
-			new_sd = accept(this->_serverSocket, NULL, NULL);
-			if (new_sd < 0)
-			{
-				if (errno != EWOULDBLOCK)
-				{
-				std::cout << "accept failed" << std::endl;
-				serverIsRunning = false;
-				}
-				break;
-			}
 
-			std::cout << "[+] Incoming connection by " << new_sd << std::endl;
-			this->_pollFD[this->_pollFDSize].fd = new_sd;
-			this->_pollFD[this->_pollFDSize].events = POLLIN;
-			this->createNewUser(this->_pollFD[this->_pollFDSize]);
-			this->_pollFDSize++;
-		}
+		// Add a new user
+		// if (this->_pollFD[0].revents & POLLIN)
+		// {
+		// 	new_sd = accept(this->_serverSocket, NULL, NULL);
+		// 	if (new_sd < 0)
+		// 	{
+		// 		if (errno != EWOULDBLOCK)
+		// 		{
+		// 		std::cout << "accept failed" << std::endl;
+		// 	this->_	serverIsRunning = false;
+		// 		}
+		// 		break;
+		// 	}
+
+		// 	std::cout << "[+] Incoming connection by " << new_sd << std::endl;
+		// 	this->_pollFD[this->_pollFDSize].fd = new_sd;
+		// 	this->_pollFD[this->_pollFDSize].events = POLLIN;
+		// 	this->createNewUser(this->_pollFD[this->_pollFDSize]);
+		// 	this->_pollFDSize++;
+		// }
 
 		// Gestion for each client
 		for (int i = 1; i < this->_pollFDSize; i++)

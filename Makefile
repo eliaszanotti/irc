@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
+#    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/05 12:40:30 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/10/05 13:35:38 by elias            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,9 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_UTILS}split.cpp		\
 					${DIR_UTILS}send.cpp		\
 					${DIR_COMMAND}cap.cpp		\
-					${DIR_COMMAND}pass.cpp		\
 					${DIR_COMMAND}nick.cpp		\
+					${DIR_COMMAND}pass.cpp		\
+					${DIR_COMMAND}join.cpp		\
 					${DIR_COMMAND}user.cpp		\
 					${DIR_COMMAND}privmsg.cpp	\
 					
