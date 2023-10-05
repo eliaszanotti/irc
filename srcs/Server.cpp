@@ -199,7 +199,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 									"JOIN"
 	};
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < 9; i++)
 	{
 		if (!commands[i].compare(command[0]))
 			break ;
