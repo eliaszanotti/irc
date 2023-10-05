@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 11:49:21 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:19:23 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 			break ;
 	}
 	if (it == this->_users.end())
-		send(fd, RED"no such user found\n"RST);
+		send(fd, RED "no such user found\n" RST);
 	else
 	{
 		send(it->first, BLUE);
 		send(it->first, this->_users[fd]->getNickname());
-		send(it->first, " > "RST);
+		send(it->first, " > " RST);
 		for (size_t i = 2; i < command.size(); i++)
 		{
 			send(it->first, command[i]);

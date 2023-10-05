@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:15:53 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:18:54 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	User::newConnection(void)
 	if (this->getConnected() && !this->getNickname().empty() && !this->getName().empty() && !this->getRealName().empty())
 	{
 		this->_logged = 1;
-		send(this->_pollfd.fd, GREEN"----- You are now connected -----\n"RST);
+		send(this->_pollfd.fd, GREEN "----- You are now connected -----\n" RST);
 	}
 }
 
