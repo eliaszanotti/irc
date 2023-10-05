@@ -50,14 +50,8 @@ void Server::_addNewUser(void)
 	if (this->_pollFD[0].revents & POLLIN)
 	{
 		newFD = accept(this->_serverSocket, NULL, NULL);
-		if (newFD < 0)
-		{
-			if (errno != EWOULDBLOCK)
-			{
-				std::cout << "accept failed" << std::endl;
-				this->_serverIsRunning = false;
-			}
-		}
+		if (newFD < 0 && errno != EWOULDBLOCK)
+			throw (std::runtime_error("Error when trying to add new user"));
 		std::cout << "[+] Incoming connection by " << newFD << std::endl;
 		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
