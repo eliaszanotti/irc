@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/05 14:03:09 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 14:59:11 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,10 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 
 			std::string	output;
 			output = ":" + this->_users[fd]->getNickname() + "!" + this->_users[fd]->getName() + "@" + IP_ADDR + " JOIN " + channel->getName() + "\r\n";
-			for (size_t k = 0; k < this->_users.size(); k++)
-			{
-				if (this->_users[k]->getFd() != fd)
-					send(this->_users[k]->getFd(), output.c_str(), output.length(), 0);
-			}
+
+			for (std::map<int,User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it)
+				send(it->second->getFd(), output.c_str(), output.length(), 0);
+
 			// 353
 			output = ":" + SERVER("353") + this->_users[fd]->getNickname() + " " + "MODE" + " " + channel->getName() + " :" + "+nt" + this->_users[fd]->getNickname() + "\r\n";
 			send(fd, output.c_str(), output.length(), 0);

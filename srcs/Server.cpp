@@ -55,7 +55,7 @@ void Server::_addNewUser(void)
 		std::cout << "[+] Incoming connection by " << newFD << std::endl;
 		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
-		User	*newUser = new User(this->_pollFD[this->_pollFDSize]);
+		User *newUser = new User(this->_pollFD[this->_pollFDSize]);
 		this->_users[this->_pollFD[this->_pollFDSize].fd] = newUser;
 		this->_pollFDSize++;
 	}
@@ -191,8 +191,7 @@ void	Server::waitingForNewUsers(void)
 bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 {
 	std::vector<std::string>	command;
-	// size_t		stop_idx;
-	size_t			i;
+	size_t						i;
 
 	std::cout << "Message received: [" << message << "]" << std::endl;
 
