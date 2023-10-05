@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:56:58 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 17:20:25 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ class Server
 		// PRIVATE METHODS
 		void	_processPoll(void);
 		void	_addNewUser(void);
+		void	_processMessage(std::string buffer, int currentIndex);
+		void	_closeCurrentUser(int currentIndex);
+		void	_connectEachUser(void);
+
 		bool	_checkCommandInsideMessage(int fd, std::string message);
 
 		bool	_cap(int fd);
