@@ -6,13 +6,14 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 15:24:52 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 11:47:43 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_CLASS_HPP
 # define SERVER_CLASS_HPP
 
+# define MAX_CHAR 1024
 # include "irc.hpp"
 
 class Channel;
@@ -25,8 +26,12 @@ class Server
 		int						_serverSocket;
 		struct sockaddr_in	 	_serverAddress;
 		std::vector<Channel>	_channels;
+		struct pollfd			_pollFD[MAX_CHAR];
+		int						_pollFDSize;
+
 		// PRIVATE METHODS
-		void	_processPoll(struct pollfd *pollFD, int pollFDSize);
+		void	_processPoll(void);
+		// void	_addNewUser(void);
 
 	public:
 		// CONSTRUCTORS

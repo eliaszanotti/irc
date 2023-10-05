@@ -26,12 +26,17 @@ Server::Server(int port, std::string password)
 	std::memcpy(&this->_serverAddress.sin_addr, &in6addr_any, sizeof(in6addr_any));
 	this->_serverAddress.sin_port = htons(port);
 	this->_serverAddress.sin_addr.s_addr = INADDR_ANY;
+
+	std::memset(this->_pollFD, 0 , sizeof(this->_pollFD));
+	this->_pollFD[0].fd = this->_serverSocket;
+	this->_pollFD[0].events = POLLIN;
+	this->_pollFDSize = 1;
 }
 
 // PRIVATE METHODS
-void	Server::_processPoll(struct pollfd *pollFD, int pollFDSize)
+void	Server::_processPoll(void)
 {
-	int returnValue = poll(pollFD, pollFDSize, POLL_TIMEOUT);
+	int returnValue = poll(this->_pollFD, this->_pollFDSize, POLL_TIMEOUT);
 	if (returnValue < 0)
 		throw (std::runtime_error("Poll failed"));
 	if (returnValue == 0)
@@ -61,32 +66,26 @@ void	Server::init(void)
 
 void	Server::waitingForNewUsers(void)
 {	
-	struct pollfd	pollFD[MAX_USERS];
-	
-	std::memset(pollFD, 0 , sizeof(pollFD));
-	pollFD[0].fd = this->_serverSocket;
-	pollFD[0].events = POLLIN;
-	int				pollFDSize = 1;
 	bool			serverIsRunning = true;
 	int				new_sd = 0;
 	int				closeConnection;
 	char			buffer[MAX_CHAR];
 	int				returnValue;
 
+
 	while (serverIsRunning)
 	{
 		try
 		{
-			this->_processPoll(pollFD, pollFDSize);
+			this->_processPoll();
 		}
 		catch(const std::exception& error)
 		{
-			close(this->_serverSocket);
 			throw (std::runtime_error(error.what()));
 		}
 
 		// Add a new user
-		if (pollFD[0].revents & POLLIN)
+		if (this->_pollFD[0].revents & POLLIN)
 		{
 			new_sd = accept(this->_serverSocket, NULL, NULL);
 			if (new_sd < 0)
@@ -100,20 +99,20 @@ void	Server::waitingForNewUsers(void)
 			}
 
 			printf("New incoming connection - %d\n", new_sd);
-			pollFD[pollFDSize].fd = new_sd;
-			pollFD[pollFDSize].events = POLLIN;
-			pollFDSize++;
+			this->_pollFD[this->_pollFDSize].fd = new_sd;
+			this->_pollFD[this->_pollFDSize].events = POLLIN;
+			this->_pollFDSize++;
 		}
 
 		// Gestion for each client
-		for (int i = 1; i < pollFDSize; i++)
+		for (int i = 1; i < this->_pollFDSize; i++)
 		{
 			closeConnection = false;
-			if (pollFD[i].revents & POLLIN)
+			if (this->_pollFD[i].revents & POLLIN)
 			{
 				// Receive the message from the user
 				memset(&buffer, 0, MAX_CHAR);
-				returnValue = recv(pollFD[i].fd, buffer, sizeof(buffer), 0);
+				returnValue = recv(this->_pollFD[i].fd, buffer, sizeof(buffer), 0);
 				if (returnValue < 0)
 				{
 					if (errno != EWOULDBLOCK)
@@ -124,17 +123,17 @@ void	Server::waitingForNewUsers(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "Connection closed by " << pollFD[i].fd << std::endl;
+					std::cout << "Connection closed by " << this->_pollFD[i].fd << std::endl;
 					closeConnection = true;
 				}
 				else
 				{
 					// The message if correctly readable
-					for (int j = 1; j < pollFDSize; j++)
+					for (int j = 1; j < this->_pollFDSize; j++)
 					{
 						if (j == i)
 							continue ;
-						send(pollFD[j].fd, buffer, returnValue, 0);
+						send(this->_pollFD[j].fd, buffer, returnValue, 0);
 					}
 				
 				}
@@ -144,16 +143,16 @@ void	Server::waitingForNewUsers(void)
 			// If there is a problem with the user
 			if (closeConnection)
 			{
-				close(pollFD[i].fd);
-				pollFD[i].fd = -1;
-				for (int i = 0; i < pollFDSize; i++)
+				close(this->_pollFD[i].fd);
+				this->_pollFD[i].fd = -1;
+				for (int i = 0; i < this->_pollFDSize; i++)
 				{
-					if (pollFD[i].fd == -1)
+					if (this->_pollFD[i].fd == -1)
 					{
-						for (int j = i; j < pollFDSize; j++)
-							pollFD[j].fd = pollFD[j+1].fd;
+						for (int j = i; j < this->_pollFDSize; j++)
+							this->_pollFD[j].fd = this->_pollFD[j+1].fd;
 						i--;
-						pollFDSize--;
+						this->_pollFDSize--;
 					}
 				}
 				break ;
@@ -163,9 +162,9 @@ void	Server::waitingForNewUsers(void)
 	}
 
 	// Close all the clients if the server is down
-	for (int i = 0; i < pollFDSize; i++)
+	for (int i = 0; i < this->_pollFDSize; i++)
 	{
-		if (pollFD[i].fd >= 0)
-			close(pollFD[i].fd);
+		if (this->_pollFD[i].fd >= 0)
+			close(this->_pollFD[i].fd);
 	}
 }

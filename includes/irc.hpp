@@ -6,11 +6,11 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/04 14:24:45 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 11:47:25 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef IRC_HPP
+#ifndef IRC_HPP
 # define IRC_HPP
 
 # define RED "\e[31m"
@@ -40,8 +40,7 @@
 # include "User.hpp"
 # include "Channel.hpp"
 
-# define MAX_USERS	42
-# define MAX_CHAR	1024
+# define MAX_USERS		42
 # define POLL_TIMEOUT	80*1000
 
 enum {
