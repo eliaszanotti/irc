@@ -138,19 +138,25 @@ void	Server::waitingForNewUsers(void)
 					// Empty message
 					if (returnValue == 1)
 						continue ;
-
-					if (!this->_checkCommandInsideMessage(this->_pollFD[i].fd, buffer))
+					std::vector<std::string> split_message;
+					split_message = split(erasechar(buffer, '\r'), "\n");
+					for (size_t idx = 0; idx < split_message.size(); idx++)
 					{
-						if (!this->_users[this->_pollFD[i].fd]->getLogged())
-							send(this->_pollFD[i].fd, "Client isn't connected\n", 23, 0);
-						else
+						if (split_message.empty())
+							continue;
+						if (!this->_checkCommandInsideMessage(this->_pollFD[i].fd, split_message[idx]))
 						{
-							for (int j = 1; j < this->_pollFDSize; j++)
+							if (!this->_users[this->_pollFD[i].fd]->getLogged())
+								send(this->_pollFD[i].fd, "Client isn't connected\n", 23, 0);
+							else
 							{
-								if (j == i)
-									continue ;
-								if (this->_users[this->_pollFD[j].fd]->getConnected())
-									send(this->_pollFD[j].fd, buffer, returnValue, 0);
+								for (int j = 1; j < this->_pollFDSize; j++)
+								{
+									if (j == i)
+										continue ;
+									if (this->_users[this->_pollFD[j].fd]->getConnected())
+										send(this->_pollFD[j].fd, split_message[idx].c_str(), returnValue, 0);
+								}
 							}
 						}
 					}
@@ -192,8 +198,8 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 	size_t			i;
 
 	std::cout << "Message received: [" << message << "]" << std::endl;
-	message.erase(message.size() -1);
-	command = split(message, ' ');
+	// message.erase(message.size() -1);
+	command = split(message, " ");
 	std::string		commands[]	= {
 									"KICK",
 									"INVITE",

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 13:14:40 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/05 13:52:13 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ enum {
 	INVITE_MODE
 };
 
-std::vector<std::string>	split(std::string s, char delimiter);
+std::vector<std::string>	split(std::string s, std::string delimiter);
 void						send(int, std::string);
+std::string 				erasechar(std::string s, char erased);
 
 #endif
