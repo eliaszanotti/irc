@@ -140,6 +140,60 @@ void Server::_connectEachUser(void)
 	}
 }
 
+bool	Server::_checkCommandInsideMessage(int fd, std::string message)
+{
+	std::cout << "Message received: [" << message << "]" << std::endl;
+	std::vector<std::string>	command = split(message, " ");
+	std::string		commands[]	= {
+		"KICK",
+		"INVITE",
+		"TOPIC",
+		"MODE",
+		"CAP",
+		"PASS",
+		"NICK",
+		"USER",
+		"JOIN",
+		"PRIVMSG"
+	};
+	size_t	i;
+	for (i = 0; i < 10; i++)
+	{
+		if (!commands[i].compare(command[0]))
+			break ;
+	}
+	switch (i)
+	{
+		case KICK:		return this->_kick();
+		case INVITE:	return this->_invite();
+		case TOPIC:		return this->_topic();
+		case MODE:		return this->_mode();
+		case CAP:		return this->_cap(fd);
+		case PASS:		return this->_pass(fd, command);
+		case NICK:		return this->_nick(fd, command);
+		case USER:		return this->_user(fd, command);
+		case JOIN:		return this->_join(fd, command);
+		case PRIVMSG:	return this->_privmsg(fd, command);
+	}
+	return (false);
+}
+
+void	Server::_sendTo(const User *user, const std::string &message)
+{
+	size_t byteSent = 0;
+
+	while (byteSent < message.length())
+	{
+		long len = send(user->getFd(), message.c_str());
+		if (len < 0)
+		{
+			std::cerr << "send() error: server to client" << std::endl;
+			break ;
+		}
+		byteSent += len;
+	}
+}
+
 // GETTERS
 int			Server::getServerSocket(void) const {return (this->_serverSocket);}
 
@@ -189,65 +243,5 @@ void	Server::waitingForNewUsers(void)
 			}
 			throw (std::runtime_error(error.what()));
 		}
-	}
-}
-
-bool	Server::_checkCommandInsideMessage(int fd, std::string message)
-{
-	std::vector<std::string>	command;
-	size_t						i;
-
-	std::cout << "Message received: [" << message << "]" << std::endl;
-
-	command = split(message, " ");
-	std::string		commands[]	= {
-									"KICK",
-									"INVITE",
-									"TOPIC",
-									"MODE",
-									"CAP",
-									"PASS",
-									"NICK",
-									"USER",
-									"JOIN",
-									"PRIVMSG"
-	};
-
-	for (i = 0; i < 10; i++)
-	{
-		if (!commands[i].compare(command[0]))
-			break ;
-	}
-	switch (i)
-	{
-		case KICK:		return this->_kick();
-		case INVITE:	return this->_invite();
-		case TOPIC:		return this->_topic();
-		case MODE:		return this->_mode();
-		case CAP:		return this->_cap(fd);
-		case PASS:		return this->_pass(fd, command);
-		case NICK:		return this->_nick(fd, command);
-		case USER:		return this->_user(fd, command);
-		case JOIN:		return this->_join(fd, command);
-		case PRIVMSG:	return this->_privmsg(fd, command);
-	}
-
-	return (false);
-}
-
-// COMMANDS
-void	Server::sendTo(const User *user, const std::string &message)
-{
-	size_t byteSent = 0;
-
-	while (byteSent < message.length())
-	{
-		long len = send(user->getFd(), message.c_str());
-		if (len < 0)
-		{
-			std::cerr << "send() error: server to client" << std::endl;
-			break ;
-		}
-		byteSent += len;
 	}
 }
