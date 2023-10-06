@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   send.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 10:55:41 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 11:00:02 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/06 13:26:39 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "irc.hpp"
 
-void    send(int fd, std::string str)
+ssize_t send(int fd, std::string str)
 {
-    send(fd, str.c_str(), str.size(), 0);
+    return (send(fd, str.c_str(), str.size(), 0));
 }

@@ -242,7 +242,7 @@ void	Server::sendTo(const User *user, const std::string &message)
 
 	while (byteSent < message.length())
 	{
-		long len = send(user->getFd(), message.c_str(), message.length(), 0);
+		long len = send(user->getFd(), message.c_str());
 		if (len < 0)
 		{
 			std::cerr << "send() error: server to client" << std::endl;
