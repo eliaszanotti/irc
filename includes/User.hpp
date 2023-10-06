@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:15:34 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:07:19 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class User 
 {
 	private:
-		struct pollfd			_pollfd;
+		struct pollfd			_pollFD;
 		int						_connected;
 		int						_logged;
 		std::string				_name;
@@ -29,12 +29,10 @@ class User
 	public:
 		// CONSTRUCTORS
 		User();
-		User(pollfd	pollfd);
+		User(pollfd	pollFD);
 		~User();
-		
 		// METHODS
 		void				newConnection(void);
-		
 		// GETTERS
 		std::string			getName(void) const;
 		std::string			getRealName(void) const;
@@ -44,7 +42,6 @@ class User
 		int					getConnected(void) const;
 		pollfd				getPollFd(void) const;
 		int					getFd(void) const;
-		
 		// SETTERS
 		void				setName(std::string);
 		void				setRealName(std::string);
