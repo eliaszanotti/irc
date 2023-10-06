@@ -65,7 +65,7 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 {
 	int	currentFD = this->_pollFD[currentIndex].fd;
 	std::vector<std::string> split_message;
-	split_message = split(erasechar(buffer, '\r'), "\n");
+	split_message = split(buffer, "\n");
 	for (size_t idx = 0; idx < split_message.size(); idx++)
 	{
 		if (split_message[idx].empty())

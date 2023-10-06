@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/06 13:24:48 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/06 13:42:11 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define ERROR_STRING	RED "[Error] " RST
 
 # include <arpa/inet.h>
+# include <algorithm>
 # include <cstring>
 # include <errno.h>
 # include <iostream>
@@ -54,8 +55,7 @@ enum {
 	INVITE_MODE
 };
 
-std::vector<std::string>	split(std::string s, std::string delimiter);
+std::vector<std::string>	split(std::string str, std::string delimiter);
 ssize_t						send(int, std::string);
-std::string 				erasechar(std::string s, char erased);
 
 #endif
