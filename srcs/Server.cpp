@@ -66,25 +66,14 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 	int	currentFD = this->_pollFD[currentIndex].fd;
 	std::vector<std::string> split_message;
 	split_message = split(buffer, "\n");
-	for (size_t idx = 0; idx < split_message.size(); idx++)
+	for (size_t i = 0; i < split_message.size(); i++)
 	{
-		if (split_message[idx].empty())
+		if (split_message[i].empty())
 			continue;
-		if (!this->_checkCommandInsideMessage(currentFD, split_message[idx]))
-		{
-			if (!this->_users[currentFD]->getLogged())
-				send(currentFD, "Client isn't connected\n");
-			else
-			{
-				for (int j = 1; j < this->_pollFDSize; j++)
-				{
-					if (j == currentIndex)
-						continue ;
-					if (this->_users[this->_pollFD[j].fd]->getConnected())
-						send(this->_pollFD[j].fd, split_message[idx].c_str());
-				}
-			}
-		}
+		if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(split_message[i]))
+			this->_executeUserCommand(currentFD, split_message[i]);
+		else if (!this->_users[currentFD]->getLogged())
+			send(currentFD, "[⚠] You're not connected\n");
 	}
 }
 
@@ -140,43 +129,48 @@ void Server::_connectEachUser(void)
 	}
 }
 
-bool	Server::_checkCommandInsideMessage(int fd, std::string message)
+bool Server::_isExecutableCommand(std::string message)
 {
-	std::cout << L_ARROW_ICON " {" << message << "}" << std::endl;
 	std::vector<std::string>	command = split(message, " ");
 	std::string		commands[]	= {
-		"KICK",
-		"INVITE",
-		"TOPIC",
-		"MODE",
 		"CAP",
 		"PASS",
 		"NICK",
 		"USER",
-		"JOIN",
-		"PRIVMSG"
 	};
-	size_t	i;
-	for (i = 0; i < 10; i++)
-	{
+	for (size_t i = 0; i < commands->size() + 1; i++)
 		if (!commands[i].compare(command[0]))
-			break ;
-	}
-	switch (i)
-	{
-		case KICK:		return this->_kick();
-		case INVITE:	return this->_invite();
-		case TOPIC:		return this->_topic();
-		case MODE:		return this->_mode();
-		case CAP:		return this->_cap(fd);
-		case PASS:		return this->_pass(fd, command);
-		case NICK:		return this->_nick(fd, command);
-		case USER:		return this->_user(fd, command);
-		case JOIN:		return this->_join(fd, command);
-		case PRIVMSG:	return this->_privmsg(fd, command);
-		default:		return (send(fd, "Invalid command\n"), true);
-	}
+			return (true);
 	return (false);
+}
+
+void	Server::_executeUserCommand(int fd, std::string message)
+{
+	std::cout << L_ARROW_ICON " {" << message << "}" << std::endl;
+	std::vector<std::string>	command = split(message, " ");
+
+	if (command[0] == "KICK")
+		this->_kick();
+	else if (command[0] == "INVITE")
+		this->_invite();
+	else if (command[0] == "TOPIC")
+		this->_topic();
+	else if (command[0] == "MODE")
+		this->_mode();
+	else if (command[0] == "CAP")
+		this->_cap(fd);
+	else if (command[0] == "PASS")
+		this->_pass(fd, command);
+	else if (command[0] == "NICK")
+		this->_nick(fd, command);
+	else if (command[0] == "USER")
+		this->_user(fd, command);
+	else if (command[0] == "JOIN")
+		this->_join(fd, command);
+	else if (command[0] == "PRIVMSG")
+		this->_privmsg(fd, command);
+	else
+		send(fd, "Invalid command\n");
 }
 
 void	Server::_sendTo(const User *user, const std::string &message)
@@ -212,7 +206,7 @@ void	Server::init(void)
 		throw(std::runtime_error("Ioctl failed"));
 	if (bind(this->_serverSocket, (struct sockaddr*)&this->_serverAddress, sizeof(this->_serverAddress)) < 0)
 		throw(std::runtime_error("Bind failed"));
-	if (listen(this->_serverSocket, 3) < 0)
+	if (listen(this->_serverSocket, 10) < 0)
 		throw(std::runtime_error("Listen failed"));
 }
 

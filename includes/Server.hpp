@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 11:44:49 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 17:10:15 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 
 # define MAX_CHAR 1024
 # include "irc.hpp"
-
-enum {
-	KICK,
-	INVITE,
-	TOPIC,
-	MODE,
-	CAP,
-	PASS,
-	NICK,
-	USER,
-	JOIN,
-	PRIVMSG
-};
 
 class Channel;
 
@@ -52,7 +39,8 @@ class Server
 		void	_processMessage(std::string buffer, int currentIndex);
 		void	_closeCurrentUser(int currentIndex);
 		void	_connectEachUser(void);
-		bool	_checkCommandInsideMessage(int fd, std::string message);
+		bool	_isExecutableCommand(std::string message);
+		void	_executeUserCommand(int fd, std::string message);
 		void	_sendTo(const User *user, const std::string &message);
 		
 		// COMMANDS

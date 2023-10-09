@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 13:19:23 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 17:11:33 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,13 @@
 
 bool    Server::_privmsg(int fd, std::vector<std::string> command)
 {
-	std::map<int, User *>::iterator it = this->_users.begin();
-	for (; it != this->_users.end(); it++)
+	for (size_t i = 0; i < command.size(); i++)
 	{
-		if (it->second->getNickname() == command[1])
-			break ;
+		std::cout << command[i] << std::endl;
 	}
-	if (it == this->_users.end())
-		send(fd, RED "no such user found\n" RST);
-	else
-	{
-		send(it->first, BLUE);
-		send(it->first, this->_users[fd]->getNickname());
-		send(it->first, " > " RST);
-		for (size_t i = 2; i < command.size(); i++)
-		{
-			send(it->first, command[i]);
-			send(it->first, " ");
-		}
-		send(it->first, "\n");
-	}
+		
+	if (command.size() < 3)
+		return (send(fd, "Wrong command usage: PRIVMSG <user|#channel> :<msg>\n"));
+	(void)fd;
 	return (true);
 }
