@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/06 14:07:54 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 13:33:00 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "irc.hpp"
 
+// Constructors
 Channel::Channel() {}
 Channel::~Channel() {}
 
@@ -20,6 +21,7 @@ Channel::Channel(std::string name): _name(name)
 	this->_mode = OPEN;
 	this->_password = "";
 	this->_max_users = -1;
+	this->_symbol = SECRET_CHANNEL;
 }
 
 // Getters
@@ -30,6 +32,8 @@ int							Channel::getMode(void) { return this->_mode; }
 std::string					Channel::getName(void) { return this->_name; }
 int							Channel::getMaxUsers(void) { return this->_max_users; }
 std::string					Channel::getTopic(void) { return this->_topic; }
+std::string					Channel::getSymbol(void) { return this->_symbol; }
+char						Channel::getPrivilegeFor(User *user) { return this->_usersPrivileges[user]; }
 
 // Setters
 void	Channel::setUsers(std::vector<User *> users) { this->_users = users; }
@@ -38,5 +42,23 @@ void	Channel::setPassword(std::string password) { this->_password = password; }
 void	Channel::setMode(int mode) { this->_mode = mode; }
 void	Channel::setMaxUsers(int max_users) { this->_max_users = max_users; }
 void	Channel::setTopic(std::string topic) { this->_topic = topic; }
+void	Channel::setSymbol(std::string symbol) { this->_symbol = symbol; }
+void	Channel::setPrivilegeFor(User *user, char privilege) { this->_usersPrivileges[user] = privilege; }
 
 // Methods
+void	Channel::addUser(User *user)
+{
+	this->_users.push_back(user);
+}
+
+void	Channel::removeUser(User *user)
+{
+	for (size_t i = 0; i < this->_users.size(); i++)
+	{
+		if (this->_users[i]->getName() == user->getName())
+		{
+			this->_users.erase(this->_users.begin() + i);
+			return ;
+		}
+	}
+}

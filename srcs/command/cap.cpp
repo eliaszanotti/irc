@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:45:50 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/09 10:07:05 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 13:52:47 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ bool	Server::_cap(int fd)
 		return (false);
 	}
 	send(fd, "Welcome to irc, to login use: "\
-		"\nPASS <password>\nNICK <nickname>\nUSER <name> 0 * : <realname>\n");
+		"\nPASS <password>\nNICK <nickname>\nUSER <name> 0 * :realname\n");
 	return (true);
 }

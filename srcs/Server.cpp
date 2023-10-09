@@ -142,7 +142,7 @@ void Server::_connectEachUser(void)
 
 bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 {
-	std::cout << YELLOW <<  "[~]" << RST << " {" << message << "}" << std::endl;
+	std::cout << YELLOW <<  "[←]" << RST << " {" << message << "}" << std::endl;
 	std::vector<std::string>	command = split(message, " ");
 	std::string		commands[]	= {
 		"KICK",
@@ -203,7 +203,7 @@ void	Server::init(void)
 	if (this->_serverSocket < 0)	
 		throw (std::runtime_error("Socket initialization failed"));
 	std::cout << BLUE "[SERVER INITIALIZATION ON PORT " << this->_port << "]" RST << std::endl;
-	std::cout << CYAN "[Password: " << this->_password << "]" RST << std::endl;
+	std::cout << CYAN "[PASSWORD: " << this->_password << "]" RST << std::endl;
 	int socketOptionValue = 1;
 	if (setsockopt(this->_serverSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &socketOptionValue, sizeof(socketOptionValue)) == -1)
 		throw(std::runtime_error("Set socket option failed"));

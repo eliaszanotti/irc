@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/06 14:01:26 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 11:44:49 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Server
 		void	_connectEachUser(void);
 		bool	_checkCommandInsideMessage(int fd, std::string message);
 		void	_sendTo(const User *user, const std::string &message);
+		
 		// COMMANDS
 		bool	_cap(int fd);
 		bool	_invite(void);
@@ -65,6 +66,9 @@ class Server
 		bool	_privmsg(int fd, std::vector<std::string>);
 		bool	_topic(void);
         bool	_user(int fd, std::vector<std::string> command);
+
+		// JOIN
+		void	_connectToChannel(int fd, Channel *channel);
 
 	public:
 		// CONSTRUCTORS

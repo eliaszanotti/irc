@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 10:07:10 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 13:50:05 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,17 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 						// Password gestion
 						if (this->_channels[j]->getPassword() == passwords[i])
 						{
-							
+							this->_connectToChannel(fd, this->_channels[j]);
 						}
 						else
 						{
 							
 						}
 					}
+				}
+				else
+				{
+					this->_connectToChannel(fd, this->_channels[j]);
 				}
 				break ;
 			}
@@ -64,20 +68,41 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		{
 			Channel	*channel = new Channel(channels[i]);
 			this->_channels.push_back(channel);
-
-			std::string	output;
-			output = ":" + this->_users[fd]->getNickname() + "!" + this->_users[fd]->getName() + "@" + IP_ADDR + " JOIN " + channel->getName() + "\r\n";
-
-			for (std::map<int,User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it)
-				send(it->second->getFd(), output.c_str());
-
-			// 353
-			output = ":" + SERVER("353") + this->_users[fd]->getNickname() + " " + "MODE" + " " + channel->getName() + " :" + "+nt" + this->_users[fd]->getNickname() + "\r\n";
-			send(fd, output.c_str());
-			// 366
-			output = ":" + SERVER("366") + this->_users[fd]->getNickname() + " " + channel->getName() + " :End of /NAMES list\r\n";
-			send(fd, output.c_str());
+			this->_connectToChannel(fd, channel);
 		}
 	}
 	return (true);
+}
+
+void	Server::_connectToChannel(int fd, Channel *channel)
+{
+	size_t	i;
+	
+	// Check if the user is already in the channel
+	for (i = 0; i < channel->getUsers().size(); i++)
+	{
+		if (channel->getUsers()[i]->getName() == this->_users[fd]->getName())
+		{
+			std::cout << RED << "[⚠] " << RST << this->_users[fd]->getName() \
+			<< " is already in " << channel->getName() << std::endl;
+			break ;
+		}
+	}
+	
+	// Setup the new user
+	if (i == channel->getUsers().size())
+	{
+		channel->addUser(this->_users[fd]);
+		channel->setPrivilegeFor(this->_users[fd], FOUNDER);
+	}
+
+	// Send the confirmation to the user
+	RPL_CMD(this->_users[fd], "JOIN", channel->getName());
+
+	// Send the list of user in the channel
+	for (std::map<int, User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it)
+	{
+		RPL_NAMREPLY(this->_users[fd], channel, it->second);
+	}
+	RPL_ENDOFNAMES(this->_users[fd], channel);
 }
