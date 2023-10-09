@@ -174,6 +174,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 		case USER:		return this->_user(fd, command);
 		case JOIN:		return this->_join(fd, command);
 		case PRIVMSG:	return this->_privmsg(fd, command);
+		default:		return (send(fd, "Invalid command\n"), true);
 	}
 	return (false);
 }
