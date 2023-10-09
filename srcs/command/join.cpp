@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 14:30:33 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 15:04:05 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,13 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 						}
 						else
 						{
-							
+							ERR_BADCHANNELKEY(this->_users[fd], this->_channels[j]);
+							return (false);
 						}
 					}
 				}
 				else
-				{
 					this->_connectToChannel(fd, this->_channels[j]);
-				}
 				break ;
 			}
 		}
@@ -99,13 +98,22 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 			channel->setPrivilegeFor(this->_users[fd], VOICE);
 	}
 
-	// Send the confirmation to the user
-	RPL_CMD(this->_users[fd], "JOIN", channel->getName());
-
-	// Send the list of user in the channel
-	for (std::map<int, User *>::iterator it = this->_users.begin(); it != this->_users.end(); ++it)
+	for (size_t i = 0; i < channel->getUsers().size(); i++)
 	{
-		RPL_NAMREPLY(this->_users[fd], channel, it->second);
+		// Send the joining confirmation
+		RPL_CMD(this->_users[fd], "JOIN", channel->getName());
+		
+		// Send the topic of the channel
+		if (!channel->getTopic().empty())
+			RPL_TOPIC(channel->getUsers()[i], channel);
+		else
+			RPL_NOTOPIC(channel->getUsers()[i], channel);
+
+		// Send the list of user in the channel
+		for (size_t j = 0; j < channel->getUsers().size(); j++)
+		{
+			RPL_NAMREPLY(channel->getUsers()[i], channel, channel->getUsers()[j]);
+		}
+		RPL_ENDOFNAMES(this->_users[fd], channel);
 	}
-	RPL_ENDOFNAMES(this->_users[fd], channel);
 }
