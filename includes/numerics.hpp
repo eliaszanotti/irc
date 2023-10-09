@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 15:03:09 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 15:53:54 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_AD
 // 332
 # define RPL_TOPIC(client, channel) CHANNEL_MESSAGE(client, channel, channel->getTopic(), "332")
 
+// 333
+# define RPL_TOPICWHOTIME(client, channel) \
+SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getTopicInfos() RN
+
 // 353
 # define RPL_NAMREPLY(client, channel, user) \
 SEND client, SERVER("353") SPACE client->getNickname() SPACE channel->getSymbol() SPACE channel->getName() \
@@ -53,7 +57,19 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 // 366
 # define RPL_ENDOFNAMES(client, channel) CHANNEL_MESSAGE(client, channel, "End of /NAMES list", "366")
 
+// 403
+# define ERR_NOSUCHCHANNEL(client, channelName) BASIC_MESSAGE(client, channelName, "No such channel", "403")
+
+// 442
+# define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")
+
+// 461
+# define ERR_NEEDMOREPARAMS(client, cmd) BASIC_MESSAGE(client, cmd, "Not enough parameters", "461")
+
 // 475
 # define ERR_BADCHANNELKEY(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+k)", "475")
+
+// 482
+# define ERR_CHANOPRIVSNEEDED(client, channel) CHANNEL_MESSAGE(client, channel, "You're not channel operator", "482")
 
 #endif

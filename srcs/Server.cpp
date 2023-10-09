@@ -166,7 +166,7 @@ bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 	{
 		case KICK:		return this->_kick();
 		case INVITE:	return this->_invite();
-		case TOPIC:		return this->_topic();
+		case TOPIC:		return this->_topic(fd, command);
 		case MODE:		return this->_mode();
 		case CAP:		return this->_cap(fd);
 		case PASS:		return this->_pass(fd, command);

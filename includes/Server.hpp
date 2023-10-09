@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 11:44:49 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 15:17:15 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ class Server
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_pass(int fd, std::vector<std::string>);
 		bool	_privmsg(int fd, std::vector<std::string>);
-		bool	_topic(void);
+		bool	_topic(int fd, std::vector<std::string>);
         bool	_user(int fd, std::vector<std::string> command);
 
 		// JOIN
