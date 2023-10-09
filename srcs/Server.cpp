@@ -170,7 +170,7 @@ void	Server::_executeUserCommand(int fd, std::string message)
 	else if (command[0] == "PRIVMSG")
 		this->_privmsg(fd, command);
 	else
-		send(fd, WARN_ASCII "Invalid command\n");
+		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
 }
 
 void	Server::_sendTo(const User *user, const std::string &message)
