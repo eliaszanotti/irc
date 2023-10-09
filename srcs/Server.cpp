@@ -73,7 +73,7 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 		if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(split_message[i]))
 			this->_executeUserCommand(currentFD, split_message[i]);
 		else if (!this->_users[currentFD]->getLogged())
-			send(currentFD, "[⚠] You're not connected\n");
+			send(currentFD, WARN_ASCII "You're not connected\n");
 	}
 }
 
@@ -170,7 +170,7 @@ void	Server::_executeUserCommand(int fd, std::string message)
 	else if (command[0] == "PRIVMSG")
 		this->_privmsg(fd, command);
 	else
-		send(fd, "Invalid command\n");
+		send(fd, WARN_ASCII "Invalid command\n");
 }
 
 void	Server::_sendTo(const User *user, const std::string &message)
