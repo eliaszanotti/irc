@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 13:50:05 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 14:38:57 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 	{
 		if (channel->getUsers()[i]->getName() == this->_users[fd]->getName())
 		{
-			std::cout << RED << "[⚠] " << RST << this->_users[fd]->getName() \
+			std::cout << WARN_ICON << this->_users[fd]->getName() \
 			<< " is already in " << channel->getName() << std::endl;
 			break ;
 		}

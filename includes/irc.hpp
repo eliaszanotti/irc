@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/06 13:42:11 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 14:40:10 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # define MAGENTA		"\e[35m"
 # define CYAN			"\e[36m"
 # define RST			"\e[0m"
+# define PLUS_ICON		GREEN "[+] " RST
+# define DEL_ICON		RED "[-] " RST
+# define L_ARROW_ICON	YELLOW "[←]" RST
+# define WARN_ICON		RED "[⚠] " RST
 # define ERROR_STRING	RED "[Error] " RST
 
 # include <arpa/inet.h>
