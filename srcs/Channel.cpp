@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 13:33:00 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 17:23:14 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int							Channel::getMaxUsers(void) { return this->_max_users; }
 std::string					Channel::getTopic(void) { return this->_topic; }
 std::string					Channel::getSymbol(void) { return this->_symbol; }
 char						Channel::getPrivilegeFor(User *user) { return this->_usersPrivileges[user]; }
+std::string					Channel::getTopicInfos(void) { return (this->_topicInfos); }
 
 // Setters
 void	Channel::setUsers(std::vector<User *> users) { this->_users = users; }
@@ -44,6 +45,7 @@ void	Channel::setMaxUsers(int max_users) { this->_max_users = max_users; }
 void	Channel::setTopic(std::string topic) { this->_topic = topic; }
 void	Channel::setSymbol(std::string symbol) { this->_symbol = symbol; }
 void	Channel::setPrivilegeFor(User *user, char privilege) { this->_usersPrivileges[user] = privilege; }
+void	Channel::setTopicInfos(std::string topicInfos) { this->_topicInfos = topicInfos; }
 
 // Methods
 void	Channel::addUser(User *user)

@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 13:32:49 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 17:22:52 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ class Channel
 		std::string const			_name;
 		int							_mode;
 		int							_max_users;
-		std::string					_topic;
 		std::string					_symbol;
+		std::string					_topic;
+		std::string					_topicInfos;
 	
 	public:
 		// CONSTRUCTOR
@@ -60,6 +61,7 @@ class Channel
 		std::string					getTopic(void);
 		std::string					getSymbol(void);
 		char						getPrivilegeFor(User *);
+		std::string					getTopicInfos(void);
 
 		// SETTERS
 		void						setUsers(std::vector<User *>);
@@ -70,6 +72,7 @@ class Channel
 		void						setTopic(std::string);
 		void						setSymbol(std::string);
 		void						setPrivilegeFor(User *, char);
+		void						setTopicInfos(std::string);
 
 		// METHODS
 		void						addUser(User *);

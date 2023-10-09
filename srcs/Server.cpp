@@ -154,7 +154,7 @@ void	Server::_executeUserCommand(int fd, std::string message)
 	else if (command[0] == "INVITE")
 		this->_invite();
 	else if (command[0] == "TOPIC")
-		this->_topic();
+		this->_topic(fd, command);
 	else if (command[0] == "MODE")
 		this->_mode();
 	else if (command[0] == "CAP")
