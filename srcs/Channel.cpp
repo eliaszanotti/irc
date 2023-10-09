@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 12:58:29 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/06 14:07:54 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ void	Channel::setPassword(std::string password) { this->_password = password; }
 void	Channel::setMode(int mode) { this->_mode = mode; }
 void	Channel::setMaxUsers(int max_users) { this->_max_users = max_users; }
 void	Channel::setTopic(std::string topic) { this->_topic = topic; }
-
 
 // Methods

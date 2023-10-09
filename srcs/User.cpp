@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 14:41:58 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/06 14:08:00 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 User::User() {}
 User::~User() {}
 
-User::User(pollfd pollfd)
+User::User(pollfd pollFD)
 {
-	this->_pollfd = pollfd;
+	this->_pollFD = pollFD;
 	this->_connected = 0;
 	this->_logged = 0;
 	this->_nickname = "";
@@ -32,7 +32,7 @@ void	User::newConnection(void)
 	{
 		this->_logged = 1;
 		std::string output = "Welcome to our IRC " + this->getNickname() + " !\n";
-		send(this->_pollfd.fd, output.c_str(), output.size(), 0);
+		send(this->_pollFD.fd, output.c_str());
 	}
 }
 
@@ -43,8 +43,8 @@ std::string			User::getNickname(void) const { return this->_nickname; }
 std::map<int, int>	User::getPermission(void) const { return this->_permission; }
 int					User::getLogged(void) const { return this->_logged; }
 int					User::getConnected(void) const { return this->_connected; }
-pollfd				User::getPollFd(void) const { return this->_pollfd; }
-int					User::getFd(void) const { return this->_pollfd.fd; }
+pollfd				User::getPollFd(void) const { return this->_pollFD; }
+int					User::getFd(void) const { return this->_pollFD.fd; }
 
 // Setters
 void	User::setName(std::string name) { this->_name = name; }

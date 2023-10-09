@@ -15,11 +15,11 @@
 bool	Server::_user(int fd, std::vector<std::string> command)
 {
 	if (command.size() != 5)
-		return (send(fd, "USER <realname> 0 * :<realname>\n", 34, 0), true);
+		return (send(fd, "USER <realname> 0 * :<realname>\n"), true);
 	if (command[2].compare("0"))
-		return (send(fd, "USER <realname> 0 * :<realname>\n", 34, 0), true);
+		return (send(fd, "USER <realname> 0 * :<realname>\n"), true);
 	if (command[3].compare("*"))
-		return (send(fd, "USER <realname> 0 * :<realname>\n", 34, 0), true);
+		return (send(fd, "USER <realname> 0 * :<realname>\n"), true);
 	if (command[4][0] == ':')
 	this->_users[fd]->setName(command[1]);
 	this->_users[fd]->setRealName(command[4].erase(0));

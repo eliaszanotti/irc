@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 12:58:26 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/06 14:07:40 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ class Channel
 		Channel();
 		Channel(std::string);
 		~Channel();
-		
 		// GETTERS
 		std::vector<User *>			getUsers(void);
 		std::vector<std::string>	getMessages(void);
@@ -42,7 +41,6 @@ class Channel
 		std::string					getName(void);
 		int							getMaxUsers(void);
 		std::string					getTopic(void);
-		
 		// SETTERS
 		void						setUsers(std::vector<User *>);
 		void						setMessages(std::vector<std::string>);

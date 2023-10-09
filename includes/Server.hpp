@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:56:58 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/06 14:01:26 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,12 @@ class Server
 		// PRIVATE METHODS
 		void	_processPoll(void);
 		void	_addNewUser(void);
+		void	_processMessage(std::string buffer, int currentIndex);
+		void	_closeCurrentUser(int currentIndex);
+		void	_connectEachUser(void);
 		bool	_checkCommandInsideMessage(int fd, std::string message);
-
+		void	_sendTo(const User *user, const std::string &message);
+		// COMMANDS
 		bool	_cap(int fd);
 		bool	_invite(void);
 		bool	_join(int fd, std::vector<std::string>);
@@ -68,14 +72,11 @@ class Server
 		Server(int port, std::string password);
 
 		// GETTERS
-		std::string	getName(void) const;
 		int			getServerSocket(void) const;
 
 		// METHODS
 		void	init(void);
 		void	waitingForNewUsers(void);
-
-		static void	sendTo(const User *user, const std::string &message);
 };
 
 #endif
