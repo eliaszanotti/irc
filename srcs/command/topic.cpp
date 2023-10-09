@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:44:23 by elias             #+#    #+#             */
-/*   Updated: 2023/10/05 13:45:03 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 10:07:26 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 
 bool	Server::_topic(void)
 {
-	std::cout << "topic() called" << std::endl;
 	return (true);
 }

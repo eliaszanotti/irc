@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/06 13:23:28 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 10:07:10 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 	std::vector<std::string>	channels;
 	std::vector<std::string>	passwords;
 	size_t						j = 0;
-	
-	std::cout << "join() called" << std::endl;
 
 	if (command.size() > 3)
 		return (false);

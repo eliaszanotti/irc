@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:46:23 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/05 11:03:54 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/09 10:07:20 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	Server::_pass(int fd, std::vector<std::string> command)
 {
-	std::cout << "pass() called" << std::endl;
 	if (command.size() != 2)
 		return (send(fd, "Wrong amount of argument: usage:\nPASS <password>\n"), true);
 	if (command[1].compare(this->_password))

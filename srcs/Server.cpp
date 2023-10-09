@@ -52,7 +52,7 @@ void Server::_addNewUser(void)
 		newFD = accept(this->_serverSocket, NULL, NULL);
 		if (newFD < 0 && errno != EWOULDBLOCK)
 			throw (std::runtime_error("Error when trying to add new user"));
-		std::cout << "[+] Incoming connection by " << newFD << std::endl;
+		std::cout << GREEN <<  "[+] " << RST << "Incoming connection by " << newFD << std::endl;
 		this->_pollFD[this->_pollFDSize].fd = newFD;
 		this->_pollFD[this->_pollFDSize].events = POLLIN;
 		User *newUser = new User(this->_pollFD[this->_pollFDSize]);
@@ -125,7 +125,7 @@ void Server::_connectEachUser(void)
 				}
 				else if (returnValue == 0)
 				{
-					std::cout << "[-] " << this->_pollFD[i].fd << " leaved the server" << std::endl;
+					std::cout << RED << "[-] " << RST << this->_pollFD[i].fd << " leaved the server" << std::endl;
 					this->_closeCurrentUser(i);
 					break;
 				}
@@ -142,7 +142,7 @@ void Server::_connectEachUser(void)
 
 bool	Server::_checkCommandInsideMessage(int fd, std::string message)
 {
-	std::cout << "Message received: [" << message << "]" << std::endl;
+	std::cout << YELLOW <<  "[~]" << RST << " {" << message << "}" << std::endl;
 	std::vector<std::string>	command = split(message, " ");
 	std::string		commands[]	= {
 		"KICK",

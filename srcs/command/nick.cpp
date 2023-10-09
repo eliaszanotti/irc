@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:47:03 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/06 14:03:29 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 10:07:17 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	Server::_nick(int fd, std::vector<std::string> command)
 {
-	std::cout << "nick() called" << std::endl;
 	if (command.size() != 2)
 		return (send(fd, "Wrong amount of argument: usage:\nNICK <nickname>\n"), true);
 	this->_users[fd]->setNickname(command[1]);

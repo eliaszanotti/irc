@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:47:55 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/06 13:25:59 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/09 10:07:28 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	Server::_user(int fd, std::vector<std::string> command)
 {
-	std::cout << "user() called" << std::endl;
 	if (command.size() != 5)
 		return (send(fd, "USER <realname> 0 * :<realname>\n"), true);
 	if (command[2].compare("0"))
