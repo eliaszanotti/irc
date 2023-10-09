@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 13:50:05 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/09 14:30:33 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 	// Check if the user is already in the channel
 	for (i = 0; i < channel->getUsers().size(); i++)
 	{
-		if (channel->getUsers()[i]->getName() == this->_users[fd]->getName())
+		if (channel->getUsers()[i]->getNickname() == this->_users[fd]->getNickname())
 		{
-			std::cout << RED << "[⚠] " << RST << this->_users[fd]->getName() \
+			std::cout << RED << "[⚠] " << RST << this->_users[fd]->getNickname() \
 			<< " is already in " << channel->getName() << std::endl;
-			break ;
+			return ;
 		}
 	}
 	
@@ -93,7 +93,10 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 	if (i == channel->getUsers().size())
 	{
 		channel->addUser(this->_users[fd]);
-		channel->setPrivilegeFor(this->_users[fd], FOUNDER);
+		if (i == 0)
+			channel->setPrivilegeFor(this->_users[fd], OPERATOR);
+		else
+			channel->setPrivilegeFor(this->_users[fd], VOICE);
 	}
 
 	// Send the confirmation to the user
