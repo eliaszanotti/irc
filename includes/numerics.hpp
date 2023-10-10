@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 09:53:32 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:33:47 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ SPACE channel->getName() SPACE ":" + message RN
 # define RPL_CMD(client, cmd, msg) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
 
+// KICK
+# define KICK_WITHOUT_REASON(client, channelName, banned_nickname) \
+SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
+SPACE channelName SPACE banned_nickname RN
+
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
 
@@ -65,6 +70,9 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 421
 # define ERR_UNKNOWNCOMMAND(client, cmd) BASIC_MESSAGE(client, cmd, "Unknown command", "421")
+
+// 441
+#define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")

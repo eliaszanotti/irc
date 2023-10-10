@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 17:22:52 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:07:42 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ class Channel
 		// METHODS
 		void						addUser(User *);
 		void						removeUser(User *);
+		void						sendUsersList(void);
+		bool						haveTheUser(std::string);
 
 };
 

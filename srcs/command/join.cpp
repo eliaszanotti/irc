@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 09:56:02 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:00:57 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,8 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 			RPL_TOPIC(channel->getUsers()[i], channel);
 		else
 			RPL_NOTOPIC(channel->getUsers()[i], channel);
-
-		// Send the list of user in the channel
-		for (size_t j = 0; j < channel->getUsers().size(); j++)
-		{
-			RPL_NAMREPLY(channel->getUsers()[i], channel, channel->getUsers()[j]);
-		}
-		RPL_ENDOFNAMES(this->_users[fd], channel);
 	}
+
+	// Send the list of user in the channel
+	channel->sendUsersList();
 }

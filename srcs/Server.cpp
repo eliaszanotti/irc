@@ -151,7 +151,7 @@ void	Server::_executeUserCommand(int fd, std::string message)
 	std::vector<std::string>	command = split(message, " ");
 
 	if (command[0] == "KICK")
-		this->_kick();
+		this->_kick(fd, command);
 	else if (command[0] == "INVITE")
 		this->_invite();
 	else if (command[0] == "TOPIC")
