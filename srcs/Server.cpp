@@ -170,6 +170,8 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_join(fd, command);
 	else if (command[0] == "PRIVMSG")
 		this->_privmsg(fd, command);
+	else if (command[0] == "WHO")
+		this->_who(fd, command);
 	else
 		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 10:09:12 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 14:26:11 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,15 @@ class Server
 		// COMMANDS
 		bool	_cap(int fd);
 		bool	_invite(void);
-		bool	_join(int fd, std::vector<std::string>);
-		bool	_kick(int fd, std::vector<std::string>);
+		bool	_join(int fd, std::vector<std::string> command);
+		bool	_kick(int fd, std::vector<std::string> command);
 		bool	_mode(void);
 		bool	_nick(int fd, std::vector<std::string> command);
-		bool	_pass(int fd, std::vector<std::string>);
-		bool	_privmsg(int fd, std::vector<std::string>);
-		bool	_topic(int fd, std::vector<std::string>);
+		bool	_pass(int fd, std::vector<std::string> command);
+		bool	_privmsg(int fd, std::vector<std::string> command);
+		bool	_topic(int fd, std::vector<std::string> command);
         bool	_user(int fd, std::vector<std::string> command);
+        bool	_who(int fd, std::vector<std::string> command);
 
 		// JOIN
 		void	_connectToChannel(int fd, Channel *channel);

@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 14:19:06 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 15:20:01 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 		{
 			for (it = this->_users.begin(); it != this->_users.end(); it++)
 			{
+				std::cout << it->first << std::endl;
+				std::cout << "ok11" << std::endl;
 				if (it->second->getNickname() == targets[i])
 					break ;
 			}
