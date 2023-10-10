@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 13:37:49 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 14:21:40 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <iostream>
 # include <map>
 # include <netinet/in.h>
+# include <sstream>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string>
