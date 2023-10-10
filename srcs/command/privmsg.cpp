@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 15:54:39 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:01:20 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 	}
 	targets = split(command[1], ',');
 	if (command[2][0] == ':')
-		command[2].erase(0);
+		command[2].erase(0, 1);
 	else
 	{
 		ERR_NEEDMOREPARAMS(this->_users[fd], "PRIVMSG");
