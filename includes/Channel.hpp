@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 16:46:08 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:14:26 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Channel
 		// METHODS
 		void						addUser(User *);
 		void						addMode(char c);
+		bool						isMode(char c);
 		void						removeMode(char c);
 		void						removeUser(User *);
 		void						sendUsersList(void);

@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 16:51:08 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:15:52 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ void	Channel::addUser(User *user)
 void	Channel::addMode(char c)
 {
 	this->_modes.push_back(c);
+}
+
+bool	Channel::isMode(char c)
+{
+	for(std::vector<char>::iterator it = this->_modes.begin(); it != this->_modes.end();)
+    {
+        if (*it == c)
+			return (true);
+    }
+	return (false);
 }
 
 void	Channel::removeMode(char c)
