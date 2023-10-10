@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 17:53:06 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 08:43:24 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ class Server
 		void	_connectEachUser(void);
 		bool	_isExecutableCommand(std::string message);
 		void	_executeUserCommand(int fd, std::string message);
-		void	_sendTo(const User *user, const std::string &message);
 		
 		// COMMANDS
 		bool	_cap(int fd);
