@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 16:17:04 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:32:30 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() 
 // # define RPL_WHOREPLY(client, channel, user) 
 // SEND client , SERVER("352") SPACE client->getNickname() SPACE channel->getName() SPACE user->getName() 
 // SPACE IP_ADDR SPACE SERVER_NAME SPACE user->getNickname() SPACE "H" SPACE ":" + user->getRealName() RN
-
 
 # define RPL_WHOREPLY(client, channel, flag, user) \
 SEND client, SERVER("352") SPACE client->getNickname() SPACE channel SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \

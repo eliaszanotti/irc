@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 14:58:32 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:46:08 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class Channel
 		std::vector<std::string>	_messages;
 		std::string					_password;
 		std::string const			_name;
-		int							_mode;
+		std::vector<char>			_modes;
 		int							_max_users;
 		std::string					_symbol;
 		std::string					_topic;
@@ -50,13 +50,21 @@ class Channel
 		Channel();
 		Channel(std::string);
 		~Channel();
+
+		// METHODS
+		void						addUser(User *);
+		void						addMode(char c);
+		void						removeMode(char c);
+		void						removeUser(User *);
+		void						sendUsersList(void);
+		bool						haveTheUser(std::string);
 		
 		// GETTERS
 		User						*getUser(std::string);
 		std::vector<User *>			getUsers(void);
 		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);
-		int							getMode(void);
+		std::string					getModes(void);
 		std::string					getName(void);
 		int							getMaxUsers(void);
 		std::string					getTopic(void);
@@ -74,12 +82,6 @@ class Channel
 		void						setSymbol(std::string);
 		void						setPrivilegeFor(User *, char);
 		void						setTopicInfos(std::string);
-
-		// METHODS
-		void						addUser(User *);
-		void						removeUser(User *);
-		void						sendUsersList(void);
-		bool						haveTheUser(std::string);
 
 };
 

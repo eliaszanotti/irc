@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 16:05:37 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:00:02 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,36 +73,69 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 			{
 				case 'i': 
 					if (op == '+')
-						this->_channels[i]->setMode(INVITE);
+						this->_channels[i]->addMode('i');
 					else
-						this->_channels[i]->setMode(OPEN);
+						this->_channels[i]->removeMode('i');
 					break;
 				case 'k': 
 					if (op == '+')
+					{
+						if (command.size() < args_num)
+						{
+							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+							return (false);
+						}
+						this->_channels[i]->addMode('k');
 						this->_channels[i]->setPassword(command[args_num++]);
+					}
 					else
+					{
+						this->_channels[i]->removeMode('k');
 						this->_channels[i]->setPassword("");
+					}
 					break;
 				case 'o':
-					// User	*target(this->_channels[i]->getUser(command[args_num]));
-					// if (!target)
-					// {
-					// 	ERR_NOSUCHNICK(this->_users[fd], command[args_num]);
-					// 	break ;
-					// }
+					if (command.size() < args_num)
+					{
+						ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+						return (false);
+					}
+					if (!this->_channels[i]->getUser(command[args_num]))
+					{
+						ERR_NOSUCHNICK(this->_users[fd], command[args_num]);
+						break ;
+					}
 					if (op == '+')
+					{
+						this->_channels[i]->addMode('o');
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), OPERATOR);
+					}
 					else
+					{
+						this->_channels[i]->removeMode('o');
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), VOICE);
+					}
 					break;
 				case 'l':
 					if (op == '+')
+					{
+						if (command.size() < args_num)
+						{
+							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+							return (false);
+						}
+						this->_channels[i]->addMode('l');
 						this->_channels[i]->setMaxUsers(atol(command[args_num].c_str()));
+					}
 					else
+					{
+						this->_channels[i]->removeMode('l');
 						this->_channels[i]->setMaxUsers(-1);
+					}
 					break;
 			}
 		}
 	}
+	RPL_CHANNELMODEIS(this->_users[fd], this->_channels[i]);
 	return (true);
 }
