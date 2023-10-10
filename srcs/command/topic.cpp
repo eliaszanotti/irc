@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:44:23 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 17:38:55 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:32:51 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ bool	Server::_topic(int fd, std::vector<std::string> command)
 
 	// Errors
 	if (command.size() < 3)
+	{
+		ERR_NEEDMOREPARAMS(this->_users[fd], "TOPIC");
+		return (false);
+	}
+	if (command[2][0] != ':')
 	{
 		ERR_NEEDMOREPARAMS(this->_users[fd], "TOPIC");
 		return (false);
