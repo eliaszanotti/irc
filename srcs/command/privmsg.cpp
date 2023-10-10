@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 13:43:44 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 14:19:06 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 					messages += command[k];
 					messages += " ";
 				}
-				std::cout << "Append : " << messages << std::endl;
-				
 				this->_users[fd]->sendToAll(this->_channels[j]->getUsers(), "PRIVMSG", this->_channels[j], messages);
 			}
 		}
@@ -82,7 +80,6 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 					messages += command[k];
 					messages += " ";
 				}
-				std::cout << "Append : " << messages << std::endl;
 				RPL_CMD_TARGET(this->_users[fd], this->_users[it->first], "PRIVMSG", messages);
 			}
 		}
