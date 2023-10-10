@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 14:26:11 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:10:28 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ class Server
 		bool	_topic(int fd, std::vector<std::string> command);
         bool	_user(int fd, std::vector<std::string> command);
         bool	_who(int fd, std::vector<std::string> command);
+		bool	_part(int fd, std::vector<std::string> command);
 
 		// JOIN
 		void	_connectToChannel(int fd, Channel *channel);

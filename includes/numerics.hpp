@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 14:48:09 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:09:38 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,13 @@ SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR
 SEND target, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE ":" SPACE msg RN
 
 // KICK
-# define KICK_WITHOUT_REASON(client, channelName, banned_nickname) \
+# define KICK_WITHOUT_REASON(client, channel, banned_user) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
-SPACE channelName SPACE banned_nickname RN
+SPACE channel->getName() SPACE banned_user->getNickname() RN
+
+# define KICK_WITH_REASON(client, channel, banned_user, reason) \
+SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
+SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")

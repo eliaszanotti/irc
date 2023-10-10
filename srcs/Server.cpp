@@ -172,12 +172,14 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_privmsg(fd, command);
 	else if (command[0] == "WHO")
 		this->_who(fd, command);
+	else if (command[0] == "PART")
+		this->_part(fd, command);
 	else
 		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
 }
 
 // GETTERS
-int			Server::getServerSocket(void) const {return (this->_serverSocket);}
+int		Server::getServerSocket(void) const {return (this->_serverSocket);}
 
 // METHODS
 void	Server::init(void)

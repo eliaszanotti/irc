@@ -6,7 +6,7 @@
 #    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/10 14:32:52 by elias            ###   ########.fr        #
+#    Updated: 2023/10/10 16:09:16 by elias            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_COMMAND}topic.cpp		\
 					${DIR_COMMAND}user.cpp		\
 					${DIR_COMMAND}who.cpp		\
+					${DIR_COMMAND}part.cpp		\
 					\
 					${DIR_UTILS}sendTo.cpp		\
 					${DIR_UTILS}split.cpp		\
