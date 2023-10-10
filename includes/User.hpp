@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/06 14:07:19 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 12:59:50 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define USER_HPP
 
 # include "irc.hpp"
+
+class Channel;
 
 class User 
 {
@@ -33,6 +35,7 @@ class User
 		~User();
 		// METHODS
 		void				newConnection(void);
+		void				sendToAll(std::vector<User *>, std::string, Channel *, std::string);
 		// GETTERS
 		std::string			getName(void) const;
 		std::string			getRealName(void) const;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 09:29:30 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:08:55 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ void	User::newConnection(void)
 	{
 		this->_logged = 1;
 		RPL_WELCOME(this);
+	}
+}
+
+void	User::sendToAll(std::vector<User *> users, std::string cmd, Channel *channel, std::string msg)
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		if (this->getNickname() != users[i]->getNickname())
+			RPL_CMD_CHAN_OTHER(users[i], this, cmd, channel, msg);
 	}
 }
 

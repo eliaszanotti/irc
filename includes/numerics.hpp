@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 09:53:32 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:24:19 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ SPACE channel->getName() SPACE ":" + message RN
 # define RPL_CMD(client, cmd, msg) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
 
+// privmsg
+# define RPL_CMD_CHAN_OTHER(client, other, cmd, channel, msg) \
+SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR SPACE cmd SPACE channel->getName() SPACE msg RN
+
+# define RPL_CMD_TARGET(client, target, cmd, msg) \
+SEND target, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE ":" SPACE msg RN
+
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
 
@@ -60,8 +67,17 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 // 366
 # define RPL_ENDOFNAMES(client, channel) CHANNEL_MESSAGE(client, channel, "End of /NAMES list", "366")
 
+// 401
+# define ERR_NOSUCHNICK(client, nickName) BASIC_MESSAGE(client, nickName, "No such nick/channel", "401")
+
 // 403
 # define ERR_NOSUCHCHANNEL(client, channelName) BASIC_MESSAGE(client, channelName, "No such channel", "403")
+
+// 411
+# define ERR_NORECIPIENT(client) SHORT_MESSAGE(client, "No recipient given", "411")
+
+// 412
+# define ERR_NOTEXTTOSEND(client) SHORT_MESSAGE(client, "No text to send", "412")
 
 // 421
 # define ERR_UNKNOWNCOMMAND(client, cmd) BASIC_MESSAGE(client, cmd, "Unknown command", "421")
