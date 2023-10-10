@@ -36,9 +36,9 @@ bool	Server::_nick(int fd, std::vector<std::string> command)
         }
     }
 	// Check if nickname is already used
-	for (size_t i = 0; i < this->_users.size(); i++)
+	for (std::map<int, User*>::iterator it = this->_users.begin(); it != this->_users.end(); ++it) 
 	{
-		if (this->_users[i] && this->_users[i]->getNickname() == command[1])
+		if (it->second->getNickname() == command[1])
 		{
 			ERR_NICKNAMEINUSE(this->_users[fd], command[1]);
 			return (false);
