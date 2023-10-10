@@ -3,16 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 10:07:15 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 16:05:37 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "irc.hpp"
 
-bool	Server::_mode()
+bool	Server::_mode(int fd, std::vector<std::string> command)
 {
+	size_t		i;
+	char		op;
+	std::string	modestring;
+	size_t		args_num = 3;
+	
+	if (command.size() < 3)
+	{
+		if (command.size() == 2)
+		{
+			if (command[1][0] == '+' || command[1][0] == '-')
+				return (false);//RPL_UMODEIS()
+		}
+		ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+		return (false);
+	}
+
+	if (command[1][0] != '#')
+	{
+		ERR_BADCHANMASK(this->_users[fd]);
+		return (false);
+	}
+	
+	// search if the channel exist
+	for (i = 0; i < this->_channels.size(); i++)
+	{
+		if (command[1] == this->_channels[i]->getName())
+			break ;
+	}
+	if (i == this->_channels.size())
+	{
+		ERR_NOSUCHCHANNEL(this->_users[fd], command[1]);
+		return (false);
+	}
+	
+	// check if the user is allowed to change the mode
+	if (this->_channels[i]->getPrivilegeFor(this->_users[fd]) != OPERATOR)
+	{
+		ERR_CHANOPRIVSNEEDED(this->_users[fd], this->_channels[i]);
+		return (false);
+	}
+	modestring = command[2];
+	if (modestring[0] != '+' && modestring[0] != '-')
+	{
+		ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+		return (false);
+	}
+	// en mode charlou
+	else if (modestring[0] == '-')
+		op = '-';
+	else if (modestring[0] == '+')
+		op = '+';
+	for (size_t j = 1; j < modestring.size(); j++)
+	{
+		if (isalpha(modestring[j]))
+		{
+			switch(modestring[j])
+			{
+				case 'i': 
+					if (op == '+')
+						this->_channels[i]->setMode(INVITE);
+					else
+						this->_channels[i]->setMode(OPEN);
+					break;
+				case 'k': 
+					if (op == '+')
+						this->_channels[i]->setPassword(command[args_num++]);
+					else
+						this->_channels[i]->setPassword("");
+					break;
+				case 'o':
+					// User	*target(this->_channels[i]->getUser(command[args_num]));
+					// if (!target)
+					// {
+					// 	ERR_NOSUCHNICK(this->_users[fd], command[args_num]);
+					// 	break ;
+					// }
+					if (op == '+')
+						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), OPERATOR);
+					else
+						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), VOICE);
+					break;
+				case 'l':
+					if (op == '+')
+						this->_channels[i]->setMaxUsers(atol(command[args_num].c_str()));
+					else
+						this->_channels[i]->setMaxUsers(-1);
+					break;
+			}
+		}
+	}
 	return (true);
 }

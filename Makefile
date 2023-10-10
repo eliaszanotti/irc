@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/10 08:44:22 by lpupier          ###   ########.fr        #
+#    Updated: 2023/10/10 16:03:43 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_COMMAND}invite.cpp	\
 					${DIR_COMMAND}join.cpp		\
 					${DIR_COMMAND}kick.cpp		\
-					${DIR_COMMAND}mode.cpp		\
 					${DIR_COMMAND}nick.cpp		\
+					${DIR_COMMAND}mode.cpp		\
 					${DIR_COMMAND}pass.cpp		\
 					${DIR_COMMAND}privmsg.cpp	\
 					${DIR_COMMAND}topic.cpp		\

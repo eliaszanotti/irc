@@ -156,8 +156,8 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_invite();
 	else if (command[0] == "TOPIC")
 		this->_topic(fd, command);
-	else if (command[0] == "MODE")
-		this->_mode();
+	// else if (command[0] == "MODE")
+	// 	this->_mode();
 	else if (command[0] == "CAP")
 		this->_cap(fd);
 	else if (command[0] == "PASS")

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 13:07:42 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 14:58:32 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ class Channel
 		~Channel();
 		
 		// GETTERS
+		User						*getUser(std::string);
 		std::vector<User *>			getUsers(void);
 		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);

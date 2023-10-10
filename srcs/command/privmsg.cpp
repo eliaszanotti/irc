@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 14:19:06 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 15:58:54 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 	}
 	targets = split(command[1], ',');
 	if (command[2][0] == ':')
-		command[2].erase(0);
+		command[2].erase(0, 1);
 	else
 	{
 		ERR_NEEDMOREPARAMS(this->_users[fd], "PRIVMSG");
 		return (false);
 	}
+	std::cout << "ERASE : " << command[2] << std::endl;
 	for (size_t i = 0; i < targets.size(); i++)
 	{
 		if (targets[i][0] == '#')
@@ -66,6 +67,7 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 		{
 			for (it = this->_users.begin(); it != this->_users.end(); it++)
 			{
+				std::cout << it->first << std::endl;
 				if (it->second->getNickname() == targets[i])
 					break ;
 			}

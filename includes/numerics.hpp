@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 13:45:39 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 15:18:46 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ SPACE channelName SPACE banned_nickname RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
+
+// 221
+# define RPL_UMODEIS
+
+// 324
+# define RPL_CHANNELMODEIS(client, channel) \
+SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getModes() RN
 
 // 331
 # define RPL_NOTOPIC(client, channel) CHANNEL_MESSAGE(client, channel, "No topic is set", "331")
