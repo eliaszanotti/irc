@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 08:43:24 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 10:09:12 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Server
 		bool	_cap(int fd);
 		bool	_invite(void);
 		bool	_join(int fd, std::vector<std::string>);
-		bool	_kick(void);
+		bool	_kick(int fd, std::vector<std::string>);
 		bool	_mode(void);
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_pass(int fd, std::vector<std::string>);

@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/09 17:23:14 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:07:31 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,29 @@ void	Channel::removeUser(User *user)
 			return ;
 		}
 	}
+}
+
+void	Channel::sendUsersList(void)
+{
+	// Send the list of user in the channel
+	for (size_t i = 0; i < this->getUsers().size(); i++)
+	{		
+		for (size_t j = 0; j < this->getUsers().size(); j++)
+		{
+			RPL_NAMREPLY(this->getUsers()[i], this, this->getUsers()[j]);
+		}
+		RPL_ENDOFNAMES(this->getUsers()[i], this);
+	}
+}
+
+bool	Channel::haveTheUser(std::string nickname)
+{
+	size_t	i = 0;
+
+	for (i = 0; i < this->getUsers().size(); i++)
+	{
+		if (this->getUsers()[i]->getNickname() == nickname)
+			return (true);
+	}
+	return (false);
 }

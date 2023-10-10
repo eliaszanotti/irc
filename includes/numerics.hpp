@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 13:43:00 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 13:45:39 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ SPACE channel->getName() SPACE ":" + message RN
 # define RPL_CMD(client, cmd, msg) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
 
-// privmsg
+// PRIVMSG
 # define RPL_CMD_CHAN_OTHER(client, other, cmd, channel, msg) \
 SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR SPACE cmd SPACE channel->getName() SPACE msg RN
 
 # define RPL_CMD_TARGET(client, target, cmd, msg) \
 SEND target, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE ":" SPACE msg RN
+
+// KICK
+# define KICK_WITHOUT_REASON(client, channelName, banned_nickname) \
+SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
+SPACE channelName SPACE banned_nickname RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
@@ -90,6 +95,9 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 433
 # define ERR_NICKNAMEINUSE(client, nickname) BASIC_MESSAGE(client, nickname, "Nickname is already in use", "433")
+
+// 441
+#define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")
