@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 09:53:32 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:22:36 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 421
 # define ERR_UNKNOWNCOMMAND(client, cmd) BASIC_MESSAGE(client, cmd, "Unknown command", "421")
+
+// 431
+# define ERR_NONICKNAMEGIVEN(client) SHORT_MESSAGE(client, "No nickname given", "431")
+
+// 432
+# define ERR_ERRONEUSNICKNAME(client, nickname) BASIC_MESSAGE(client, nickname, "Erroneus nickname", "432")
+
+// 433
+# define ERR_NICKNAMEINUSE(client, nickname) BASIC_MESSAGE(client, nickname, "Nickname is already in use", "433")
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")
