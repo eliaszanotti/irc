@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:41:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 13:33:19 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 15:19:29 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,15 @@ bool	Server::_kick(int fd, std::vector<std::string> command)
 		// Send the optionnal ban reason
 		for (size_t k = 3; k < command.size(); k++)
 			ban_reason.append(command[k] + " ");
+		ban_reason = ban_reason.substr(0, ban_reason.size() - 1);
 		
 		for (size_t k = 0; k < this->_channels[i]->getUsers().size(); k++)
-			RPL_CMD(this->_channels[i]->getUsers()[k], "KICK", this->_channels[i]->getUsers()[j]->getNickname() + " :" + ban_reason);
+			KICK_WITH_REASON(this->_channels[i]->getUsers()[k], this->_channels[i], this->_channels[i]->getUsers()[j], ban_reason);
 	}
 	else
 	{
 		for (size_t k = 0; k < this->_channels[i]->getUsers().size(); k++)
-			KICK_WITHOUT_REASON(this->_channels[i]->getUsers()[k], this->_channels[i]->getName(), this->_channels[i]->getUsers()[j]->getNickname());
+			KICK_WITHOUT_REASON(this->_channels[i]->getUsers()[k], this->_channels[i], this->_channels[i]->getUsers()[j]);
 	}
 
 	// Kick the user in the data of the provided channel

@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 10:09:12 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 14:55:09 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ class Server
 		bool	_privmsg(int fd, std::vector<std::string>);
 		bool	_topic(int fd, std::vector<std::string>);
         bool	_user(int fd, std::vector<std::string> command);
+		bool	_part(int fd, std::vector<std::string> command);
 
 		// JOIN
 		void	_connectToChannel(int fd, Channel *channel);

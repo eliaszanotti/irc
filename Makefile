@@ -6,7 +6,7 @@
 #    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/10 08:44:22 by lpupier          ###   ########.fr        #
+#    Updated: 2023/10/10 14:54:52 by lpupier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_COMMAND}privmsg.cpp	\
 					${DIR_COMMAND}topic.cpp		\
 					${DIR_COMMAND}user.cpp		\
+					${DIR_COMMAND}part.cpp		\
 					\
 					${DIR_UTILS}sendTo.cpp		\
 					${DIR_UTILS}split.cpp		\
