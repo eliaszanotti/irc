@@ -73,7 +73,7 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 		if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(split_message[i]))
 			this->_executeUserCommand(currentFD, split_message[i]);
 		else if (!this->_users[currentFD]->getLogged())
-			send(currentFD, WARN_ASCII "You're not connected\n");
+			sendTo(this->_users[currentFD], WARN_ASCII "You're not connected\n");
 	}
 }
 
@@ -171,22 +171,6 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_privmsg(fd, command);
 	else
 		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
-}
-
-void	Server::_sendTo(const User *user, const std::string &message)
-{
-	size_t byteSent = 0;
-
-	while (byteSent < message.length())
-	{
-		long len = send(user->getFd(), message.c_str());
-		if (len < 0)
-		{
-			std::cerr << "send() error: server to client" << std::endl;
-			break ;
-		}
-		byteSent += len;
-	}
 }
 
 // GETTERS

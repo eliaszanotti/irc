@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   send.cpp                                           :+:      :+:    :+:   */
+/*   sendTo.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 10:55:41 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/06 13:26:39 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 08:49:49 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "irc.hpp"
 
-ssize_t send(int fd, std::string str)
+void	sendTo(const User *user, const std::string &message)
 {
-    return (send(fd, str.c_str(), str.size(), 0));
+	size_t byteSent = 0;
+
+	while (byteSent < message.length())
+	{
+		long len = send(user->getFd(), message.c_str(), message.size(), 0);
+		if (len < 0)
+		{
+			std::cout << WARN_ICON << "Send() error: Server to client" << std::endl;
+			break ;
+		}
+		byteSent += len;
+	}
 }

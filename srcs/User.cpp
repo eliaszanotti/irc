@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/06 14:08:00 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 08:45:36 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	User::newConnection(void)
 	{
 		this->_logged = 1;
 		std::string output = "Welcome to our IRC " + this->getNickname() + " !\n";
-		send(this->_pollFD.fd, output.c_str());
+		sendTo(this, output);
 	}
 }
 

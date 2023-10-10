@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 17:54:59 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 08:44:37 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define IP_ADDR "localhost"
 # define SERVER_NAME "localhost"
 
-# define SEND Server::_sendTo(
+# define SEND sendTo(
 # define RN + "\r\n")
 # define SPACE + " " +
 # define SERVER(num) std::string(":localhost") SPACE num
