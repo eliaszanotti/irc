@@ -15,7 +15,7 @@
 bool	Server::_nick(int fd, std::vector<std::string> command)
 {
 	// Check args
-	if (command.size() < 2 || command[1].empty()) //TODO fix split when >> "NICK " -> ["NICK", ""]
+	if (command.size() < 2)
 	{
 		ERR_NONICKNAMEGIVEN(this->_users[fd]);
 		return (false);

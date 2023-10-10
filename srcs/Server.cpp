@@ -65,7 +65,7 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 {
 	int	currentFD = this->_pollFD[currentIndex].fd;
 	std::vector<std::string> split_message;
-	split_message = split(buffer, "\n");
+	split_message = split(buffer, '\n');
 	for (size_t i = 0; i < split_message.size(); i++)
 	{
 		if (split_message[i].empty())
@@ -132,7 +132,7 @@ void Server::_connectEachUser(void)
 
 bool Server::_isExecutableCommand(std::string message)
 {
-	std::vector<std::string>	command = split(message, " ");
+	std::vector<std::string>	command = split(message, ' ');
 	std::string		commands[]	= {
 		"CAP",
 		"PASS",
@@ -148,7 +148,7 @@ bool Server::_isExecutableCommand(std::string message)
 void	Server::_executeUserCommand(int fd, std::string message)
 {
 	std::cout << L_ARROW_ICON " {" << message << "}" << std::endl;
-	std::vector<std::string>	command = split(message, " ");
+	std::vector<std::string>	command = split(message, ' ');
 
 	if (command[0] == "KICK")
 		this->_kick();

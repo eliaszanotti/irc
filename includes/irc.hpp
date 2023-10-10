@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 08:55:22 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 13:37:49 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ enum {
 	INVITE_MODE
 };
 
-std::vector<std::string>	split(std::string str, std::string delimiter);
+std::vector<std::string>	split(std::string str, char delimiter);
 void						sendTo(const User *user, const std::string &message);
 
 #endif
