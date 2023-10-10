@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 16:26:27 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 16:35:56 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		{
 			if (channels[i] == this->_channels[j]->getName())
 			{
+				// The channel is full
+				if (this->_channels[j]->getUsers().size() == (size_t)this->_channels[j]->getMaxUsers())
+				{
+					ERR_CHANNELISFULL(this->_users[fd], this->_channels[j]);
+					break ;
+				}
+				
 				if (!this->_channels[j]->getPassword().empty())
 				{
 					if (i < passwords.size())
