@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 08:44:37 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 09:44:09 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ SPACE channel->getName() SPACE ":" + message RN
 # define RPL_CMD(client, cmd, msg) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
 
+// 001
+# define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
+
 // 331
 # define RPL_NOTOPIC(client, channel) CHANNEL_MESSAGE(client, channel, "No topic is set", "331")
 
@@ -68,6 +71,12 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 461
 # define ERR_NEEDMOREPARAMS(client, cmd) BASIC_MESSAGE(client, cmd, "Not enough parameters", "461")
+
+// 462
+# define ERR_ALREADYREGISTERED(client) SHORT_MESSAGE(client, "You may not register", "462")
+
+// 464
+#define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
 
 // 475
 # define ERR_BADCHANNELKEY(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+k)", "475")

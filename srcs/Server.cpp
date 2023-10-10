@@ -73,7 +73,8 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 		if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(split_message[i]))
 			this->_executeUserCommand(currentFD, split_message[i]);
 		else if (!this->_users[currentFD]->getLogged())
-			sendTo(this->_users[currentFD], WARN_ASCII "You're not connected\n");
+			ERR_ALREADYREGISTERED(this->_users[currentFD]);
+
 	}
 }
 

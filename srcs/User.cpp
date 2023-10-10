@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 08:45:36 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 09:29:30 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	User::newConnection(void)
 	if (this->getConnected() && !this->getNickname().empty() && !this->getName().empty() && !this->getRealName().empty())
 	{
 		this->_logged = 1;
-		std::string output = "Welcome to our IRC " + this->getNickname() + " !\n";
-		sendTo(this, output);
+		RPL_WELCOME(this);
 	}
 }
 
