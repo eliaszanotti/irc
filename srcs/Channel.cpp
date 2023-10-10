@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 17:15:52 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:21:12 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	Channel::removeUser(User *user)
 {
 	for (size_t i = 0; i < this->_users.size(); i++)
 	{
-		if (this->_users[i]->getName() == user->getName())
+		if (this->_users[i]->getNickname() == user->getNickname())
 		{
 			this->_users.erase(this->_users.begin() + i);
 			return ;
