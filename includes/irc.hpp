@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 14:21:40 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:16:46 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ enum {
 
 enum {
 	OPEN,
-	INVITE_MODE
+	INVITE
 };
 
 std::vector<std::string>	split(std::string str, char delimiter);

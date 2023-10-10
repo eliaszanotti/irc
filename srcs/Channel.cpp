@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 13:07:31 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 15:01:07 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ Channel::Channel(std::string name): _name(name)
 }
 
 // Getters
+User	*Channel::getUser(std::string nickname)
+{
+	for (size_t i = 0; i < this->_users.size(); i++)
+	{
+		if (this->_users[i]->getNickname() == nickname)
+			return (this->_users[i]);
+	}
+	return (NULL);
+}
 std::vector<User *>			Channel::getUsers(void) { return this->_users; }
 std::vector<std::string>	Channel::getMessages(void) { return this->_messages; }
 std::string					Channel::getPassword(void) { return this->_password; }

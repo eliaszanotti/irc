@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 16:10:28 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 16:17:41 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Server
 		bool	_invite(void);
 		bool	_join(int fd, std::vector<std::string> command);
 		bool	_kick(int fd, std::vector<std::string> command);
-		bool	_mode(void);
+		bool	_mode(int fd, std::vector<std::string> command);
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_pass(int fd, std::vector<std::string> command);
 		bool	_privmsg(int fd, std::vector<std::string> command);
