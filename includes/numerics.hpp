@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 09:44:09 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 09:53:32 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 475
 # define ERR_BADCHANNELKEY(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+k)", "475")
+
+// 476
+# define ERR_BADCHANMASK(client) SHORT_MESSAGE(client, "Bad Channel Mask", "476")
 
 // 482
 # define ERR_CHANOPRIVSNEEDED(client, channel) CHANNEL_MESSAGE(client, channel, "You're not channel operator", "482")

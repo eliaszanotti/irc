@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/09 17:52:50 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 09:56:02 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 	std::vector<std::string>	passwords;
 	size_t						j = 0;
 
-	if (command.size() > 3)
+	if (command.size() < 2 || command.size() > 3)
+	{
+		ERR_NEEDMOREPARAMS(this->_users[fd], "JOIN");
 		return (false);
-	if (command.size() < 2)
-		return (false);
+	}
 	if (command[1][0] != '#')
+	{
+		ERR_BADCHANMASK(this->_users[fd]);
 		return (false);
+	}
 
 	// Names and passwords
 	channels = split(command[1], ",");
