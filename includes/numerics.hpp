@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 17:21:02 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 15:14:01 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,14 @@ SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() 
 # define RPL_TOPICWHOTIME(client, channel) \
 SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getTopicInfos() RN
 
+// 341
+# define RPL_INVITING(client, channel, nickname) \
+SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "INVITE" SPACE nickname SPACE channel->getName() RN
+
+// INVITE
+# define INVITE_MESSAGE(client, channelName, senderName) \
+SEND client, "You have been invited to " + channelName + " by " + senderName RN
+
 // 352
 // # define RPL_WHOREPLY(client, channel, user) 
 // SEND client , SERVER("352") SPACE client->getNickname() SPACE channel->getName() SPACE user->getName() 
@@ -121,6 +129,10 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")
+
+// 443
+# define ERR_USERONCHANNEL(client, channel, nick) \
+SEND client, SERVER("443") SPACE client->getNickname() SPACE nick SPACE channel->getName() SPACE ":is already on channel" RN
 
 // 461
 # define ERR_NEEDMOREPARAMS(client, cmd) BASIC_MESSAGE(client, cmd, "Not enough parameters", "461")

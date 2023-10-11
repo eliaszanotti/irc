@@ -6,7 +6,7 @@
 #    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/11 09:32:57 by lpupier          ###   ########.fr        #
+#    Updated: 2023/10/11 15:16:22 by lpupier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,10 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_UTILS}split.cpp		\
 					
 
-LIST_INCS		=	irc.hpp		\
-					Server.hpp	\
-					Channel.hpp	\
+LIST_INCS		=	irc.hpp			\
+					Server.hpp		\
+					Channel.hpp		\
+					numerics.hpp	\
 					User.hpp
 
 # DIRECTORY

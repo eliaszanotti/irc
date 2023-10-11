@@ -55,7 +55,7 @@ void Server::_addNewUser(void)
 			throw (std::runtime_error("Error when trying to add new user"));
 		if (newFD == 0)
 			throw (std::runtime_error("Error when trying to add new user by index 0"));
-		std::cout << PLUS_ICON "Incoming connection by " << newFD << std::endl;
+		std::cout << PLUS_ICON << newFD << " is connected" << std::endl;
 		pollfd new_pollfd;
 		new_pollfd.fd = newFD;
 		new_pollfd.events = POLLIN;
@@ -113,7 +113,6 @@ void Server::_connectEachUser(void)
 				returnValue = recv(this->_pollFD[i].fd, buffer, sizeof(buffer), 0);
 				if (returnValue <= 0)
 				{
-					std::cout << "CPT" << std::endl;
 					if (returnValue < 0)
 						std::cout << "recv command failed" << std::endl;
 					std::vector<std::string> command;
@@ -152,13 +151,13 @@ bool Server::_isExecutableCommand(std::string message)
 
 void	Server::_executeUserCommand(int fd, std::string message)
 {
-	std::cout << L_ARROW_ICON << " " << fd << ": {" << message << "}" << std::endl;
+	std::cout << L_ARROW_ICON << " " << fd << " {" << message << "}" << std::endl;
 	std::vector<std::string>	command = split(message, ' ');
 
 	if (command[0] == "KICK")
 		this->_kick(fd, command);
 	else if (command[0] == "INVITE")
-		this->_invite();
+		this->_invite(fd, command);
 	else if (command[0] == "TOPIC")
 		this->_topic(fd, command);
 	else if (command[0] == "MODE")

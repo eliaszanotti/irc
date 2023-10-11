@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 11:08:59 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 13:22:00 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ class Server
 		
 		// COMMANDS
 		bool	_cap(int fd);
-		bool	_invite(void);
+		bool	_invite(int fd, std::vector<std::string> command);
 		bool	_join(int fd, std::vector<std::string> command);
 		bool	_kick(int fd, std::vector<std::string> command);
 		bool	_mode(int fd, std::vector<std::string> command);
@@ -52,8 +52,8 @@ class Server
 		bool	_pass(int fd, std::vector<std::string> command);
 		bool	_privmsg(int fd, std::vector<std::string> command);
 		bool	_topic(int fd, std::vector<std::string> command);
-        bool	_user(int fd, std::vector<std::string> command);
-        bool	_who(int fd, std::vector<std::string> command);
+		bool	_user(int fd, std::vector<std::string> command);
+		bool	_who(int fd, std::vector<std::string> command);
 		bool	_part(int fd, std::vector<std::string> command);
 		bool	_quit(int fd, std::vector<std::string> command);
 
