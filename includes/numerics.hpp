@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 15:14:01 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:44:15 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() 
 // 341
 # define RPL_INVITING(client, channel, nickname) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "INVITE" SPACE nickname SPACE channel->getName() RN
+
+// 336
+# define RPL_INVITELIST(client, channelName) \
+SEND client, SERVER("336") SPACE client->getNickname() SPACE channelName RN
+
+// 337
+# define RPL_ENDOFINVITELIST(client) SHORT_MESSAGE(client, "End of /INVITE list", "337")
 
 // INVITE
 # define INVITE_MESSAGE(client, channelName, senderName) \

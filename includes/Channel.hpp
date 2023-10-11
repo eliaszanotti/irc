@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 09:17:46 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:22:31 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class Channel
 {
 	private:
 		std::vector<User *>			_users;
+		std::vector<User *>			_invitedUsers;
 		std::map<User *, char>		_usersPrivileges;
 		std::vector<std::string>	_messages;
 		std::string					_password;
@@ -62,6 +63,7 @@ class Channel
 		
 		// GETTERS
 		User						*getUser(std::string);
+		std::vector<User *>			getInvitedUsers(void);
 		std::vector<User *>			getUsers(void);
 		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);
@@ -72,6 +74,7 @@ class Channel
 		std::string					getSymbol(void);
 		char						getPrivilegeFor(User *);
 		std::string					getTopicInfos(void);
+		
 
 		// SETTERS
 		void						setUsers(std::vector<User *>);
@@ -83,6 +86,7 @@ class Channel
 		void						setSymbol(std::string);
 		void						setPrivilegeFor(User *, char);
 		void						setTopicInfos(std::string);
+		void						setInvitationFor(User *);
 
 };
 

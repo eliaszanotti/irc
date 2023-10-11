@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 10:04:39 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:34:42 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ std::string					Channel::getTopic(void) { return this->_topic; }
 std::string					Channel::getSymbol(void) { return this->_symbol; }
 char						Channel::getPrivilegeFor(User *user) { return this->_usersPrivileges[user]; }
 std::string					Channel::getTopicInfos(void) { return (this->_topicInfos); }
+std::vector<User *>			Channel::getInvitedUsers(void) { return (this->_invitedUsers); }
 
 // Setters
 void	Channel::setUsers(std::vector<User *> users) { this->_users = users; }
@@ -128,3 +129,4 @@ void	Channel::setTopic(std::string topic) { this->_topic = topic; }
 void	Channel::setSymbol(std::string symbol) { this->_symbol = symbol; }
 void	Channel::setPrivilegeFor(User *user, char privilege) { this->_usersPrivileges[user] = privilege; }
 void	Channel::setTopicInfos(std::string topicInfos) { this->_topicInfos = topicInfos; }
+void	Channel::setInvitationFor(User *user) { this->_invitedUsers.push_back(user); }

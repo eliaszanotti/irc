@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:42:04 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:12:37 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:40:45 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,21 @@ bool	Server::_invite(int fd, std::vector<std::string> command)
 	size_t							i_channel = 0;
 
 	// Bad command format
-	if (command.size() != 3)
+	if (command.size() > 3)
 	{
 		ERR_NEEDMOREPARAMS(this->_users[fd], "INVITE");
 		return (false);
+	}
+
+	// Invite is on display list mode
+	if (command.size() == 1)
+	{
+		for (size_t i = 0; i < this->_users[fd]->getInvitedIn().size(); i++)
+		{
+			RPL_INVITELIST(this->_users[fd], this->_users[fd]->getInvitedIn()[i]);
+		}
+		RPL_ENDOFINVITELIST(this->_users[fd]);
+		return (true);
 	}
 
 	// Get the invited channel
@@ -67,6 +78,9 @@ bool	Server::_invite(int fd, std::vector<std::string> command)
 	}
 
 	// Send the invitation
+	this->_channels[i_channel]->setInvitationFor(this->_users[it->first]);
+	this->_users[it->first]->setInvitedIn(this->_channels[i_channel]->getName());
+
 	INVITE_MESSAGE(this->_users[it->first], this->_channels[i_channel]->getName(), this->_users[fd]->getNickname());
 	RPL_INVITING(this->_users[fd], this->_channels[i_channel], this->_users[it->first]->getNickname());
 	
