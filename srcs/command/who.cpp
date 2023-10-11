@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:24:49 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:23:12 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 15:53:07 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ bool	Server::_who(int fd, std::vector<std::string> command)
 		{
 			if (command[1] == this->_channels[i]->getName())
 			{
-				std::cout << this->_users[fd]->getLastChannel() << std::endl;
-				RPL_WHOREPLY(this->_users[fd], this->_users[fd]->getLastChannel());
+				std::vector<User *>	allUsers = this->_channels[i]->getUsers();
+				for (size_t j = 0; j < allUsers.size(); j++)
+					RPL_WHOREPLY(this->_users[fd], allUsers[j], this->_channels[i]->getName());
 				break;
 			}
 		}		
@@ -44,9 +45,7 @@ bool	Server::_who(int fd, std::vector<std::string> command)
 		{
 			if (it->second->getNickname() == command[1])
 			{
-				std::cout << this->_users[fd]->getLastChannel() << std::endl;
-				RPL_WHOREPLY(this->_users[fd], this->_users[fd]->getLastChannel());
-				// RPL_WHOREPLY(this->_users[fd], it->second->getNickname());
+				RPL_WHOREPLY(this->_users[fd], it->second, it->second->getLastChannel());
 				break;
 			}
 		}

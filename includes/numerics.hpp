@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 15:26:04 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 15:37:49 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() 
 SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getTopicInfos() RN
 
 // 352
-#define RPL_WHOREPLY(client, channel) \
+#define RPL_WHOREPLY(client, user, channel) \
 SEND client, SERVER("352") SPACE client->getNickname() SPACE channel \
-SPACE client->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE client->getNickname() \
-SPACE "H" SPACE ":1" SPACE client->getRealName() RN
+SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \
+SPACE "H" SPACE ":1" SPACE user->getRealName() RN
 
 
 // 353
