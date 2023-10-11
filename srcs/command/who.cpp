@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:24:49 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 17:24:18 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 15:23:12 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,42 @@ bool	Server::_who(int fd, std::vector<std::string> command)
 		return (false);
 	}   
 	std::map<int, User *>::iterator	it;
-	for (it = this->_users.begin(); it != this->_users.end(); it++) 
+	if (command[1][0] == '#')
 	{
-		if (it->second->getNickname() == command[1])
-			break;
+		size_t i;
+		for (i = 0; i < this->_channels.size(); i++)
+		{
+			if (command[1] == this->_channels[i]->getName())
+			{
+				std::cout << this->_users[fd]->getLastChannel() << std::endl;
+				RPL_WHOREPLY(this->_users[fd], this->_users[fd]->getLastChannel());
+				break;
+			}
+		}		
+		if (i == this->_channels.size())
+		{
+			ERR_NOSUCHCHANNEL(this->_users[fd], command[1]);
+			return (false);
+		}
 	}
-	if (it == this->_users.end())
+	else
 	{
-		ERR_NOSUCHNICK(this->_users[fd], command[1]);
-		return (false);
+		for (it = this->_users.begin(); it != this->_users.end(); it++) 
+		{
+			if (it->second->getNickname() == command[1])
+			{
+				std::cout << this->_users[fd]->getLastChannel() << std::endl;
+				RPL_WHOREPLY(this->_users[fd], this->_users[fd]->getLastChannel());
+				// RPL_WHOREPLY(this->_users[fd], it->second->getNickname());
+				break;
+			}
+		}
+		if (it == this->_users.end())
+		{
+			ERR_NOSUCHNICK(this->_users[fd], command[1]);
+			return (false);
+		}
 	}
-	RPL_WHOREPLY(this->_users[fd], "*", it->second); // TODO fix cette merde
+	RPL_ENDOFWHO(this->_users[fd], command[1]);
 	return (true);
 }

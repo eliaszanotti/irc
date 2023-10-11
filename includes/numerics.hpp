@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 17:23:46 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 15:26:04 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 // 221
 # define RPL_UMODEIS
 
+// 315
+# define RPL_ENDOFWHO(client, target) BASIC_MESSAGE(client, target, "End of /WHO list", "315")
+
 // 324
 # define RPL_CHANNELMODEIS(client, channel) \
 SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getModes() RN
@@ -76,9 +79,11 @@ SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() 
 SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getTopicInfos() RN
 
 // 352
-# define RPL_WHOREPLY(client, channel, user) \
-SEND client, SERVER("352") SPACE client->getNickname() SPACE channel SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \
-SPACE "H" SPACE ":1" SPACE user->getRealName() RN
+#define RPL_WHOREPLY(client, channel) \
+SEND client, SERVER("352") SPACE client->getNickname() SPACE channel \
+SPACE client->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE client->getNickname() \
+SPACE "H" SPACE ":1" SPACE client->getRealName() RN
+
 
 // 353
 # define RPL_NAMREPLY(client, channel, user) \
