@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 17:21:02 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/10 17:23:46 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@
 # define SERVER(num) std::string(":localhost") SPACE num
 
 // MESSAGES
-#define SHORT_MESSAGE(client, message, num) \
+# define SHORT_MESSAGE(client, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE ":" + message RN
 
-#define BASIC_MESSAGE(client, arg, message, num) \
+# define BASIC_MESSAGE(client, arg, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE arg SPACE ":" + message RN
 
-#define CHANNEL_MESSAGE(client, channel, message, num) \
+# define CHANNEL_MESSAGE(client, channel, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE channel->getName() SPACE ":" + message RN
 
@@ -76,13 +76,9 @@ SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() 
 SEND client, SERVER("333") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getTopicInfos() RN
 
 // 352
-// # define RPL_WHOREPLY(client, channel, user) 
-// SEND client , SERVER("352") SPACE client->getNickname() SPACE channel->getName() SPACE user->getName() 
-// SPACE IP_ADDR SPACE SERVER_NAME SPACE user->getNickname() SPACE "H" SPACE ":" + user->getRealName() RN
-
-# define RPL_WHOREPLY(client, channel, flag, user) \
+# define RPL_WHOREPLY(client, channel, user) \
 SEND client, SERVER("352") SPACE client->getNickname() SPACE channel SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \
-SPACE flag SPACE ":1" SPACE user->getRealName() RN
+SPACE "H" SPACE ":1" SPACE user->getRealName() RN
 
 // 353
 # define RPL_NAMREPLY(client, channel, user) \
@@ -117,7 +113,7 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 # define ERR_NICKNAMEINUSE(client, nickname) BASIC_MESSAGE(client, nickname, "Nickname is already in use", "433")
 
 // 441
-#define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
+# define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")
@@ -129,7 +125,7 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 # define ERR_ALREADYREGISTERED(client) SHORT_MESSAGE(client, "You may not register", "462")
 
 // 464
-#define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
+# define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
 
 // 471
 # define ERR_CHANNELISFULL(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+l)", "471")

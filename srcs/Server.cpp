@@ -113,7 +113,6 @@ void Server::_connectEachUser(void)
 				returnValue = recv(this->_pollFD[i].fd, buffer, sizeof(buffer), 0);
 				if (returnValue <= 0)
 				{
-					std::cout << "CPT" << std::endl;
 					if (returnValue < 0)
 						std::cout << "recv command failed" << std::endl;
 					std::vector<std::string> command;
