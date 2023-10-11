@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:44:23 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 13:32:51 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 09:19:58 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	Server::_topic(int fd, std::vector<std::string> command)
 	}
 
 	// Check if the user has the privilege to change the topic
-	if (this->_channels[i]->getPrivilegeFor(this->_users[fd]) != OPERATOR)
+	if (this->_channels[i]->getPrivilegeFor(this->_users[fd]) != OPERATOR && this->_channels[i]->isMode('t'))
 	{
 		ERR_CHANOPRIVSNEEDED(this->_users[fd], this->_channels[i]);
 		return (false);

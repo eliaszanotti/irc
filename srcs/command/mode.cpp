@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 17:00:02 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 09:47:33 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 				case 'k': 
 					if (op == '+')
 					{
-						if (command.size() < args_num)
+						if (command.size() <= args_num)
 						{
 							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
 							return (false);
@@ -95,7 +95,7 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 					}
 					break;
 				case 'o':
-					if (command.size() < args_num)
+					if (command.size() <= args_num)
 					{
 						ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
 						return (false);
@@ -106,26 +106,21 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 						break ;
 					}
 					if (op == '+')
-					{
-						this->_channels[i]->addMode('o');
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), OPERATOR);
-					}
 					else
-					{
-						this->_channels[i]->removeMode('o');
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), VOICE);
-					}
+					this->_channels[i]->sendUsersList();
 					break;
 				case 'l':
 					if (op == '+')
 					{
-						if (command.size() < args_num)
+						if (command.size() <= args_num)
 						{
 							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
 							return (false);
 						}
 						this->_channels[i]->addMode('l');
-						this->_channels[i]->setMaxUsers(atol(command[args_num].c_str()));
+						this->_channels[i]->setMaxUsers(atol(command[args_num++].c_str()));
 					}
 					else
 					{
@@ -133,7 +128,18 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 						this->_channels[i]->setMaxUsers(-1);
 					}
 					break;
+				case 't':
+					if (op == '+')
+						this->_channels[i]->addMode('t');
+					else
+						this->_channels[i]->removeMode('t');
+					break;
 			}
+		}
+		else
+		{
+			if (modestring[j] == '+' || modestring[j] == '-')
+				op = modestring[j];
 		}
 	}
 	RPL_CHANNELMODEIS(this->_users[fd], this->_channels[i]);

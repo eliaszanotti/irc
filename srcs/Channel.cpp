@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 17:21:12 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 10:04:39 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	Channel::addMode(char c)
 
 bool	Channel::isMode(char c)
 {
-	for(std::vector<char>::iterator it = this->_modes.begin(); it != this->_modes.end();)
+	for(std::vector<char>::iterator it = this->_modes.begin(); it != this->_modes.end(); it++)
     {
         if (*it == c)
 			return (true);
@@ -46,11 +46,8 @@ bool	Channel::isMode(char c)
 
 void	Channel::removeMode(char c)
 {
-	for (std::vector<char>::iterator it = this->_modes.begin(); it != this->_modes.end();)
-    {
-        if (*it == c)
-			this->_modes.erase(it);
-    }
+	std::cout << "FIND : " << *std::find(_modes.begin(), _modes.end(), c) << std::endl;
+	this->_modes.erase(std::find(_modes.begin(), _modes.end(), c)); 
 }
 
 void	Channel::removeUser(User *user)
