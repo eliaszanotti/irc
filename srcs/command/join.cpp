@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 16:35:56 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 09:03:01 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 							ERR_BADCHANNELKEY(this->_users[fd], this->_channels[j]);
 							return (false);
 						}
+					}
+					else
+					{
+						ERR_BADCHANNELKEY(this->_users[fd], this->_channels[j]);
+						return (false);
 					}
 				}
 				else
