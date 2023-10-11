@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 12:59:50 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:00:24 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class User
 		std::string				_realname;
 		std::string				_nickname;
 		std::map<int, int>		_permission;
+		std::string				_lastChannel;
 	
 	public:
 		// CONSTRUCTORS
@@ -45,13 +46,15 @@ class User
 		int					getConnected(void) const;
 		pollfd				getPollFd(void) const;
 		int					getFd(void) const;
+		std::string			getLastChannel(void) const;
 		// SETTERS
-		void				setName(std::string);
-		void				setRealName(std::string);
-		void				setNickname(std::string);
-		void				setPermission(std::map<int, int>);
-		void				setLogged(int);
-		void				setConnected(int);
+		void				setName(std::string name);
+		void				setRealName(std::string realname);
+		void				setNickname(std::string nickname);
+		void				setPermission(std::map<int, int> permission);
+		void				setLogged(int logged);
+		void				setConnected(int connected);
+		void				setLastChannel(std::string lastChannel);
 };
 
 #endif

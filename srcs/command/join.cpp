@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 09:03:01 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:02:42 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 			RPL_NOTOPIC(channel->getUsers()[i], channel);
 	}
 
+	// Set the last channel of the user
+	this->_users[fd]->setLastChannel(channel->getName());
 	// Send the list of user in the channel
 	channel->sendUsersList();
 }

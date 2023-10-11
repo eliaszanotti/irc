@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 13:08:55 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:02:21 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "irc.hpp"
+#include "User.hpp"
 
 User::User() {}
 User::~User() {}
@@ -23,6 +24,7 @@ User::User(pollfd pollFD)
 	this->_nickname = "";
 	this->_realname = "";
 	this->_name = "";
+	this->_lastChannel = "*";
 }
 
 // METHODS
@@ -45,19 +47,21 @@ void	User::sendToAll(std::vector<User *> users, std::string cmd, Channel *channe
 }
 
 // Getters
-std::string			User::getName(void) const { return this->_name; }
-std::string			User::getRealName(void) const { return this->_name; }
-std::string			User::getNickname(void) const { return this->_nickname; }
-std::map<int, int>	User::getPermission(void) const { return this->_permission; }
-int					User::getLogged(void) const { return this->_logged; }
-int					User::getConnected(void) const { return this->_connected; }
-pollfd				User::getPollFd(void) const { return this->_pollFD; }
-int					User::getFd(void) const { return this->_pollFD.fd; }
+std::string			User::getName(void) const {return this->_name;}
+std::string			User::getRealName(void) const {return this->_name;}
+std::string			User::getNickname(void) const {return this->_nickname;}
+std::map<int, int>	User::getPermission(void) const {return this->_permission;}
+int					User::getLogged(void) const {return this->_logged;}
+int					User::getConnected(void) const {return this->_connected;}
+pollfd				User::getPollFd(void) const {return this->_pollFD;}
+int					User::getFd(void) const {return this->_pollFD.fd;}
+std::string			User::getLastChannel(void) const {return this->_lastChannel;}
 
 // Setters
-void	User::setName(std::string name) { this->_name = name; }
-void	User::setRealName(std::string realname) { this->_realname = realname; }
-void	User::setNickname(std::string nickname) { this->_nickname = nickname; }
-void	User::setPermission(std::map<int, int> permission) { this->_permission = permission; }
-void	User::setLogged(int logged) { this->_logged = logged; }
-void	User::setConnected(int connected) { this->_connected = connected; }
+void	User::setName(std::string name) {this->_name = name;}
+void	User::setRealName(std::string realname) {this->_realname = realname;}
+void	User::setNickname(std::string nickname) {this->_nickname = nickname;}
+void	User::setPermission(std::map<int, int> permission) {this->_permission = permission;}
+void	User::setLogged(int logged) {this->_logged = logged;}
+void 	User::setConnected(int connected) {this->_connected = connected;}
+void	User::setLastChannel(std::string lastChannel) {this->_lastChannel = lastChannel;}
