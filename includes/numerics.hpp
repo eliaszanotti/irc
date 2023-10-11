@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 17:21:02 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 13:22:28 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,13 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 # define ERR_ALREADYREGISTERED(client) SHORT_MESSAGE(client, "You may not register", "462")
 
 // 464
-#define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
+# define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
 
 // 471
 # define ERR_CHANNELISFULL(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+l)", "471")
+
+//473
+# define ERR_INVITEONLYCHAN(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+i)", "473")
 
 // 475
 # define ERR_BADCHANNELKEY(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+k)", "475")
