@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:18:52 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/11 08:58:33 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 14:40:56 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ bool    Server::_privmsg(int fd, std::vector<std::string> command)
 				RPL_CMD_TARGET(this->_users[fd], this->_users[it->first], "PRIVMSG", messages);
 			}
 		}
+		messages.clear();
 	}
 	return (true);
 }
