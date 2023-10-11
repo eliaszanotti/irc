@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:22:31 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 16:21:17 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ class Channel
 		void						removeUser(User *);
 		void						sendUsersList(void);
 		bool						haveTheUser(std::string);
+		bool						isTheUserInvited(std::string);
 		
 		// GETTERS
 		User						*getUser(std::string);

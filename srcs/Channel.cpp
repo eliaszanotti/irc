@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:34:42 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 16:23:10 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ bool	Channel::isMode(char c)
         if (*it == c)
 			return (true);
     }
+	return (false);
+}
+
+bool	Channel::isTheUserInvited(std::string nickname)
+{
+	for (size_t i = 0; i < this->_invitedUsers.size(); i++)
+	{
+		if (this->_invitedUsers[i]->getNickname() == nickname)
+			return (true);
+	}
 	return (false);
 }
 

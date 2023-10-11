@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 16:00:05 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 16:24:31 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		{
 			if (channels[i] == this->_channels[j]->getName())
 			{
-				if (this->_channels[j]->isMode('i'))
+				if (this->_channels[j]->isMode('i') && !this->_channels[j]->isTheUserInvited(this->_users[fd]->getNickname()))
 				{
 					ERR_INVITEONLYCHAN(this->_users[fd], this->_channels[j]);
 					break ;
