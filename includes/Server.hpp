@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 16:17:41 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 11:08:59 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Server
 		struct sockaddr_in	 	_serverAddress;
 		std::vector<Channel *>	_channels;
 		std::map<int, User *>	_users;
-		struct pollfd			_pollFD[MAX_CHAR];
+		std::vector<pollfd>		_pollFD;
 		int						_pollFDSize;
 		bool					_serverIsRunning;
 		
@@ -55,6 +55,7 @@ class Server
         bool	_user(int fd, std::vector<std::string> command);
         bool	_who(int fd, std::vector<std::string> command);
 		bool	_part(int fd, std::vector<std::string> command);
+		bool	_quit(int fd, std::vector<std::string> command);
 
 		// JOIN
 		void	_connectToChannel(int fd, Channel *channel);

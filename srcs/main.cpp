@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:33:18 by elias             #+#    #+#             */
-/*   Updated: 2023/10/04 15:53:41 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 10:46:25 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	catch(const std::exception& error)
 	{
 		close(server.getServerSocket());
-		return (std::cerr << ERROR_STRING << error.what() << std::endl, 1);
+		return (std::cerr << WARN_ICON << error.what() << std::endl, 1);
 	}
 	return (0);
 }

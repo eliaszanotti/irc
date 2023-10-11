@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elias <elias@student.42.fr>                +#+  +:+       +#+         #
+#    By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/10 16:16:32 by elias            ###   ########.fr        #
+#    Updated: 2023/10/11 09:32:57 by lpupier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_COMMAND}user.cpp		\
 					${DIR_COMMAND}who.cpp		\
 					${DIR_COMMAND}part.cpp		\
+					${DIR_COMMAND}quit.cpp		\
 					\
 					${DIR_UTILS}sendTo.cpp		\
 					${DIR_UTILS}split.cpp		\

@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:54:14 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/10 16:03:46 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 09:21:59 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ bool	Server::_part(int fd, std::vector<std::string> command)
 				for (size_t k = 0; k < this->_channels[j]->getUsers().size(); k++)
 				{
 					if (this->_channels[j]->getUsers()[k]->getNickname() == this->_users[fd]->getNickname())
-					{	
-						CHANNEL_MESSAGE(this->_users[fd], this->_channels[j], "PART: " + command[2], "");
+					{
 						RPL_CMD(this->_users[fd], "PART", this->_channels[j]->getName());
 
 						for (size_t z = 0; z < this->_channels[j]->getUsers().size(); z++)
-							RPL_CMD_CHAN_OTHER(this->_channels[j]->getUsers()[z], this->_users[fd], "PART", this->_channels[j], command[2]);
+						{
+							if (this->_channels[j]->getUsers()[z]->getNickname() != this->_users[fd]->getNickname())
+								RPL_CMD_CHAN_OTHER(this->_channels[j]->getUsers()[z], this->_users[fd], "PART", this->_channels[j], command[2]);
+						}
 
 						this->_channels[j]->removeUser(this->_users[fd]);
 						this->_channels[j]->sendUsersList();
@@ -58,6 +60,5 @@ bool	Server::_part(int fd, std::vector<std::string> command)
 		if (j == this->_channels.size())
 			ERR_NOSUCHCHANNEL(this->_users[fd], channels[i]);
 	}
-
 	return (false);
 }

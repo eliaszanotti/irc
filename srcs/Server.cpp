@@ -27,20 +27,21 @@ Server::Server(int port, std::string password)
 	this->_serverAddress.sin_port = htons(port);
 	this->_serverAddress.sin_addr.s_addr = INADDR_ANY;
 
-	std::memset(this->_pollFD, 0 , sizeof(this->_pollFD));
-	this->_pollFD[0].fd = this->_serverSocket;
-	this->_pollFD[0].events = POLLIN;
-	this->_pollFDSize = 1;
+	// std::memset(this->_pollFD, 0 , sizeof(this->_pollFD));
+	pollfd	new_pollfd;
+	new_pollfd.fd = this->_serverSocket;
+	new_pollfd.events = POLLIN;
+	this->_pollFD.push_back(new_pollfd);
 	this->_serverIsRunning = true;
 }
 
 // PRIVATE METHODS
 void	Server::_processPoll(void)
 {
-	int returnValue = poll(this->_pollFD, this->_pollFDSize, POLL_TIMEOUT);
-	if (returnValue < 0)
+	this->_pollFDSize = poll(&this->_pollFD[0], this->_pollFD.size(), POLL_TIMEOUT);
+	if (this->_pollFDSize < 0)
 		throw (std::runtime_error("Poll failed"));
-	if (returnValue == 0)
+	if (this->_pollFDSize == 0)
 		throw (std::runtime_error("Poll timeout"));
 }
 
@@ -50,14 +51,19 @@ void Server::_addNewUser(void)
 	if (this->_pollFD[0].revents & POLLIN)
 	{
 		newFD = accept(this->_serverSocket, NULL, NULL);
-		if (newFD < 0 && errno != EWOULDBLOCK)
+		if (newFD < 0)
 			throw (std::runtime_error("Error when trying to add new user"));
+		if (newFD == 0)
+			throw (std::runtime_error("Error when trying to add new user by index 0"));
 		std::cout << PLUS_ICON "Incoming connection by " << newFD << std::endl;
-		this->_pollFD[this->_pollFDSize].fd = newFD;
-		this->_pollFD[this->_pollFDSize].events = POLLIN;
-		User *newUser = new User(this->_pollFD[this->_pollFDSize]);
-		this->_users[this->_pollFD[this->_pollFDSize].fd] = newUser;
-		this->_pollFDSize++;
+		pollfd new_pollfd;
+		new_pollfd.fd = newFD;
+		new_pollfd.events = POLLIN;
+		new_pollfd.revents = 0;
+		this->_pollFD.push_back(new_pollfd);
+		User *newUser = new User(new_pollfd);
+		this->_users[new_pollfd.fd] = newUser;
+		this->_pollFDSize--;
 	}
 }
 
@@ -79,20 +85,17 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 }
 
 void Server::_closeCurrentUser(int currentIndex)
-{				
-	delete (this->_users[this->_pollFD[currentIndex].fd]);
-	close(this->_pollFD[currentIndex].fd);
-	this->_pollFD[currentIndex].fd = -1;
-	for (int i = 0; i < this->_pollFDSize; i++)
+{
+	for (size_t i = 0; i < this->_pollFD.size(); i++) 
 	{
-		if (this->_pollFD[i].fd == -1)
-		{
-			for (int j = i; j < this->_pollFDSize; j++)
-				this->_pollFD[j].fd = this->_pollFD[j+1].fd;
-			i--;
-			this->_pollFDSize--;
+		if (this->_pollFD[i].fd == currentIndex) {
+			this->_pollFD.erase(this->_pollFD.begin() + i);
+			break;
 		}
 	}
+	delete (this->_users[currentIndex]);
+	this->_users.erase(currentIndex);
+	close(currentIndex);
 }
 
 void Server::_connectEachUser(void)
@@ -100,7 +103,7 @@ void Server::_connectEachUser(void)
 	char			buffer[MAX_CHAR];
 	int				returnValue;
 
-	for (int i = 1; i < this->_pollFDSize; i++)
+	for (size_t i = 1; i < this->_pollFD.size() && this->_pollFDSize; i++)
 	{
 		try
 		{
@@ -108,19 +111,21 @@ void Server::_connectEachUser(void)
 			{
 				memset(&buffer, 0, MAX_CHAR);
 				returnValue = recv(this->_pollFD[i].fd, buffer, sizeof(buffer), 0);
-				if (returnValue < 0 && errno != EWOULDBLOCK)
+				if (returnValue <= 0)
 				{
-					this->_closeCurrentUser(i);
-					throw (std::runtime_error("recv command failed"));
-				}
-				else if (returnValue == 0)
-				{
-					std::cout << DEL_ICON << this->_pollFD[i].fd << " leaved the server" << std::endl;
-					this->_closeCurrentUser(i);
+					std::cout << "CPT" << std::endl;
+					if (returnValue < 0)
+						std::cout << "recv command failed" << std::endl;
+					std::vector<std::string> command;
+					command.push_back("QUIT");
+					command.push_back(":Leaving");
+					this->_quit(i, command);
 					break;
 				}
-				else if (returnValue > 1)
+				else if (returnValue > 0)
+				{
 					this->_processMessage(buffer, i);
+				}
 			}
 		}
 		catch(const std::exception& error)
@@ -147,7 +152,7 @@ bool Server::_isExecutableCommand(std::string message)
 
 void	Server::_executeUserCommand(int fd, std::string message)
 {
-	std::cout << L_ARROW_ICON " {" << message << "}" << std::endl;
+	std::cout << L_ARROW_ICON << " " << fd << ": {" << message << "}" << std::endl;
 	std::vector<std::string>	command = split(message, ' ');
 
 	if (command[0] == "KICK")
@@ -174,6 +179,8 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_who(fd, command);
 	else if (command[0] == "PART")
 		this->_part(fd, command);
+	else if (command[0] == "QUIT")
+		this->_quit(fd, command);
 	else
 		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
 }
