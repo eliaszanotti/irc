@@ -1,5 +1,11 @@
 # IRC
 
+
+# TODO
+
+kick message 
+quit
+
 ### ENUM: MODE
 ```c++
 enum {

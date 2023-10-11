@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 16:40:30 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:05:17 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 					}
 					if (op == '+')
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), OPERATOR);
-					else if (this->_channels[i]->isMode('o'))
+					else 
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num]), VOICE);
 					this->_channels[i]->sendUsersList();
 					break;
