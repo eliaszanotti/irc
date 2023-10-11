@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 13:22:28 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:54:46 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
-
-// 221
-# define RPL_UMODEIS
 
 // 324
 # define RPL_CHANNELMODEIS(client, channel) \
