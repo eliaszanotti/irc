@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 15:44:15 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:54:46 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
 
-// 221
-# define RPL_UMODEIS
-
 // 324
 # define RPL_CHANNELMODEIS(client, channel) \
 SEND client, SERVER("324") SPACE client->getNickname() SPACE channel->getName() SPACE channel->getModes() RN
@@ -89,15 +86,6 @@ SEND client, SERVER("336") SPACE client->getNickname() SPACE channelName RN
 // INVITE
 # define INVITE_MESSAGE(client, channelName, senderName) \
 SEND client, "You have been invited to " + channelName + " by " + senderName RN
-
-// 352
-// # define RPL_WHOREPLY(client, channel, user) 
-// SEND client , SERVER("352") SPACE client->getNickname() SPACE channel->getName() SPACE user->getName() 
-// SPACE IP_ADDR SPACE SERVER_NAME SPACE user->getNickname() SPACE "H" SPACE ":" + user->getRealName() RN
-
-# define RPL_WHOREPLY(client, channel, flag, user) \
-SEND client, SERVER("352") SPACE client->getNickname() SPACE channel SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \
-SPACE flag SPACE ":1" SPACE user->getRealName() RN
 
 // 353
 # define RPL_NAMREPLY(client, channel, user) \
@@ -148,10 +136,13 @@ SEND client, SERVER("443") SPACE client->getNickname() SPACE nick SPACE channel-
 # define ERR_ALREADYREGISTERED(client) SHORT_MESSAGE(client, "You may not register", "462")
 
 // 464
-#define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
+# define ERR_PASSWDMISMATCH(client) SEND client, SERVER("464") SPACE client->getNickname() SPACE "Password incorrect" RN
 
 // 471
 # define ERR_CHANNELISFULL(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+l)", "471")
+
+//473
+# define ERR_INVITEONLYCHAN(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+i)", "473")
 
 // 475
 # define ERR_BADCHANNELKEY(client, channel) CHANNEL_MESSAGE(client, channel, "Cannot join channel (+k)", "475")

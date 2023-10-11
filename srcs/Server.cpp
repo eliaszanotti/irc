@@ -118,7 +118,7 @@ void Server::_connectEachUser(void)
 					std::vector<std::string> command;
 					command.push_back("QUIT");
 					command.push_back(":Leaving");
-					this->_quit(i, command);
+					this->_quit(this->_pollFD[i].fd, command);
 					break;
 				}
 				else if (returnValue > 0)

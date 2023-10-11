@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 09:03:01 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:47:50 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		{
 			if (channels[i] == this->_channels[j]->getName())
 			{
+				if (this->_channels[j]->isMode('i'))
+				{
+					ERR_INVITEONLYCHAN(this->_users[fd], this->_channels[j]);
+					break ;
+				}
 				// The channel is full
 				if (this->_channels[j]->getUsers().size() == (size_t)this->_channels[j]->getMaxUsers())
 				{
