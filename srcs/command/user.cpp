@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:47:55 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 09:40:54 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/10 17:08:18 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 bool	Server::_user(int fd, std::vector<std::string> command)
 {
-	if (this->_users[fd]->getLogged())
-	{
-		ERR_ALREADYREGISTERED(this->_users[fd]);
-		return (false);
-	}
 	if (command.size() != 5)
 	{
 		RPL_CMD(this->_users[fd], "CAP", "USER <realname> 0 * :<realname>\n");

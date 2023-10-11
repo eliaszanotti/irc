@@ -6,7 +6,7 @@
 /*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 15:54:46 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 16:00:00 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@
 # define SERVER(num) std::string(":localhost") SPACE num
 
 // MESSAGES
-#define SHORT_MESSAGE(client, message, num) \
+# define SHORT_MESSAGE(client, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE ":" + message RN
 
-#define BASIC_MESSAGE(client, arg, message, num) \
+# define BASIC_MESSAGE(client, arg, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE arg SPACE ":" + message RN
 
-#define CHANNEL_MESSAGE(client, channel, message, num) \
+# define CHANNEL_MESSAGE(client, channel, message, num) \
 SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
 SPACE channel->getName() SPACE ":" + message RN
 
@@ -57,6 +57,12 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
+
+// 221
+# define RPL_UMODEIS
+
+// 315
+# define RPL_ENDOFWHO(client, target) BASIC_MESSAGE(client, target, "End of /WHO list", "315")
 
 // 324
 # define RPL_CHANNELMODEIS(client, channel) \
@@ -86,6 +92,12 @@ SEND client, SERVER("336") SPACE client->getNickname() SPACE channelName RN
 // INVITE
 # define INVITE_MESSAGE(client, channelName, senderName) \
 SEND client, "You have been invited to " + channelName + " by " + senderName RN
+
+// 352
+#define RPL_WHOREPLY(client, user, channel) \
+SEND client, SERVER("352") SPACE client->getNickname() SPACE channel \
+SPACE user->getName() SPACE SERVER_NAME SPACE IP_ADDR SPACE user->getNickname() \
+SPACE "H" SPACE ":1" SPACE user->getRealName() RN
 
 // 353
 # define RPL_NAMREPLY(client, channel, user) \
@@ -120,7 +132,7 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 # define ERR_NICKNAMEINUSE(client, nickname) BASIC_MESSAGE(client, nickname, "Nickname is already in use", "433")
 
 // 441
-#define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
+# define ERR_USERNOTINCHANNEL(client, nickname) BASIC_MESSAGE(client, nickname, "They aren't on that channel", "441")
 
 // 442
 # define ERR_NOTONCHANNEL(client, channel) CHANNEL_MESSAGE(client, channel, "You're not on that channel", "442")

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:38:45 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:59:15 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class User
 		std::string					_realname;
 		std::string					_nickname;
 		std::map<int, int>			_permission;
+		std::string					_lastChannel;
 	
 	public:
 		// CONSTRUCTORS
@@ -49,6 +50,7 @@ class User
 		pollfd						getPollFd(void) const;
 		int							getFd(void) const;
 		std::vector<std::string>	getInvitedIn(void) const;
+		std::string					getLastChannel(void) const;
 
 		// SETTERS
 		void						setName(std::string);
@@ -58,6 +60,7 @@ class User
 		void						setLogged(int);
 		void						setConnected(int);
 		void						setInvitedIn(std::string);
+		void						setLastChannel(std::string lastChannel);
 };
 
 #endif
