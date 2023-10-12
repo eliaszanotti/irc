@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 09:07:28 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:26:26 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	User::eraseInvitation(std::string str)
 	it = std::find(this->_invitedIn.begin(), this->_invitedIn.end(), str);
 	if (it != this->_invitedIn.end())
 		this->_invitedIn.erase(it);
+}
 
 void	User::removeChannel(Channel *channel)
 {
