@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 16:21:17 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:02:08 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class Channel
 		std::map<User *, char>		_usersPrivileges;
 		std::vector<std::string>	_messages;
 		std::string					_password;
+		std::string					_nb_users;
 		std::string const			_name;
 		std::vector<char>			_modes;
 		int							_max_users;

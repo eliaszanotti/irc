@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 16:38:59 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/11 19:09:12 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 315
 # define RPL_ENDOFWHO(client, target) BASIC_MESSAGE(client, target, "End of /WHO list", "315")
+
+// 321
+# define RPL_LISTSTART(client) SHORT_MESSAGE(client, " Channel :Users Name", "321")
+
+// 322
+# define RPL_LIST(client, channel) \
+SEND client, SERVER("322") SPACE channel->getName() SPACE toString(channel->getUsers().size()) + " :" + channel->getTopic() RN
+
+//323
+# define RPL_LISTEND(client) SHORT_MESSAGE(client, ":End of /LIST", "323")
 
 // 324
 # define RPL_CHANNELMODEIS(client, channel) \
