@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/12 08:21:18 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:50:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ SPACE channel->getName() SPACE banned_user->getNickname() RN
 # define KICK_WITH_REASON(client, op, channel, banned_user, reason) \
 SEND client, ":" + op->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
 SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
+
+// PING
+# define RPL_PONG(client, token) \
+SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "PONG :" + token RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
@@ -113,6 +117,15 @@ SPACE ":" + channel->getPrivilegeFor(user) + user->getNickname() RN
 
 // 366
 # define RPL_ENDOFNAMES(client, channel) CHANNEL_MESSAGE(client, channel, "End of /NAMES list", "366")
+
+// 375
+# define RPL_MOTDSTART(client) SHORT_MESSAGE(client, ":- Message of the day - ", "375")
+
+// 372
+# define RPL_MOTD(client, line) SHORT_MESSAGE(client, line, "372")
+
+// 376
+# define RPL_ENDOFMOTD(client) SHORT_MESSAGE(client, "End of /MOTD command", "376")
 
 // 401
 # define ERR_NOSUCHNICK(client, nickName) BASIC_MESSAGE(client, nickName, "No such nick/channel", "401")

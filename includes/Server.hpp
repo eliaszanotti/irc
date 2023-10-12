@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 17:37:47 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:26:14 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ class Server
 		bool	_kick(int fd, std::vector<std::string> command);
 		bool	_list(int fd, std::vector<std::string> command);
 		bool	_mode(int fd, std::vector<std::string> command);
+		bool	_motd(int fd, std::vector<std::string> command);
 		bool	_nick(int fd, std::vector<std::string> command);
 		bool	_pass(int fd, std::vector<std::string> command);
+		bool	_ping(int fd, std::vector<std::string> command);
 		bool	_privmsg(int fd, std::vector<std::string> command);
 		bool	_topic(int fd, std::vector<std::string> command);
 		bool	_user(int fd, std::vector<std::string> command);
