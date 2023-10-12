@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 16:00:00 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/12 08:46:02 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 001
 # define RPL_WELCOME(client) SHORT_MESSAGE(client, "Welcome to the IRC Network " + client->getNickname() + " !", "001")
-
-// 221
-# define RPL_UMODEIS
 
 // 315
 # define RPL_ENDOFWHO(client, target) BASIC_MESSAGE(client, target, "End of /WHO list", "315")

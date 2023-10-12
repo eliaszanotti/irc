@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:41:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/10 15:19:29 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/11 17:10:27 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ bool	Server::_kick(int fd, std::vector<std::string> command)
 
 	// Kick the user in the data of the provided channel
 	this->_channels[i]->removeUser(this->_channels[i]->getUsers()[j]);
+
+	// Remove the channel in the channels list of the user
+	this->_channels[i]->getUsers()[j]->removeChannel(this->_channels[i]);
 
 	// Send the new user's list of the provided channel
 	this->_channels[i]->sendUsersList();
