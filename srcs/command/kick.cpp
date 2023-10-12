@@ -90,6 +90,9 @@ bool	Server::_kick(int fd, std::vector<std::string> command)
 	// Kick the user in the data of the provided channel
 	this->_channels[i]->removeUser(this->_channels[i]->getUsers()[j]);
 
+	// Remove the channel in the channels list of the user
+	this->_channels[i]->getUsers()[j]->removeChannel(this->_channels[i]);
+
 	// Send the new user's list of the provided channel
 	this->_channels[i]->sendUsersList();
 	

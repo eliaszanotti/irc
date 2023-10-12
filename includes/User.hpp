@@ -22,6 +22,7 @@ class User
 	private:
 		struct pollfd				_pollFD;
 		std::vector<std::string>	_invitedIn;
+		std::vector<Channel *>		_channels;
 		int							_connected;
 		int							_logged;
 		std::string					_name;
@@ -40,6 +41,8 @@ class User
 		void						newConnection(void);
 		void						sendToAll(std::vector<User *>, std::string, Channel *, std::string);
 		void						eraseInvitation(std::string str);
+		void						removeChannel(Channel *);
+		void						clearChannels(void);
 		
 		// GETTERS
 		std::string					getName(void) const;
@@ -52,6 +55,7 @@ class User
 		int							getFd(void) const;
 		std::vector<std::string>	getInvitedIn(void) const;
 		std::string					getLastChannel(void) const;
+		std::vector<Channel *>		getChannels(void) const;
 
 		// SETTERS
 		void						setName(std::string);
@@ -62,6 +66,7 @@ class User
 		void						setConnected(int);
 		void						setInvitedIn(std::string);
 		void						setLastChannel(std::string lastChannel);
+		void						setChannels(Channel *);
 };
 
 #endif

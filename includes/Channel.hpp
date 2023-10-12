@@ -37,7 +37,6 @@ class Channel
 		std::vector<User *>			_users;
 		std::vector<User *>			_invitedUsers;
 		std::map<User *, char>		_usersPrivileges;
-		std::vector<std::string>	_messages;
 		std::string					_password;
 		std::string					_nb_users;
 		std::string const			_name;
@@ -68,7 +67,6 @@ class Channel
 		User						*getUser(std::string);
 		std::vector<User *>			getInvitedUsers(void);
 		std::vector<User *>			getUsers(void);
-		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);
 		std::string					getModes(void);
 		std::string					getName(void);
@@ -81,7 +79,6 @@ class Channel
 
 		// SETTERS
 		void						setUsers(std::vector<User *>);
-		void						setMessages(std::vector<std::string>);
 		void						setPassword(std::string);
 		void						setMode(int);
 		void						setMaxUsers(int);

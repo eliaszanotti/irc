@@ -115,7 +115,6 @@ User	*Channel::getUser(std::string nickname)
 	return (NULL);
 }
 std::vector<User *>			Channel::getUsers(void) { return this->_users; }
-std::vector<std::string>	Channel::getMessages(void) { return this->_messages; }
 std::string					Channel::getPassword(void) { return this->_password; }
 
 std::string	Channel::getModes(void)
@@ -139,7 +138,6 @@ std::vector<User *>			Channel::getInvitedUsers(void) { return (this->_invitedUse
 
 // Setters
 void	Channel::setUsers(std::vector<User *> users) { this->_users = users; }
-void	Channel::setMessages(std::vector<std::string> messages) { this->_messages = messages; }
 void	Channel::setPassword(std::string password) { this->_password = password; }
 void	Channel::setMaxUsers(int max_users) { this->_max_users = max_users; }
 void	Channel::setTopic(std::string topic) { this->_topic = topic; }

@@ -86,13 +86,24 @@ void Server::_processMessage(std::string buffer, int currentIndex)
 
 void Server::_closeCurrentUser(int currentIndex)
 {
-	for (size_t i = 0; i < this->_pollFD.size(); i++) 
+	for (size_t i = 0; i < this->_pollFD.size(); i++)
 	{
 		if (this->_pollFD[i].fd == currentIndex) {
 			this->_pollFD.erase(this->_pollFD.begin() + i);
 			break;
 		}
 	}
+
+	// Delete user's presence in all channels
+	for (size_t i = 0; i < this->_users[currentIndex]->getChannels().size(); i++)
+	{
+		this->_users[currentIndex]->getChannels()[i]->removeUser(this->_users[currentIndex]);
+	
+		// Resend to all channels the list of users
+		this->_users[currentIndex]->getChannels()[i]->sendUsersList();
+	}
+	this->_users[currentIndex]->clearChannels();
+
 	delete (this->_users[currentIndex]);
 	this->_users.erase(currentIndex);
 	close(currentIndex);

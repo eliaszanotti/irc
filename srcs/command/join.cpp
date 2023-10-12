@@ -138,9 +138,13 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 		else
 			RPL_NOTOPIC(channel->getUsers()[i], channel);
 	}
+	
+	// Add the channel in the channels list of the user
+	this->_users[fd]->setChannels(channel);
 
 	// Set the last channel of the user
 	this->_users[fd]->setLastChannel(channel->getName());
+	
 	// Send the list of user in the channel
 	channel->sendUsersList();
 }
