@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 19:09:12 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 08:21:18 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR
 SEND target, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE ":" SPACE msg RN
 
 // KICK
-# define KICK_WITHOUT_REASON(client, channel, banned_user) \
-SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
+# define KICK_WITHOUT_REASON(client, op, channel, banned_user) \
+SEND client, ":" + op->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
 SPACE channel->getName() SPACE banned_user->getNickname() RN
 
-# define KICK_WITH_REASON(client, channel, banned_user, reason) \
-SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
+# define KICK_WITH_REASON(client, op, channel, banned_user, reason) \
+SEND client, ":" + op->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE "KICK" \
 SPACE channel->getName() SPACE banned_user->getNickname() SPACE reason RN
 
 // 001
