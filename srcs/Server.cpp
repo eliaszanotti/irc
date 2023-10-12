@@ -12,6 +12,8 @@
 
 #include "Server.hpp"
 
+bool _serverIsRunning = true;
+
 // CONSTRUCTORS
 Server::~Server() {close(this->_serverSocket);}
 
@@ -32,7 +34,7 @@ Server::Server(int port, std::string password)
 	new_pollfd.fd = this->_serverSocket;
 	new_pollfd.events = POLLIN;
 	this->_pollFD.push_back(new_pollfd);
-	this->_serverIsRunning = true;
+	_serverIsRunning = true;
 }
 
 // PRIVATE METHODS
@@ -40,7 +42,7 @@ void	Server::_processPoll(void)
 {
 	this->_pollFDSize = poll(&this->_pollFD[0], this->_pollFD.size(), POLL_TIMEOUT);
 	if (this->_pollFDSize < 0)
-		throw (std::runtime_error("Poll failed"));
+		throw (std::runtime_error("Server shutdown"));
 	if (this->_pollFDSize == 0)
 		throw (std::runtime_error("Poll timeout"));
 }
@@ -204,6 +206,13 @@ void	Server::_executeUserCommand(int fd, std::string message)
 // GETTERS
 int		Server::getServerSocket(void) const {return (this->_serverSocket);}
 
+// SIGNALS
+void	Server::ctrlc(int sig)
+{
+	(void)sig;
+	_serverIsRunning = false;
+}
+
 // METHODS
 void	Server::init(void)
 {
@@ -224,7 +233,7 @@ void	Server::init(void)
 
 void	Server::waitingForNewUsers(void)
 {	
-	while (this->_serverIsRunning)
+	while (_serverIsRunning)
 	{
 		// Wait for new connections
 		try

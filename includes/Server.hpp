@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 10:26:14 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:25:42 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class Server
 		std::map<int, User *>	_users;
 		std::vector<pollfd>		_pollFD;
 		int						_pollFDSize;
-		bool					_serverIsRunning;
 		
 		// PRIVATE METHODS
 		void	_processPoll(void);
@@ -41,7 +40,7 @@ class Server
 		void	_connectEachUser(void);
 		bool	_isExecutableCommand(std::string message);
 		void	_executeUserCommand(int fd, std::string message);
-		
+
 		// COMMANDS
 		bool	_cap(int fd);
 		bool	_invite(int fd, std::vector<std::string> command);
@@ -70,6 +69,9 @@ class Server
 
 		// GETTERS
 		int			getServerSocket(void) const;
+
+		// SIGNALS
+		static void	ctrlc(int sig);
 
 		// METHODS
 		void	init(void);

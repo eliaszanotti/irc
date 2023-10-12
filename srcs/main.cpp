@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:33:18 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 10:46:25 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 15:26:36 by elias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 	Server server(port, password);
 	try
 	{
+		signal(SIGINT, &Server::ctrlc);
 		server.init();
 		server.waitingForNewUsers();
 	}
