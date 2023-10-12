@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:22:31 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 08:46:58 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ class Channel
 		std::vector<User *>			_users;
 		std::vector<User *>			_invitedUsers;
 		std::map<User *, char>		_usersPrivileges;
-		std::vector<std::string>	_messages;
 		std::string					_password;
 		std::string const			_name;
 		std::vector<char>			_modes;
@@ -65,7 +64,6 @@ class Channel
 		User						*getUser(std::string);
 		std::vector<User *>			getInvitedUsers(void);
 		std::vector<User *>			getUsers(void);
-		std::vector<std::string>	getMessages(void);
 		std::string					getPassword(void);
 		std::string					getModes(void);
 		std::string					getName(void);
@@ -78,7 +76,6 @@ class Channel
 
 		// SETTERS
 		void						setUsers(std::vector<User *>);
-		void						setMessages(std::vector<std::string>);
 		void						setPassword(std::string);
 		void						setMode(int);
 		void						setMaxUsers(int);
