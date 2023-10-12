@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 08:50:31 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 08:57:16 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 	{
 		if (command.size() == 2)
 		{
-			if (command[1][0] == '+' || command[1][0] == '-')
+			if (command[1][0] != '+' && command[1][0] != '-')
 			{
 				for (i = 0; i < this->_channels.size(); i++)
 				{
@@ -35,9 +35,9 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 					ERR_NOSUCHCHANNEL(this->_users[fd], command[1]);
 					return (false);
 				}
+				RPL_CHANNELMODEIS(this->_users[fd], this->_channels[i]);
+				return (false);
 			}
-			RPL_CHANNELMODEIS(this->_users[fd], this->_channels[i]);
-			return (false);
 		}
 		ERR_BADCHANMASK(this->_users[fd]);
 		return (false);
