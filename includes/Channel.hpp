@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 08:46:58 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 09:02:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Channel
 		std::vector<User *>			_invitedUsers;
 		std::map<User *, char>		_usersPrivileges;
 		std::string					_password;
+		std::string					_nb_users;
 		std::string const			_name;
 		std::vector<char>			_modes;
 		int							_max_users;
@@ -59,6 +60,8 @@ class Channel
 		void						removeUser(User *);
 		void						sendUsersList(void);
 		bool						haveTheUser(std::string);
+		bool						isTheUserInvited(std::string);
+		void						eraseInvitation(User *);
 		
 		// GETTERS
 		User						*getUser(std::string);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 16:47:20 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 09:07:57 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 		{
 			if (channels[i] == this->_channels[j]->getName())
 			{
-				if (this->_channels[j]->isMode('i'))
+				if (this->_channels[j]->isMode('i') && !this->_channels[j]->isTheUserInvited(this->_users[fd]->getNickname()))
 				{
 					ERR_INVITEONLYCHAN(this->_users[fd], this->_channels[j]);
 					break ;
@@ -97,6 +97,8 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 void	Server::_connectToChannel(int fd, Channel *channel)
 {
 	size_t	i;
+	std::vector<User *>::iterator it_user;
+	std::vector<std::string>::iterator it_str;
 	
 	// Check if the user is already in the channel
 	for (i = 0; i < channel->getUsers().size(); i++)
@@ -117,6 +119,12 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 			channel->setPrivilegeFor(this->_users[fd], OPERATOR);
 		else
 			channel->setPrivilegeFor(this->_users[fd], VOICE);
+		// remove the invitation
+		if (channel->isMode('i'))
+		{
+			channel->eraseInvitation(this->_users[fd]);
+			this->_users[fd]->eraseInvitation(channel->getName());
+		}
 	}
 
 	for (size_t i = 0; i < channel->getUsers().size(); i++)

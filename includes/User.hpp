@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 08:37:40 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 09:08:11 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ class User
 		// METHODS
 		void						newConnection(void);
 		void						sendToAll(std::vector<User *>, std::string, Channel *, std::string);
+		void						eraseInvitation(std::string str);
 		void						removeChannel(Channel *);
 		void						clearChannels(void);
 		

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 16:16:46 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/11 18:02:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # include <sys/ioctl.h>
 # include <sys/poll.h>
 # include <sys/socket.h>
+# include <sstream>
 # include <vector>
 # include <ctime>
 # include <unistd.h>
@@ -63,6 +64,7 @@ enum {
 };
 
 std::vector<std::string>	split(std::string str, char delimiter);
+std::string					toString(int number);
 void						sendTo(const User *user, const std::string &message);
 
 #endif

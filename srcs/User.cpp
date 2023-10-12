@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 08:38:30 by lpupier          ###   ########.fr       */
+/*   Updated: 2023/10/12 09:07:28 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ void	User::sendToAll(std::vector<User *> users, std::string cmd, Channel *channe
 			RPL_CMD_CHAN_OTHER(users[i], this, cmd, channel, msg);
 	}
 }
+
+void	User::eraseInvitation(std::string str)
+{
+	std::vector<std::string>::iterator it;
+	it = std::find(this->_invitedIn.begin(), this->_invitedIn.end(), str);
+	if (it != this->_invitedIn.end())
+		this->_invitedIn.erase(it);
 
 void	User::removeChannel(Channel *channel)
 {
