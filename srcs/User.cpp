@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 09:41:16 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 10:22:06 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,15 @@ void	User::newConnection(void)
 	if (this->getConnected() && !this->getNickname().empty() && !this->getName().empty() && !this->getRealName().empty())
 	{
 		this->_logged = 1;
-		RPL_WELCOME(this);
+		std::string		path = "srcs/motd.config";
+		std::ifstream	infile;
+		std::string		line;
+
+		infile.open(path.c_str(), std::ios::in);
+		RPL_MOTDSTART(this);
+		while (getline(infile, line))
+			RPL_MOTD(this, line);
+		RPL_ENDOFMOTD(this);
 	}
 }
 

@@ -177,6 +177,8 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_cap(fd);
 	else if (command[0] == "PASS")
 		this->_pass(fd, command);
+	else if (command[0] == "PING")
+		this->_ping(fd, command);
 	else if (command[0] == "NICK")
 		this->_nick(fd, command);
 	else if (command[0] == "USER")
@@ -193,6 +195,8 @@ void	Server::_executeUserCommand(int fd, std::string message)
 		this->_quit(fd, command);
 	else if (command[0] == "LIST")
 		this->_list(fd, command);
+	else if (command[0] == "MOTD")
+		this->_motd(fd, command);
 	else
 		ERR_UNKNOWNCOMMAND(this->_users[fd], command[0]);
 }

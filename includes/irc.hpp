@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 13:04:36 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/11 18:02:22 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:46:50 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <cstring>
 # include <errno.h>
 # include <iostream>
+# include <fstream>
 # include <map>
 # include <netinet/in.h>
 # include <sstream>

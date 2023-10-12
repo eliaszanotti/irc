@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/16 17:08:00 by elias             #+#    #+#              #
-#    Updated: 2023/10/11 18:03:18 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/10/12 10:42:23 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ LIST_SRCS		=	main.cpp					\
 					${DIR_COMMAND}list.cpp		\
 					${DIR_COMMAND}nick.cpp		\
 					${DIR_COMMAND}mode.cpp		\
+					${DIR_COMMAND}motd.cpp		\
 					${DIR_COMMAND}pass.cpp		\
+					${DIR_COMMAND}ping.cpp		\
 					${DIR_COMMAND}privmsg.cpp	\
 					${DIR_COMMAND}topic.cpp		\
 					${DIR_COMMAND}user.cpp		\
