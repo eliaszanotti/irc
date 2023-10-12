@@ -25,6 +25,7 @@ bool	Server::_nick(int fd, std::vector<std::string> command)
 		ERR_NEEDMOREPARAMS(this->_users[fd], "NICK");
 		return (false);
 	}
+
 	// Check if nickname contain forbiden chars
 	std::string	forbidenChars = " &#:\r\n\t\v";
 	for (size_t i = 0; i < forbidenChars.size(); i++)
@@ -44,7 +45,17 @@ bool	Server::_nick(int fd, std::vector<std::string> command)
 			return (false);
 		}
 	}
+
+	// Change the user's nickname
+	RPL_CMD(this->_users[fd], "NICK", command[1]);
 	this->_users[fd]->setNickname(command[1]);
-	this->_users[fd]->newConnection();
+
+	// Send to all channels the new nickname of the user
+	for (size_t i = 0; i < this->_users[fd]->getChannels().size(); i++)
+		this->_users[fd]->getChannels()[i]->sendUsersList();
+
+	if (!this->_users[fd]->getLogged())
+		this->_users[fd]->newConnection();
+	
 	return (true);
 }
