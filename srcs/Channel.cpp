@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 17:59:52 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:06:11 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,16 @@ bool	Channel::isTheUserInvited(std::string nickname)
 	return (false);
 }
 
+void	Channel::eraseInvitation(User *user)
+{
+	std::vector<User *>::iterator it;
+	it = std::find(this->_invitedUsers.begin(), this->_invitedUsers.end(), user);
+	if (it != this->_invitedUsers.end())
+		this->_invitedUsers.erase(it);
+}
+
 void	Channel::removeMode(char c)
 {
-	std::cout << "FIND : " << *std::find(_modes.begin(), _modes.end(), c) << std::endl;
 	this->_modes.erase(std::find(_modes.begin(), _modes.end(), c)); 
 }
 

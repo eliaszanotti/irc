@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 15:59:15 by elias            ###   ########.fr       */
+/*   Updated: 2023/10/12 09:08:11 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class User
 		// METHODS
 		void						newConnection(void);
 		void						sendToAll(std::vector<User *>, std::string, Channel *, std::string);
+		void						eraseInvitation(std::string str);
 		
 		// GETTERS
 		std::string					getName(void) const;

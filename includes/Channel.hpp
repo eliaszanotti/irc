@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/11 18:02:08 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:02:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ class Channel
 		void						sendUsersList(void);
 		bool						haveTheUser(std::string);
 		bool						isTheUserInvited(std::string);
+		void						eraseInvitation(User *);
 		
 		// GETTERS
 		User						*getUser(std::string);
