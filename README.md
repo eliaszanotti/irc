@@ -26,7 +26,7 @@ It was developed by [Léon Pupier](https://github.com/LeonPupier), [Thibault Gir
 	- [WHO](#who-message)
 - [Credits](#credits)
 
-## How to make the executable ?
+## How to make the executable
 1. Clone the GitHub [repository](https://github.com/eliaszanotti/irc.git)
 ```shell
 git clone https://github.com/eliaszanotti/irc.git
@@ -42,7 +42,7 @@ make
 4. Run the executable named *ircserv*
 5. Enjoy ;)
 
-## How to setup the server ?
+## How to setup the server
 ```
 ./ircserv <port> <password>
 ```
