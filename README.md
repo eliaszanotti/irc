@@ -5,8 +5,8 @@ This project aims to create a standard **IRC server** for client/server exchange
 It was developed by [Léon Pupier](https://github.com/LeonPupier), [Thibault Giraudon](https://github.com/Thib1708) and [Elias Zanotti](https://github.com/eliaszanotti) as part of the **school 42** curriculum.
 
 ## Summary
-- [How to make the executable ?](#how-to-make-the-executable)
-- [How to setup the server ?](#how-to-setup-the-server)
+- [How to make the executable](#how-to-make-the-executable)
+- [How to setup the server](#how-to-setup-the-server)
 - Commands availables:
 	- [CAP](#cap-message)
 	- [INVITE](#invite-message)
