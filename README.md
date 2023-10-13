@@ -14,9 +14,11 @@ It was developed by [Léon Pupier](https://github.com/LeonPupier), [Thibault Gir
 	- [KICK](#kick-message)
 	- [LIST](#list-message)
 	- [MODE](#mode-message)
+	- [MOTD](#motd-message)
 	- [NICK](#nick-message)
 	- [PART](#part-message)
 	- [PASS](#pass-message)
+	- [PING](#ping-message)
 	- [PRIVMSG](#privmsg-message)
 	- [QUIT](#quit-message)
 	- [TOPIC](#topic-message)
@@ -26,7 +28,13 @@ It was developed by [Léon Pupier](https://github.com/LeonPupier), [Thibault Gir
 
 ## How to make the executable ?
 1. Clone the GitHub [repository](https://github.com/eliaszanotti/irc.git)
+```shell
+git clone https://github.com/eliaszanotti/irc.git
+```
 2. Open the console in the current directory
+```shell
+cd irc
+```
 3. Compile the project with the Makefile
 ```shell
 make
@@ -153,6 +161,12 @@ Explanation: The maximum number of users on the channel is 42.
 > [!NOTE]
 > *By default, the channel has no user limit.*
 
+## MOTD message
+```
+Command: MOTD
+```
+The **MOTD** command is used to get the “Message of the Day” of the server.
+
 ## NICK message
 ```
 Command: NICK <nickname>
@@ -170,6 +184,12 @@ The **PART** command removes the client from the given **channel**(s). On sendin
 Command: PASS <password>
 ```
 The **PASS** command is used to set a ‘connection password’. If set, the **password** must be set before any attempt to register the connection is made. This requires that clients send a **PASS** command before sending the **NICK** / **USER** combination.
+
+## PING message
+```
+Command: PING <token>
+```
+The **PING** command is sent by either clients or servers to check the other side of the connection is still connected and/or to check for connection latency, at the application layer with the **token**.
 
 ## PRIVMSG message
 ```
@@ -206,12 +226,3 @@ This command is used to query a list of users who match the provided mask.
 ## Credits
 The server was entirely developed by the 3 project collaborators.
 *Bisous bisous <3*
-```
-       .-"-.            .-"-.            .-"-.           .-"-.
-     _/_-.-_\_        _/.-.-.\_        _/.-.-.\_       _/.-.-.\_
-    / __} {__ \      /|( o o )|\      ( ( o o ) )     ( ( o o ) )
-   / //  "  \\ \    | //  "  \\ |      |/  "  \|       |/  "  \|
-  / / \'---'/ \ \  / / \'---'/ \ \      \'/^\'/         \ .-. /
-  \ \_/`"""`\_/ /  \ \_/`"""`\_/ /      /`\ /`\         /`"""`\
-   \           /    \           /      /  /|\  \       /       \ 
-```
