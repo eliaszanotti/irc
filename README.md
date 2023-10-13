@@ -4,6 +4,9 @@ This project aims to create a standard **IRC server** for client/server exchange
 
 It was developed by [Léon Pupier](https://github.com/LeonPupier), [Thibault Giraudon](https://github.com/Thib1708) and [Elias Zanotti](https://github.com/eliaszanotti) as part of the **school 42** curriculum.
 
+> [!IMPORTANT]
+> *We recommend using the [HexChat](https://hexchat.github.io/) client to connect to the server, its compatibility is guaranteed.*
+
 ## Summary
 - [How to make the executable](#how-to-make-the-executable)
 - [How to setup the server](#how-to-setup-the-server)
