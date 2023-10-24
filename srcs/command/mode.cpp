@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 12:42:23 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:43:25 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,14 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 				case 'k': 
 					if (op == '+')
 					{
+						for (size_t i = 0; i < command[args_num].size(); i++)
+						{
+							if (command[args_num][i] == ',')
+							{
+								ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
+								return (false);
+							}
+						}	
 						if (command.size() <= args_num)
 						{
 							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
