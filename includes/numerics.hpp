@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   numerics.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:44:24 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/12 10:50:22 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:13:02 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->get
 SPACE ":" + message RN
 
 # define BASIC_MESSAGE(client, arg, message, num) \
-SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + client->getNickname() \
+SEND client, SERVER(num) + ((std::string(num)).empty() ? "" : " ") + (client->getNickname().empty() ? "Unknow" : client->getNickname()) + \
 SPACE arg SPACE ":" + message RN
 
 # define CHANNEL_MESSAGE(client, channel, message, num) \
@@ -39,9 +39,15 @@ SPACE channel->getName() SPACE ":" + message RN
 # define RPL_CMD(client, cmd, msg) \
 SEND client, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
 
+# define RPL_NICK(client, other, cmd, msg) \
+SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR SPACE cmd SPACE msg RN
+
 // PRIVMSG
 # define RPL_CMD_CHAN_OTHER(client, other, cmd, channel, msg) \
 SEND client, ":" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR SPACE cmd SPACE channel->getName() SPACE msg RN
+
+# define RPL_CMD_CHAN_OTHER_JOIN(client, other, cmd, channel) \
+SEND client, ":+" + other->getNickname() + "!" + other->getName() + "@" + IP_ADDR SPACE cmd SPACE channel->getName() RN
 
 # define RPL_CMD_TARGET(client, target, cmd, msg) \
 SEND target, ":" + client->getNickname() + "!" + client->getName() + "@" + IP_ADDR SPACE cmd SPACE ":" SPACE msg RN

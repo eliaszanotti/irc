@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:54:14 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/11 09:21:59 by lpupier          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:06:05 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ bool	Server::_part(int fd, std::vector<std::string> command)
 						}
 
 						this->_channels[j]->removeUser(this->_users[fd]);
-						this->_channels[j]->sendUsersList();
 
 						return (true);
 					}

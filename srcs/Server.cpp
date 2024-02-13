@@ -100,9 +100,11 @@ void Server::_closeCurrentUser(int currentIndex)
 	for (size_t i = 0; i < this->_users[currentIndex]->getChannels().size(); i++)
 	{
 		this->_users[currentIndex]->getChannels()[i]->removeUser(this->_users[currentIndex]);
-	
-		// Resend to all channels the list of users
-		this->_users[currentIndex]->getChannels()[i]->sendUsersList();
+	}
+	// Remove user form the invite list of all channels
+	for (size_t i = 0; i < this->_channels.size(); i++)
+	{
+		this->_channels[i]->eraseInvitation(this->_users[currentIndex]);
 	}
 	this->_users[currentIndex]->clearChannels();
 
@@ -259,5 +261,26 @@ void	Server::waitingForNewUsers(void)
 			}
 			throw (std::runtime_error(error.what()));
 		}
+	}
+}
+
+void	Server::deleteAllUsers(void)
+{
+
+	std::cout << RED "Delete all users" RST << std::endl;
+	for (size_t i = 0; i < this->_pollFD.size(); i++)
+	{
+		if (this->_pollFD[i].fd >= 0)
+			close(this->_pollFD[i].fd);
+	}
+	for (std::map<int, User *>::iterator it = this->_users.begin(); it != this->_users.end(); it++)
+	{
+		std::cout << RED "Delete user " << it->first << RST << std::endl;
+		delete (it->second);
+	}
+	for (size_t i = 0; i < this->_channels.size(); i++)
+	{
+		std::cout << RED "Delete channel " << this->_channels[i]->getName() << RST << std::endl;
+		delete (this->_channels[i]);
 	}
 }

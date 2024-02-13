@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:41:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 09:40:47 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:06:00 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,6 @@ bool	Server::_kick(int fd, std::vector<std::string> command)
 	
 	// Kick the user in the data of the provided channel
 	this->_channels[i]->removeUser(this->_channels[i]->getUsers()[j]);
-
-	// Send the new user's list of the provided channel
-	this->_channels[i]->sendUsersList();
 	
 	return (true);
 }

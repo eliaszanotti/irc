@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2023/10/24 13:43:25 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2024/02/13 15:08:50 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,6 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 				case 'k': 
 					if (op == '+')
 					{
-						for (size_t i = 0; i < command[args_num].size(); i++)
-						{
-							if (command[args_num][i] == ',')
-							{
-								ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
-								return (false);
-							}
-						}	
 						if (command.size() <= args_num)
 						{
 							ERR_NEEDMOREPARAMS(this->_users[fd], "MODE");
@@ -146,7 +138,7 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 					if (!this->_channels[i]->getUser(command[args_num]))
 					{
 						ERR_NOSUCHNICK(this->_users[fd], command[args_num]);
-						break ;
+						return (false);
 					}
 					if (op == '+')
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num++]), OPERATOR);

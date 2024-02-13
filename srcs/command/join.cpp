@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:24:15 by lpupier           #+#    #+#             */
-/*   Updated: 2023/10/12 09:07:57 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:46:35 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ bool	Server::_join(int fd, std::vector<std::string> command)
 				if (this->_channels[j]->isMode('i') && !this->_channels[j]->isTheUserInvited(this->_users[fd]->getNickname()))
 				{
 					ERR_INVITEONLYCHAN(this->_users[fd], this->_channels[j]);
-					break ;
+					return (false);
 				}
 				// The channel is full
-				if (this->_channels[j]->getUsers().size() == (size_t)this->_channels[j]->getMaxUsers())
+				if (this->_channels[j]->getUsers().size() >= (size_t)this->_channels[j]->getMaxUsers())
 				{
 					ERR_CHANNELISFULL(this->_users[fd], this->_channels[j]);
-					break ;
+					return (false);
 				}
 				
 				if (!this->_channels[j]->getPassword().empty())
@@ -127,16 +127,14 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 		}
 	}
 
+	RPL_CMD(this->_users[fd], "JOIN", channel->getName());
 	for (size_t i = 0; i < channel->getUsers().size(); i++)
 	{
 		// Send the joining confirmation
-		RPL_CMD(this->_users[fd], "JOIN", channel->getName());
+		if (channel->getUsers()[i]->getNickname() != this->_users[fd]->getNickname())
+			RPL_CMD_CHAN_OTHER_JOIN(channel->getUsers()[i], this->_users[fd], "JOIN", channel);
 		
 		// Send the topic of the channel
-		if (!channel->getTopic().empty())
-			RPL_TOPIC(channel->getUsers()[i], channel);
-		else
-			RPL_NOTOPIC(channel->getUsers()[i], channel);
 	}
 	
 	// Add the channel in the channels list of the user
@@ -146,5 +144,15 @@ void	Server::_connectToChannel(int fd, Channel *channel)
 	this->_users[fd]->setLastChannel(channel->getName());
 	
 	// Send the list of user in the channel
-	channel->sendUsersList();
+	// channel->sendUsersList();
+	if (!channel->getTopic().empty())
+		RPL_TOPIC(this->_users[fd], channel);
+	else
+		RPL_NOTOPIC(this->_users[fd], channel);
+
+	for (size_t i = 0; i < channel->getUsers().size(); i++)
+	{
+		RPL_NAMREPLY(this->_users[fd], channel, channel->getUsers()[i]);
+	}
+	RPL_ENDOFNAMES(this->_users[fd], channel);
 }

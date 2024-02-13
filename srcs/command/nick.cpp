@@ -42,17 +42,27 @@ bool	Server::_nick(int fd, std::vector<std::string> command)
 		if (it->second->getNickname() == command[1])
 		{
 			ERR_NICKNAMEINUSE(this->_users[fd], command[1]);
+			this->_users[fd]->setNickname(command[1]);
 			return (false);
 		}
 	}
 
 	// Change the user's nickname
+
+	if (this->_users[fd]->getNickname().empty())
+		this->_users[fd]->setNickname(command[1]);
 	RPL_CMD(this->_users[fd], "NICK", command[1]);
-	this->_users[fd]->setNickname(command[1]);
 
 	// Send to all channels the new nickname of the user
 	for (size_t i = 0; i < this->_users[fd]->getChannels().size(); i++)
-		this->_users[fd]->getChannels()[i]->sendUsersList();
+	{
+		for (size_t j = 0; j < this->_users[fd]->getChannels()[i]->getUsers().size(); j++)
+		{
+			RPL_NICK(this->_users[fd]->getChannels()[i]->getUsers()[j], this->_users[fd], "NICK", command[1]);
+		}
+	}
+
+	this->_users[fd]->setNickname(command[1]);
 
 	if (!this->_users[fd]->getLogged())
 		this->_users[fd]->newConnection();

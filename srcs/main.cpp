@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 12:33:18 by elias             #+#    #+#             */
-/*   Updated: 2023/10/12 15:26:36 by elias            ###   ########.fr       */
+/*   Updated: 2024/02/13 11:15:45 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int main(int argc, char **argv)
 	}
 	catch(const std::exception& error)
 	{
+		server.deleteAllUsers();
 		close(server.getServerSocket());
 		return (std::cerr << WARN_ICON << error.what() << std::endl, 1);
 	}
