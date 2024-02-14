@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 09:28:46 by lpupier           #+#    #+#             */
-/*   Updated: 2024/02/13 14:22:07 by lpupier          ###   ########.fr       */
+/*   Updated: 2024/02/14 09:38:51 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ bool	Server::_quit(int fd, std::vector<std::string> command)
 	std::map<int, User *>::iterator it = this->_users.find(fd);
 	if (command.size() == 2 && it != this->_users.end())
 	{
-			std::cout << DEL_ICON << fd << " leaved the server" << std::endl;
+			std::cout << DEL_ICON << fd << " left the server" << std::endl;
 			this->_closeCurrentUser(fd);
 	}
+	
 	
 	return (true);
 }

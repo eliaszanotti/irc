@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:34:13 by elias             #+#    #+#             */
-/*   Updated: 2024/02/13 11:16:02 by lpupier          ###   ########.fr       */
+/*   Updated: 2024/02/14 12:56:33 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Server
 		std::map<int, User *>	_users;
 		std::vector<pollfd>		_pollFD;
 		int						_pollFDSize;
+		std::string				_message;
 		
 		// PRIVATE METHODS
 		void	_processPoll(void);
@@ -40,6 +41,7 @@ class Server
 		void	_connectEachUser(void);
 		bool	_isExecutableCommand(std::string message);
 		void	_executeUserCommand(int fd, std::string message);
+		void	_sendModeToAllUsers(int fd, Channel *channel, std::string modestring);
 
 		// COMMANDS
 		bool	_cap(int fd);

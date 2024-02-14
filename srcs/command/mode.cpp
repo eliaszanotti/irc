@@ -6,7 +6,7 @@
 /*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:45:13 by elias             #+#    #+#             */
-/*   Updated: 2024/02/13 15:08:50 by lpupier          ###   ########.fr       */
+/*   Updated: 2024/02/14 09:03:32 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num++]), OPERATOR);
 					else 
 						this->_channels[i]->setPrivilegeFor(this->_channels[i]->getUser(command[args_num++]), VOICE);
-					this->_channels[i]->sendUsersList();
 					break;
 				case 't':
 					if (op == '+')
@@ -163,6 +162,22 @@ bool	Server::_mode(int fd, std::vector<std::string> command)
 				op = modestring[j];
 		}
 	}
+	modestring = "";
 	RPL_CHANNELMODEIS(this->_users[fd], this->_channels[i]);
+	for (size_t i = 2; i < command.size(); i++)
+		modestring += " " + command[i];
+	this->_sendModeToAllUsers(fd, this->_channels[i], modestring);
 	return (true);
+}
+
+void	Server::_sendModeToAllUsers(int fd, Channel *channel, std::string modestring)
+{
+	for (size_t i = 0; i < channel->getUsers().size(); i++)
+	{
+		sendTo(channel->getUsers()[i], \
+				":" + this->_users[fd]->getNickname() + "!" + this->_users[fd]->getName() \
+				+ "@" + IP_ADDR + " MODE " + channel->getName() + " " + modestring + "\r\n");
+	}
+	// std::cout << ":" + this->_users[fd]->getNickname() + "!" + this->_users[fd]->getName() \
+	// 			+ "@" + IP_ADDR + " MODE " + channel->getName() + " " + modestring + "\r\n" << std::endl;
 }

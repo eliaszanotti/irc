@@ -72,18 +72,10 @@ void Server::_addNewUser(void)
 void Server::_processMessage(std::string buffer, int currentIndex)
 {
 	int	currentFD = this->_pollFD[currentIndex].fd;
-	std::vector<std::string> split_message;
-	split_message = split(buffer, '\n');
-	for (size_t i = 0; i < split_message.size(); i++)
-	{
-		if (split_message[i].empty())
-			continue;
-		if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(split_message[i]))
-			this->_executeUserCommand(currentFD, split_message[i]);
-		else if (!this->_users[currentFD]->getLogged())
-			ERR_ALREADYREGISTERED(this->_users[currentFD]);
-
-	}
+	if (this->_users[currentFD]->getLogged() || this->_isExecutableCommand(buffer))
+		this->_executeUserCommand(currentFD, buffer);
+	else if (!this->_users[currentFD]->getLogged())
+		ERR_ALREADYREGISTERED(this->_users[currentFD]);
 }
 
 void Server::_closeCurrentUser(int currentIndex)
@@ -106,7 +98,17 @@ void Server::_closeCurrentUser(int currentIndex)
 	{
 		this->_channels[i]->eraseInvitation(this->_users[currentIndex]);
 	}
+	// send part to all channels
+	for (size_t i = 0; i < this->_users[currentIndex]->getChannels().size(); i++)
+	{
+		for (size_t j = 0; j < this->_users[currentIndex]->getChannels()[i]->getUsers().size(); j++)
+		{
+			if (this->_users[currentIndex]->getChannels()[i]->getUsers()[j]->getNickname() != this->_users[currentIndex]->getNickname())
+				RPL_CMD_CHAN_OTHER(this->_users[currentIndex]->getChannels()[i]->getUsers()[j], this->_users[currentIndex], "PART", this->_users[currentIndex]->getChannels()[i], ":Leaving");
+		}
+	}
 	this->_users[currentIndex]->clearChannels();
+
 
 	delete (this->_users[currentIndex]);
 	this->_users.erase(currentIndex);
@@ -136,9 +138,24 @@ void Server::_connectEachUser(void)
 					this->_quit(this->_pollFD[i].fd, command);
 					break;
 				}
-				else if (returnValue > 0)
+				else
 				{
-					this->_processMessage(buffer, i);
+					this->_message += buffer;
+					if (this->_message.find("\r\n") == std::string::npos || this->_message.find("\r\n") == 0)
+						continue;
+
+					size_t pos;
+					while ((pos = this->_message.find("\r\n")) != std::string::npos)
+					{
+						std::string line = this->_message.substr(0, pos);
+						this->_message.erase(0, pos + 2);
+
+						if (line.empty())
+							continue;
+
+						if (line.find_first_not_of(' ') != std::string::npos)
+							this->_processMessage(line, i);
+					}
 				}
 			}
 		}
@@ -266,8 +283,6 @@ void	Server::waitingForNewUsers(void)
 
 void	Server::deleteAllUsers(void)
 {
-
-	std::cout << RED "Delete all users" RST << std::endl;
 	for (size_t i = 0; i < this->_pollFD.size(); i++)
 	{
 		if (this->_pollFD[i].fd >= 0)
@@ -279,8 +294,5 @@ void	Server::deleteAllUsers(void)
 		delete (it->second);
 	}
 	for (size_t i = 0; i < this->_channels.size(); i++)
-	{
-		std::cout << RED "Delete channel " << this->_channels[i]->getName() << RST << std::endl;
 		delete (this->_channels[i]);
-	}
 }

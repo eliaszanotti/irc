@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elias <elias@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lpupier <lpupier@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 08:08:45 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/10/10 14:21:42 by elias            ###   ########.fr       */
+/*   Updated: 2024/02/14 14:23:39 by lpupier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 std::vector<std::string> split(std::string str, char delimiter)
 {
-	str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
     std::vector<std::string> splitString;
     std::stringstream ss(str);
     std::string token;
